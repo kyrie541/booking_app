@@ -110,7 +110,7 @@ app.delete("/booking/:id", function(req, res){
       if(err){
           res.redirect("/booking");
       } else {
-          res.redirect("/booking");
+          res.redirect("/card");
       }
    });
 });

@@ -1,16 +1,44 @@
 <% include partials/header %>
-<p>Court Number: <%= booking.courtNum %></p>
-<p>Customer Name: <%=booking.name%></p>
-<p>Contact Number: <%=booking.phNumber%></p>
-<p>Start Time: <%=booking.startTime%></p>
-<p>End Time: <%=booking.endTime%></p>
-<p>Booking Date: <%=booking.date%></p>
-<p>Status: <%=booking.status%></p>
 
-<a href="/booking/<%=booking.id%>/edit">Edit</a><br>
-<form id="delete_form" action="/booking/<%= booking._id %>?_method=DELETE" method="POST">
-       <button>Delete</button>
-</form>
-<a href="/booking">Go Back</a>
+<div class="card">
+    <div class="card-body">
+      <a href="/booking/<%= booking._id %>"><h5 class="card-title"><%= booking.name %>'s Booking</h5></a> 
+      <p class="card-text">Contact Number: <%= booking.phNumber %></p>
+      <p class="card-text">Total Court: <%= booking.courtNum.split(",").length %></p>
+      
+      <table>
+          <tr>
+            <th>Court Number</th>
+            <th>Booking Time</th>
+          </tr>
+          
+          <% for(var i=0; i<booking.courtNum.split(",").length; i++){ %>
+          <tr>
+            <td><%= booking.courtNum.split(",")[i] %></td>
+            <td><%= booking.startTime.split(",")[i] %> to <%= booking.endTime.split(",")[i] %></td>
+          </tr>
+          <% } %>
+          
+      </table>
+      <br>
+      <p class="card-text">Total Payment: RM <%= booking.price %></p>
+      
+      <% if(booking.status==1){ %>
+        <p class="card-text" style="background-color:chartreuse;"><small class="text-muted">Status: Paid</small></p>
+      <% }else if (booking.status==2) {  %>
+        <p class="card-text" style="background-color:#feb694;"><small class="text-muted">Status: Not Paid Yet</small></p>
+      <% }else if (booking.status==3) { %>
+        <p class="card-text" style="background-color:powderblue;"><small class="text-muted">Status: Advance Payment</small></p>
+      <% } %>
+      
+      <a href="/booking/<%= booking._id %>/edit" class="card-link">Edit</a>
+      <form id="delete_form" action="/booking/<%= booking._id %>?_method=DELETE" method="POST">
+           <button>Delete</button>
+      </form>
+    </div>
+</div>
+
+<a href="/booking">Back to Table View</a>
+<a href="/card">Back to Card View</a>
 
 <% include partials/footer %>
