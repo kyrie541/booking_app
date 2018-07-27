@@ -1,0 +1,32 @@
+<% include partials/header %> 
+
+<h3>Choose the date</h3>
+<ul id="list_of_date">
+</ul>
+
+<% include partials/footer %> 
+
+<script>
+    var repeatArray= [];
+    var list_of_date=document.getElementById("list_of_date");
+    
+    <% bookings.forEach(function(booking){ %>
+        repeatArray.push("<%= booking.date %>");
+    <% }); %>
+
+    var uniqueArray = repeatArray.filter(function(item, pos) {
+        return repeatArray.indexOf(item) == pos;
+    });
+    
+    uniqueArray.forEach(function(date){
+        var a = document.createElement('a');
+        var linkText = document.createTextNode(date);
+        a.appendChild(linkText);
+        a.href = "/history/"+date;
+        var y = document.createElement("LI");
+        y.appendChild(a);
+        list_of_date.appendChild(y);
+    });
+    
+</script>
+

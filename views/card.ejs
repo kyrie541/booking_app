@@ -1,0 +1,24 @@
+<% include partials/header %>
+
+<div class="card-deck">
+    <% bookings.forEach(function(booking){ %>
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><%= booking.name %>'s Booking</h5>
+              <p class="card-text">Court Number: <%= booking.courtNum %></p>
+              <p class="card-text">Contact Number: <%= booking.phNumber %></p>
+              <p class="card-text">Booking Time: <%= booking.startTime %> to <%= booking.endTime %></p>
+              <p class="card-text"><small class="text-muted">Status: <%= booking.status %></small></p>
+              <a href="/booking/<%= booking._id %>/edit" class="card-link">Edit</a>
+              <form id="delete_form" action="/booking/<%= booking._id %>?_method=DELETE" method="POST">
+                   <button>Delete</button>
+              </form>
+            </div>
+        </div>
+    <% }); %>
+  
+</div>
+
+<% include partials/footer %>
+
+<!--<a href="/booking/" +10.30pm+"="" edit"="" class="card-link">Card link</a>-->

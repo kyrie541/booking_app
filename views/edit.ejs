@@ -1,0 +1,22 @@
+<% include partials/header %>
+
+<h1>Edit <%= booking.name %> Booking</h1>
+<form action="/booking/<%= booking._id %>?_method=PUT" method="POST">
+    <p>Court Number: </p>
+    <input type="text" name="booking[courtNum]" value="<%= booking.courtNum %>">
+    <p>Start Time: </p>
+    <input type="text" name="booking[startTime]" value="<%= booking.startTime %>">
+    <p>End Time: </p>
+    <input type="text" name="booking[endTime]" value="<%= booking.endTime %>">
+    <p>Name of Customer: </p>
+    <input type="text" name="booking[name]" value="<%= booking.name %>">
+    <p>Phone Number of Customer: </p>
+    <input type="text" name="booking[phNumber]" value="<%= booking.phNumber %>">
+    <p>Does customer pay the Booking Fees?: </p>
+    <input type="text" name="booking[status]" value="<%= booking.status %>">
+    <button>Submit!</button>
+</form>
+
+<a href="/booking">Go Back</a>
+
+<% include partials/footer %>

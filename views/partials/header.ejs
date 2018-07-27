@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sport Arena</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+        <link rel="stylesheet" href="/stylesheets/main.css">
+    </head>
+    <body onload="startTime()">
+    <ul class="nav">
+      <li><img src="/picture/logo.png" alt="Sport Arena" width="100" height="50"></li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/booking">Live Booking</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/history">History</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/booking/new">Book Now</a>
+      </li>
+    </ul>
+    <div class="container">
+      <!--alarm sound here-->
+      <audio id="myAudio">
+        <source src="/audio/alarm.mp3" type="audio/mpeg">
+      </audio>
+      <button onclick="pauseAudio()" type="button">Stop Alarm</button> 
+      
+      <!--//Clock-->
+      <div id="date"></div>
+      <div id="txt"></div>

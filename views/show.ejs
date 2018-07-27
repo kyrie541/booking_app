@@ -1,0 +1,16 @@
+<% include partials/header %>
+<p>Court Number: <%= booking.courtNum %></p>
+<p>Customer Name: <%=booking.name%></p>
+<p>Contact Number: <%=booking.phNumber%></p>
+<p>Start Time: <%=booking.startTime%></p>
+<p>End Time: <%=booking.endTime%></p>
+<p>Booking Date: <%=booking.date%></p>
+<p>Status: <%=booking.status%></p>
+
+<a href="/booking/<%=booking.id%>/edit">Edit</a><br>
+<form id="delete_form" action="/booking/<%= booking._id %>?_method=DELETE" method="POST">
+       <button>Delete</button>
+</form>
+<a href="/booking">Go Back</a>
+
+<% include partials/footer %>
