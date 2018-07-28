@@ -1,18 +1,27 @@
 <% include partials/header %> 
 
-<div class="card-deck">
-    <% bookings.forEach(function(booking){ %>
-        <div class="card">
-            <div class="card-body">
-              <h5 class="card-title"><%= booking.name %>'s Booking</h5>
-              <p class="card-text">Contact Number: <%= booking.phNumber %></p>
-              <p class="card-text">Booking Time: <%= booking.startTime %> to <%= booking.endTime %></p>
-              <p class="card-text"><small class="text-muted">Status: <%= booking.status %></small></p>
-            </div>
-        </div>
-    <% }); %>
+<h4>Badminton</h4>
+<table>
+  <tr>
+    <th></th>
+    <th>Customer Name</th>
+    <th>Start Time</th> 
+    <th>End Time</th>
+    <th>Duration</th>
+    <th>Revenue</th>
+  </tr>
+  <% bookings.forEach(function(booking){ %>
+  <tr>
+    <td>1</td>
+    <td><%= booking.name %></td> 
+    <td><%= booking.startTime %></td>
+    <td><%= booking.endTime %></td>
+    <td><%= booking.startTime %></td>
+    <td><%= booking.price %></td>
+  </tr>
+  <% }); %>
   
-</div>
+</table>
 
 
 <% include partials/footer %> 
