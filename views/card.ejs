@@ -1,24 +1,32 @@
 <% include partials/header %>
 
-<div class="card-deck">
+<div class="card-columns">
     <% bookings.forEach(function(booking){ %>
         <div class="card">
             <div class="card-body">
-              <h5 class="card-title"><%= booking.name %>'s Booking</h5>
-              <p class="card-text">Court Number: <%= booking.courtNum %></p>
+              <a href="/booking/<%= booking._id %>"><h5 class="card-title"><%= booking.name %>'s Booking</h5></a> 
               <p class="card-text">Contact Number: <%= booking.phNumber %></p>
-              <p class="card-text">Booking Time: <%= booking.startTime %> to <%= booking.endTime %></p>
-              <p class="card-text"><small class="text-muted">Status: <%= booking.status %></small></p>
+              <p class="card-text">Total Court: <%= booking.courtNum.split(",").length %></p>
+              
+              <p class="card-text">Total Payment: RM <%= booking.price %></p>
+              
+              <% if(booking.status==1){ %>
+                <p class="card-text" style="background-color:chartreuse;"><small class="text-muted">Status: Paid</small></p>
+              <% }else if (booking.status==2) {  %>
+                <p class="card-text" style="background-color:#feb694;"><small class="text-muted">Status: Not Paid Yet</small></p>
+              <% }else if (booking.status==3) { %>
+                <p class="card-text" style="background-color:powderblue;"><small class="text-muted">Status: Advance Payment</small></p>
+              <% } %>
+              
               <a href="/booking/<%= booking._id %>/edit" class="card-link">Edit</a>
               <form id="delete_form" action="/booking/<%= booking._id %>?_method=DELETE" method="POST">
                    <button>Delete</button>
               </form>
             </div>
+            
         </div>
     <% }); %>
   
 </div>
 
 <% include partials/footer %>
-
-<!--<a href="/booking/" +10.30pm+"="" edit"="" class="card-link">Card link</a>-->

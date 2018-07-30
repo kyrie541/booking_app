@@ -1,18 +1,45 @@
 <% include partials/header %> 
 
-<div class="card-deck">
-    <% bookings.forEach(function(booking){ %>
-        <div class="card">
-            <div class="card-body">
-              <h5 class="card-title"><%= booking.name %>'s Booking</h5>
-              <p class="card-text">Contact Number: <%= booking.phNumber %></p>
-              <p class="card-text">Booking Time: <%= booking.startTime %> to <%= booking.endTime %></p>
-              <p class="card-text"><small class="text-muted">Status: <%= booking.status %></small></p>
-            </div>
-        </div>
-    <% }); %>
+<h4>Badminton</h4>
+<table>
+  <tr>
+    <th></th>
+    <th>Customer Name</th>
+    <th>Court Number</th>
+    <th>Start Time</th> 
+    <th>End Time</th>
+    <th>Duration(hour)</th>
+    <th>Revenue</th>
+  </tr>
+  <% bookings.forEach(function(booking){ %>
+    <tr>
+      <td><%= booking.number %></td>
+      <td><a href="/booking/<%= booking._id %>"><%= booking.name %></a></td> 
+      <td><%= booking.courtNum.split(",")[0] %></td>
+      <td><%= booking.startTime.split(",")[0] %></td>
+      <td><%= booking.endTime.split(",")[0] %></td>
+      <td>(developing)</td>
+      <td>RM <%= booking.price %></td>
+    </tr>
+    <% for(var i=1; i<booking.courtNum.split(",").length;i++){ %>
+      <% if(booking.courtNum.split(",").length>i){%>
+      <tr>
+        <td></td>
+        <td></td> 
+        <td><%= booking.courtNum.split(",")[i] %></td>
+        <td><%= booking.startTime.split(",")[i] %></td>
+        <td><%= booking.endTime.split(",")[i] %></td>
+        <td>(developing)</td>
+        <td></td>
+      </tr>
+      <% } %>
+    <% } %>
+    
+  <% }); %>
   
-</div>
+</table>
+<br>
 
+<script type="text/javascript" src="/javascript/duration.js"></script>
 
 <% include partials/footer %> 
