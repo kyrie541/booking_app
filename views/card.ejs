@@ -8,22 +8,6 @@
               <p class="card-text">Contact Number: <%= booking.phNumber %></p>
               <p class="card-text">Total Court: <%= booking.courtNum.split(",").length %></p>
               
-              <!--<table>-->
-              <!--    <tr>-->
-              <!--      <th>Court Number</th>-->
-              <!--      <th>Booking Time</th>-->
-              <!--    </tr>-->
-                  
-              <!--    <% for(var i=0; i<booking.courtNum.split(",").length; i++){ %>-->
-              <!--    <tr>-->
-              <!--      <td><%= booking.courtNum.split(",")[i] %></td>-->
-              <!--      <td><%= booking.startTime.split(",")[i] %> to <%= booking.endTime.split(",")[i] %></td>-->
-              <!--    </tr>-->
-              <!--    <% } %>-->
-                  
-              <!--</table>-->
-              <!--<br>-->
-              
               <p class="card-text">Total Payment: RM <%= booking.price %></p>
               
               <% if(booking.status==1){ %>

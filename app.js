@@ -4,12 +4,14 @@ var bodyParser  = require("body-parser");
 var mongoose  = require("mongoose");
 var Booking   = require("./models/booking");
 var methodOverride = require("method-override");
+var seedDB      = require("./seeds");
 
 mongoose.connect("mongodb://localhost/sport_arena");
 app.set("view engine", "ejs");  
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+seedDB();
 
 //landing page
 app.get("/",function(req,res){
@@ -133,6 +135,9 @@ app.get("/history/:date", function(req,res){
        if(err){
            console.log(err);
        } else {
+          for(var i=1; i<=allBooking.length; i++){
+              allBooking[i-1]["number"]=i;
+          }
           res.render("history_show",{bookings:allBooking});
        }
     });
