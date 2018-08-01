@@ -12,7 +12,7 @@
     <th>Revenue</th>
   </tr>
   <% bookings.forEach(function(booking){ %>
-    <tr>
+    <tr bgcolor="#f7fdff">
       <td><%= booking.number %></td>
       <td><a href="/booking/<%= booking._id %>"><%= booking.name %></a></td> 
       <td><%= booking.courtNum.split(",")[0] %></td>
