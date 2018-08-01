@@ -8,7 +8,7 @@ var data = [
         startTime: "8am,4pm,8pm",
         endTime: "10am,5pm,10pm",
         name: "Koh",
-        phNumber: "01612345678",
+        phNumber: "999",
         price: 78,
         status: 1,
         courtNum: "P1,P5,P6"
@@ -51,11 +51,44 @@ var data = [
         date: getTodayDate(),
         startTime: "3pm",
         endTime: "5pm",
-        name: "Koh5",
-        phNumber: "01612345678",
+        name: "Koh6",
+        phNumber: "99942453",
         price: 26,
         status: 1,
         courtNum: "B8"
+    },
+    {
+        type:"badminton",
+        date: getTodayDate(),
+        startTime: "3pm,1.30pm",
+        endTime: "5pm,2.30pm",
+        name: "Koh5",
+        phNumber: "01612345678",
+        price: 37.5,
+        status: 1,
+        courtNum: "P1,P1"
+    },
+    {
+        type:"badminton",
+        date: getTodayDate(),
+        startTime: "11pm",
+        endTime: "1am",
+        name: "Koh9",
+        phNumber: "888",
+        price: 42,
+        status: 2,
+        courtNum: "P1"
+    },
+    {
+        type:"badminton",
+        date: getTodayDate(),
+        startTime: "10am,6pm",
+        endTime: "12pm,8pm",
+        name: "Kyrie",
+        phNumber: "963852",
+        price: 42,
+        status: 2,
+        courtNum: "P1,P6"
     },
     {
         type:"futsal",

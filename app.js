@@ -29,16 +29,6 @@ app.get("/booking",function(req,res){
     });
 });
 
-app.get("/booking2",function(req,res){
-        Booking.find({date:getTodayDate()}, function(err, allBooking){
-       if(err){
-           console.log(err);
-       } else {
-          res.render("booking2",{bookings:allBooking});
-       }
-    });  
-});
-
 //NEW - show form to create new booking
 app.get("/booking/new", function(req, res){
    res.render("new.ejs"); 
@@ -145,12 +135,7 @@ app.get("/history/:date", function(req,res){
 
 //Card View Route
 app.get("/card", function(req,res){
-    var today = new Date();
-    var day= today.getDate();
-    var month= today.getMonth()+1;
-    var year= today.getFullYear();
-    var fullDate = day + "-" + month + "-" + year;
-    Booking.find({date:fullDate}, function(err, allBooking){
+    Booking.find({date:getTodayDate()}, function(err, allBooking){
        if(err){
            console.log(err);
        } else {
