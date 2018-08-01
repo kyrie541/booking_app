@@ -55,7 +55,7 @@ function addMoreForm(){
     if(badminton_radio_button.checked){
       addOn.innerHTML= numberOfCourt + badminton_court_drop_down_list_full_HTML_text+ start_time_drop_down_list_full_HTML_text+end_time_drop_down_list_full_HTML_text;
     }else if (futsal_radio_button.checked){
-      addOn.innerHTML=futsal_court_drop_down_list_full_HTML_text+ start_time_drop_down_list_full_HTML_text+end_time_drop_down_list_full_HTML_text;;
+      addOn.innerHTML= numberOfCourt + futsal_court_drop_down_list_full_HTML_text+ start_time_drop_down_list_full_HTML_text+end_time_drop_down_list_full_HTML_text;
     }
     
     if (counter != 4){
@@ -70,7 +70,3 @@ function deleteForm(){
     showPrice.value= "";
     counter--;
 }
-
-// function calculateBookingFees(){
-//     alert("developing");
-// }

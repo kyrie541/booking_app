@@ -1,7 +1,10 @@
 <% include partials/header %>
 
+<h1>Badminton Bookings</h1>
+
 <div class="card-columns">
-    <% bookings.forEach(function(booking){ %>
+    <% bookings.forEach(function(booking){ %>.
+      <% if(booking.type=="badminton"){ %>
         <div class="card">
             <div class="card-body">
               <a href="/booking/<%= booking._id %>"><h5 class="card-title"><%= booking.name %>'s Booking</h5></a> 
@@ -25,6 +28,7 @@
             </div>
             
         </div>
+      <% }  %>
     <% }); %>
   
 </div>

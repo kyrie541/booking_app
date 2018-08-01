@@ -1,22 +1,265 @@
 <% include partials/header %>
 
 <h1>Edit <%= booking.name %> Booking</h1>
+<button onclick="addMoreForm()">Book More Court</button>
+<button onclick="deleteForm()">Cancel Book More Court</button>
 <form action="/booking/<%= booking._id %>?_method=PUT" method="POST">
-    <p>Court Number: </p>
-    <input type="text" name="booking[courtNum]" value="<%= booking.courtNum %>">
-    <p>Start Time: </p>
-    <input type="text" name="booking[startTime]" value="<%= booking.startTime %>">
-    <p>End Time: </p>
-    <input type="text" name="booking[endTime]" value="<%= booking.endTime %>">
-    <p>Name of Customer: </p>
+    
+    <label for="type">Sport Category: </label>
+    <input type="radio" name="booking[type]" onclick="badmintonOption()" value="badminton" checked id="badminton_radio_button">
+    <label for="badminton">Badminton</label>
+    <input type="radio" name="booking[type]" onclick="futsalOption()" value="futsal" id="futsal_radio_button">
+    <label for="futsal">Futsal</label>    
+    <br>
+    
+    <label for="courtNum">Court Number: </label>
+    <select name="booking[courtNum]" class="court_number_drop_down_list">
+      <option value="P1">P1</option>
+      <option value="P2">P2</option>
+      <option value="P3">P3</option>
+      <option value="P4">P4</option>
+      <option value="P5">P5</option>
+      <option value="P6">P6</option>
+      <option value="P7">P7</option>
+      <option value="P8">P8</option>
+      <option value="B1">B1</option>
+      <option value="B2">B2</option>
+      <option value="B3">B3</option>
+      <option value="B4">B4</option>
+      <option value="B5">B5</option>
+      <option value="B6">B6</option>
+      <option value="B7">B7</option>
+      <option value="B8">B8</option>
+    </select>
+    <br>
+    <label for="startTime">Start Time: </label>
+    <select name="booking[startTime]" class="start_time_drop_down_list" onchange="endTimeChangeChecking()">
+      <option value="8am">8am</option>
+      <option value="8.30am">8.30am</option>
+      <option value="9am">9am</option>
+      <option value="9.30am">9.30am</option>
+      <option value="10am">10am</option>
+      <option value="10.30am">10.30am</option>
+      <option value="11am">11am</option>
+      <option value="11.30am">11.30am</option>
+      <option value="12pm">12pm</option>
+      <option value="12.30pm">12.30pm</option>
+      <option value="1pm">1pm</option>
+      <option value="1.30pm">1.30pm</option>
+      <option value="2pm">2pm</option>
+      <option value="2.30pm">2.30pm</option>
+      <option value="3pm">3pm</option>
+      <option value="3.30pm">3.30pm</option>
+      <option value="4pm">4pm</option>
+      <option value="4.30pm">4.30pm</option>
+      <option value="5pm">5pm</option>
+      <option value="5.30pm">5.30pm</option>
+      <option value="6pm">6pm</option>
+      <option value="6.30pm">6.30pm</option>
+      <option value="7pm">7pm</option>
+      <option value="7.30pm">7.30pm</option>
+      <option value="8pm">8pm</option>
+      <option value="8.30pm">8.30pm</option>
+      <option value="9pm">9pm</option>
+      <option value="9.30pm">9.30pm</option>
+      <option value="10pm">10pm</option>
+      <option value="10.30pm">10.30pm</option>
+      <option value="11pm">11pm</option>
+      <option value="11.30pm">11.30pm</option>
+      <option value="12am">12am</option>
+      <option value="12.30am">12.30am</option>
+      <option value="1am">1am</option>
+      <option value="1.30am">1.30am</option>
+      <option value="2am">2am</option>
+      <option value="2.30am">2.30am</option>
+    </select>
+    <br>
+    <label for="endTime">End Time: </label>
+    <select name="booking[endTime]" class="end_time_drop_down_list" onchange="endTimeChangeChecking()">
+      <option value="8.30am">8.30am</option>
+      <option value="9am">9am</option>
+      <option value="9.30am">9.30am</option>
+      <option value="10am">10am</option>
+      <option value="10.30am">10.30am</option>
+      <option value="11am">11am</option>
+      <option value="11.30am">11.30am</option>
+      <option value="12pm">12pm</option>
+      <option value="12.30pm">12.30pm</option>
+      <option value="1pm">1pm</option>
+      <option value="1.30pm">1.30pm</option>
+      <option value="2pm">2pm</option>
+      <option value="2.30pm">2.30pm</option>
+      <option value="3pm">3pm</option>
+      <option value="3.30pm">3.30pm</option>
+      <option value="4pm">4pm</option>
+      <option value="4.30pm">4.30pm</option>
+      <option value="5pm">5pm</option>
+      <option value="5.30pm">5.30pm</option>
+      <option value="6pm">6pm</option>
+      <option value="6.30pm">6.30pm</option>
+      <option value="7pm">7pm</option>
+      <option value="7.30pm">7.30pm</option>
+      <option value="8pm">8pm</option>
+      <option value="8.30pm">8.30pm</option>
+      <option value="9pm">9pm</option>
+      <option value="9.30pm">9.30pm</option>
+      <option value="10pm">10pm</option>
+      <option value="10.30pm">10.30pm</option>
+      <option value="11pm">11pm</option>
+      <option value="11.30pm">11.30pm</option>
+      <option value="12am">12am</option>
+      <option value="12.30am">12.30am</option>
+      <option value="1am">1am</option>
+      <option value="1.30am">1.30am</option>
+      <option value="2am">2am</option>
+      <option value="2.30am">2.30am</option>
+      <option value="3am" selected>3am</option>      
+    </select>
+    <br>
+  
+    <label for="name">Name of Customer: </label>
     <input type="text" name="booking[name]" value="<%= booking.name %>">
-    <p>Phone Number of Customer: </p>
+    <br>
+    
+    <label for="phNumber">Phone Number of Customer: </label>
     <input type="text" name="booking[phNumber]" value="<%= booking.phNumber %>">
-    <p>Does customer pay the Booking Fees?: </p>
-    <input type="text" name="booking[status]" value="<%= booking.status %>">
-    <button>Submit!</button>
+    <br>
+    
+    <label for="status">Does customer pay the Booking Fees?: </label>
+    <input class="status0" type="radio" name="booking[status]" value="1" checked>
+    <label for="1">Paid</label>
+    
+    <input class="status0" type="radio" name="booking[status]" value="2" >
+    <label for="2">Not Paid Yet</label>
+    
+    <input class="status0" type="radio" name="booking[status]" value="3">
+    <label for="3">Advance Payment</label>
+    
+    <br>
+    <div id="addOn0">_</div>
+    <div id="addOn1">_</div>
+    <div id="addOn2">_</div>
+    <div id="addOn3">_</div>
+    
+    <label for="price">Total Payment: </label>
+    <input type="text" name="booking[price]" placeholder="Total Booking Fees" id="showPrice" readonly value="<%= booking.price %>">
+    <span onclick="calculateBookingFees()">Calculate</span>
+    <br>
+    <button>Submit</button>
 </form>
+<br>
 
-<a href="/booking">Go Back</a>
+<a href="/booking/<%= booking._id %>" class="card-link">Go Back</a>
 
+<script type="text/javascript" src="/javascript/javaForEdit.js"></script>
+<script type="text/javascript" src="/javascript/calculator.js"></script>
+
+<script>
+  //check sport category code
+  var badminton_radio_button = document.getElementById("badminton_radio_button");
+  var futsal_radio_button = document.getElementById("futsal_radio_button");
+  if("<%= booking.type %>"=="badminton"){
+    badminton_radio_button.checked = true;
+    badmintonOption();
+    showPrice.value= "<%= booking.price %>";
+  }else if("<%= booking.type %>"=="futsal"){
+    futsal_radio_button.checked = true;
+    futsalOption();
+    showPrice.value= "<%= booking.price %>";
+  }
+
+//status's radio button code
+  var status_checkBox = document.getElementsByClassName("status0");
+  if(<%= booking.status %>==1){
+    status_checkBox[0].checked = true;
+  }else if(<%= booking.status %>==2){
+    status_checkBox[1].checked = true;
+  }else if(<%= booking.status %>==3){
+    status_checkBox[2].checked = true;
+  }
+  
+//check how many booking then add form
+  var number_of_form = <%= booking.courtNum.split(",").length %>;
+  if(number_of_form==2){
+    addMoreForm();
+    showPrice.value= "<%= booking.price %>";
+  }else if(number_of_form==3){
+    addMoreForm();
+    addMoreForm();
+    showPrice.value= "<%= booking.price %>";
+  }else if(number_of_form==4){
+    addMoreForm();
+    addMoreForm();
+    addMoreForm();
+    showPrice.value= "<%= booking.price %>";
+  }else if(number_of_form==5){
+    addMoreForm();
+    addMoreForm();
+    addMoreForm();
+    addMoreForm();
+    showPrice.value= "<%= booking.price %>";
+  }
+
+  //put data into the form
+  var first_booking_array=[];
+  first_booking_array.push("<%= booking.courtNum.split(",")[0] %>");
+  first_booking_array.push("<%= booking.startTime.split(",")[0] %>");
+  first_booking_array.push("<%= booking.endTime.split(",")[0] %>");
+  
+  var second_booking_array=[];
+  second_booking_array.push("<%= booking.courtNum.split(",")[1] %>");
+  second_booking_array.push("<%= booking.startTime.split(",")[1] %>");
+  second_booking_array.push("<%= booking.endTime.split(",")[1] %>");
+  
+  var third_booking_array=[];
+  third_booking_array.push("<%= booking.courtNum.split(",")[2] %>");
+  third_booking_array.push("<%= booking.startTime.split(",")[2] %>");
+  third_booking_array.push("<%= booking.endTime.split(",")[2] %>");
+  
+  var forth_booking_array=[];
+  forth_booking_array.push("<%= booking.courtNum.split(",")[3] %>");
+  forth_booking_array.push("<%= booking.startTime.split(",")[3] %>");
+  forth_booking_array.push("<%= booking.endTime.split(",")[3] %>");
+  
+  var fifth_booking_array=[];
+  fifth_booking_array.push("<%= booking.courtNum.split(",")[4] %>");
+  fifth_booking_array.push("<%= booking.startTime.split(",")[4] %>");
+  fifth_booking_array.push("<%= booking.endTime.split(",")[4] %>");
+  
+  var court_number_drop_down_list = document.getElementsByClassName("court_number_drop_down_list");
+  var end_time_drop_down_list = document.getElementsByClassName("end_time_drop_down_list");
+  var start_time_drop_down_list = document.getElementsByClassName("start_time_drop_down_list");
+  
+  if(first_booking_array[0]!=""){
+    court_number_drop_down_list[0].value=first_booking_array[0];
+    start_time_drop_down_list[0].value=first_booking_array[1];
+    end_time_drop_down_list[0].value=first_booking_array[2];
+  }
+  
+  if(second_booking_array[0]!=""){
+    court_number_drop_down_list[1].value=second_booking_array[0];
+    start_time_drop_down_list[1].value=second_booking_array[1];
+    end_time_drop_down_list[1].value=second_booking_array[2];
+  }
+  
+  if(third_booking_array[0]!=""){
+    court_number_drop_down_list[2].value=third_booking_array[0];
+    start_time_drop_down_list[2].value=third_booking_array[1];
+    end_time_drop_down_list[2].value=third_booking_array[2];
+  }
+  
+  if(forth_booking_array[0]!=""){
+    court_number_drop_down_list[3].value=forth_booking_array[0];
+    start_time_drop_down_list[3].value=forth_booking_array[1];
+    end_time_drop_down_list[3].value=forth_booking_array[2];
+  }
+  
+  if(fifth_booking_array[0]!=""){
+    court_number_drop_down_list[4].value=fifth_booking_array[0];
+    start_time_drop_down_list[4].value=fifth_booking_array[1];
+    end_time_drop_down_list[4].value=fifth_booking_array[2];
+  }
+
+  
+</script>
 <% include partials/footer %>
