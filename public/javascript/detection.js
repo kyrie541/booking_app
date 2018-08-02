@@ -3,6 +3,7 @@ var carousel_class = document.getElementsByClassName("carousel-item") ;
 
 var haha= new Date();
 var h = haha.getHours();
+
 if(h>=14){
     carousel_class[0].className="carousel-item";
     carousel_class[1].className="carousel-item active";
@@ -32,7 +33,119 @@ setInterval(function(){
     }
 }, 1000);
 
+var global_selected_column; 
+var global_previous_column; 
 
 function detection(){
-    alert("I am an alert box!");
+    var hehe= new Date();
+    var hours = hehe.getHours();
+    var minutes = hehe.getMinutes(); 
+    minutes = checkTime(minutes);
+    var hours_minutes = hours.toString()+minutes.toString();
+    var selected_column = document.getElementsByClassName(hours_minutes);
+    
+    global_selected_column= document.getElementsByClassName(hours_minutes);
+    
+    var hehe2 = new Date();
+    hehe2.setMinutes(hehe2.getMinutes()-30);
+    var hours2 = hehe2.getHours();
+    var minutes2 = hehe2.getMinutes();
+    minutes2 = checkTime(minutes2);
+    var hours_minutes2 = hours2.toString()+minutes2.toString();
+    var previous_column = document.getElementsByClassName(hours_minutes2);
+    
+    global_previous_column= document.getElementsByClassName(hours_minutes2);
+    
+    var courtNum_array=["P1","P2","P3","P4","P5","P6","P7","P8","B1","B2","B3","B4","B5","B6","B7","B8","R1","R2","R3","R4"];
+    var on_array=[];
+    var off_array=[];
+    var on_off_array=[];
+    
+    for(var i=0; i<selected_column.length ; i++){
+        //for on
+        if(selected_column[i].style.backgroundColor=="chartreuse" || selected_column[i].style.backgroundColor=="powderblue" ){
+            if(previous_column[i].style.backgroundColor=="#feb694" || previous_column[i].style.backgroundColor=="" ){
+                var chosen_court = courtNum_array[i];
+                on_array.push(chosen_court);
+            } 
+            else{
+                //check name
+                if(selected_column[i].innerHTML != previous_column[i].innerHTML ){
+                    var chosen_court3 = courtNum_array[i];
+                    on_off_array.push(chosen_court3);
+                }
+                
+            }
+        }
+        //for off
+        else if(selected_column[i].style.backgroundColor=="#feb694" || selected_column[i].style.backgroundColor==""){
+            if(previous_column[i].style.backgroundColor=="chartreuse" || previous_column[i].style.backgroundColor=="powderblue" ){
+                var chosen_court2 = courtNum_array[i];
+                off_array.push(chosen_court2);
+            }
+        }
+    }
+    
+    console.log(on_array); 
+    console.log(off_array); 
+    console.log(on_off_array);
+    
+    var on_string=on_array.join(", ");
+    var off_string=off_array.join(", ");
+    var on_off_string=on_off_array.join(", ");
+    
+    console.log(previous_column); 
+    console.log(selected_column);
+    alert("On: " + on_string+ "\nOff: " + off_string + "\nOn and Off: "+on_off_string);
 } 
+
+function detectionAgain (){
+    var selected_column = global_selected_column;
+    
+    var previous_column = global_previous_column;
+
+    
+    var courtNum_array=["P1","P2","P3","P4","P5","P6","P7","P8","B1","B2","B3","B4","B5","B6","B7","B8","R1","R2","R3","R4"];
+    var on_array=[];
+    var off_array=[];
+    var on_off_array=[];
+    
+    for(var i=0; i<selected_column.length ; i++){
+        //for on
+        if(selected_column[i].style.backgroundColor=="chartreuse" || selected_column[i].style.backgroundColor=="powderblue" ){
+            if(previous_column[i].style.backgroundColor=="#feb694" || previous_column[i].style.backgroundColor=="" ){
+                var chosen_court = courtNum_array[i];
+                on_array.push(chosen_court);
+            } 
+            else{
+                //check name
+                if(selected_column[i].innerHTML != previous_column[i].innerHTML ){
+                    var chosen_court3 = courtNum_array[i];
+                    on_off_array.push(chosen_court3);
+                }
+                
+            }
+        }
+        //for off
+        else if(selected_column[i].style.backgroundColor=="#feb694" || selected_column[i].style.backgroundColor==""){
+            if(previous_column[i].style.backgroundColor=="chartreuse" || previous_column[i].style.backgroundColor=="powderblue" ){
+                var chosen_court2 = courtNum_array[i];
+                off_array.push(chosen_court2);
+            }
+        }
+    }
+    
+    var on_string=on_array.join(", ");
+    var off_string=off_array.join(", ");
+    var on_off_string=on_off_array.join(", ");
+    
+    alert("On: " + on_string+ "\nOff: " + off_string + "\nOn and Off: "+on_off_string);
+}
+
+
+function checkTime(i) {
+    if (i < 10) {
+        i = "0" + i;  // add zero in front of numbers < 10
+    } 
+    return i;
+}

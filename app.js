@@ -222,11 +222,8 @@ function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
-    
-    return next();
-    //temporary no middleware due to developing
-    // req.flash("error", "Please Login!");
-    // res.redirect("/login");
+    req.flash("error", "Please Login!");
+    res.redirect("/login");
 }
 
 
