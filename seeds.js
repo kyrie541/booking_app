@@ -86,7 +86,7 @@ var data = [
         endTime: "12pm,8pm",
         name: "Kyrie",
         phNumber: "963852",
-        price: 42,
+        price: 68,
         status: 3,
         courtNum: "P1,P6"
     },
