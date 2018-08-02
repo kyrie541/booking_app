@@ -10,11 +10,23 @@ var normal = 25;
 var peak = 40;
 var superPeak = 50;
 
+var badminton_saturday_price_query_array = [[9, "8am-8.30am"],[9, "8.30am-9am"],[9, "9am-9.30am"],[9, "9.30am-10am"],[9, "10am-10.30am"],[9, "10.30am-11am"],[9, "11am-11.30am"],
+[9, "11.30am-12pm"],[9, "12pm-12.30pm"],[9,"12.30pm-1pm"],[9,"1pm-1.30pm"],[9,"1.30pm-2pm"],[9, "2pm-2.30pm"],[9,"2.30pm-3pm"],[9,"3pm-3.30pm"],
+[9, "3.30pm-4pm"],[9, "4pm-4.30pm"],[9,"4.30pm-5pm"],[9,"5pm-5.30pm"],[9,"5.30pm-6pm"],[9,"6pm-6.30pm"],[9,"6.30pm-7pm"],[9,"7pm-7.30pm"],
+[9,"7.30pm-8pm"],[9,"8pm-8.30pm"],[9,"8.30pm-9pm"],[9,"9pm-9.30pm"],[9,"9.30pm-10pm"],[9,"10pm-10.30pm"],[9,"10.30pm-11pm"],[9,"11pm-11.30pm"]
+,[9,"11.30pm-12am"],[9,"12am-12.30am"],[9,"12.30am-1am"],[9,"1am-1.30am"],[9,"1.30am-2am"],[9,"2am-2.30am"],[9,"2.30am-3am"]];
+
+var badminton_sunday_price_query_array = [[9, "8am-8.30am"],[9, "8.30am-9am"],[9, "9am-9.30am"],[9, "9.30am-10am"],[9, "10am-10.30am"],[9, "10.30am-11am"],[9, "11am-11.30am"],
+[9, "11.30am-12pm"],[9, "12pm-12.30pm"],[9,"12.30pm-1pm"],[9,"1pm-1.30pm"],[9,"1.30pm-2pm"],[9, "2pm-2.30pm"],[9,"2.30pm-3pm"],[9,"3pm-3.30pm"],
+[9, "3.30pm-4pm"],[9, "4pm-4.30pm"],[9,"4.30pm-5pm"],[9,"5pm-5.30pm"],[9,"5.30pm-6pm"],[9,"6pm-6.30pm"],[9,"6.30pm-7pm"],[6.5,"7pm-7.30pm"],
+[6.5,"7.30pm-8pm"],[6.5,"8pm-8.30pm"],[6.5,"8.30pm-9pm"],[6.5,"9pm-9.30pm"],[6.5,"9.30pm-10pm"],[6.5,"10pm-10.30pm"],[6.5,"10.30pm-11pm"],[6.5,"11pm-11.30pm"]
+,[6.5,"11.30pm-12am"],[6.5,"12am-12.30am"],[6.5,"12.30am-1am"],[6.5,"1am-1.30am"],[6.5,"1.30am-2am"],[6.5,"2am-2.30am"],[6.5,"2.30am-3am"]];
+
 var badminton_price_query_array = [[5, "8am-8.30am"],[5, "8.30am-9am"],[5, "9am-9.30am"],[5, "9.30am-10am"],[6.5, "10am-10.30am"],[6.5, "10.30am-11am"],[6.5, "11am-11.30am"],
 [6.5, "11.30am-12pm"],[5, "12pm-12.30pm"],[5,"12.30pm-1pm"],[5,"1pm-1.30pm"],[5,"1.30pm-2pm"],[6.5, "2pm-2.30pm"],[6.5,"2.30pm-3pm"],[6.5,"3pm-3.30pm"],
 [6.5, "3.30pm-4pm"],[6.5, "4pm-4.30pm"],[6.5,"4.30pm-5pm"],[6.5,"5pm-5.30pm"],[6.5,"5.30pm-6pm"],[10.5,"6pm-6.30pm"],[10.5,"6.30pm-7pm"],[10.5,"7pm-7.30pm"],
 [10.5,"7.30pm-8pm"],[10.5,"8pm-8.30pm"],[11.5,"8.30pm-9pm"],[11.5,"9pm-9.30pm"],[11.5,"9.30pm-10pm"],[11.5,"10pm-10.30pm"],[11.5,"10.30pm-11pm"],[10.5,"11pm-11.30pm"]
-,[10.5,"11.30pm-12am"],[10.5,"12am-12.30am"],[10.5,"12.30am-1am"]];
+,[10.5,"11.30pm-12am"],[10.5,"12am-12.30am"],[10.5,"12.30am-1am"],[6.5,"1am-1.30am"],[6.5,"1.30am-2am"],[6.5,"2am-2.30am"],[6.5,"2.30am-3am"]];
 
 var futsal_price_query_array =[[offPeak, "8am-8.30am"],[offPeak, "8.30am-9am"],[offPeak, "9am-9.30am"],[offPeak, "9.30am-10am"],[normal, "10am-10.30am"],[normal, "10.30am-11am"],[normal, "11am-11.30am"],
 [normal, "11.30am-12pm"],[offPeak, "12pm-12.30pm"],[offPeak,"12.30pm-1pm"],[offPeak,"1pm-1.30pm"],[offPeak,"1.30pm-2pm"],[normal, "2pm-2.30pm"],[normal,"2.30pm-3pm"],[normal,"3pm-3.30pm"],
@@ -49,26 +61,74 @@ function calculateBookingFees() {
         
         console.log(combined_array);
         
-        if(badminton_radio_button.checked){
-            combined_array.forEach(function(duration){
-                for(var i3=0; i3<badminton_price_query_array.length; i3++){
-                    badminton_price_query_array [i3].forEach(function(numBer){
-                        if(numBer==duration){
-                            price_array.push(badminton_price_query_array [i3][0]);
-                        }
-                    });
-                }
-            });
-        }else if(futsal_radio_button.checked){
-            combined_array.forEach(function(duration){
-                for(var i3=0; i3<futsal_price_query_array.length; i3++){
-                    futsal_price_query_array [i3].forEach(function(numBer){
-                        if(numBer==duration){
-                            price_array.push(futsal_price_query_array [i3][0]);
-                        }
-                    });
-                }
-            });
+        //weekend rate
+        if(getDayOfToday()=="Saturday"){
+            if(badminton_radio_button.checked){
+                combined_array.forEach(function(duration){
+                    for(var i3=0; i3<badminton_saturday_price_query_array.length; i3++){
+                        badminton_saturday_price_query_array [i3].forEach(function(numBer){
+                            if(numBer==duration){
+                                price_array.push(badminton_saturday_price_query_array [i3][0]);
+                            }
+                        });
+                    }
+                });
+            }else if(futsal_radio_button.checked){
+                combined_array.forEach(function(duration){
+                    for(var i3=0; i3<futsal_price_query_array.length; i3++){
+                        futsal_price_query_array [i3].forEach(function(numBer){
+                            if(numBer==duration){
+                                price_array.push(futsal_price_query_array [i3][0]);
+                            }
+                        });
+                    }
+                });
+            }
+        }else if(getDayOfToday()=="Sunday"){
+            if(badminton_radio_button.checked){
+                combined_array.forEach(function(duration){
+                    for(var i3=0; i3<badminton_sunday_price_query_array.length; i3++){
+                        badminton_sunday_price_query_array [i3].forEach(function(numBer){
+                            if(numBer==duration){
+                                price_array.push(badminton_sunday_price_query_array [i3][0]);
+                            }
+                        });
+                    }
+                });
+            }else if(futsal_radio_button.checked){
+                combined_array.forEach(function(duration){
+                    for(var i3=0; i3<futsal_price_query_array.length; i3++){
+                        futsal_price_query_array [i3].forEach(function(numBer){
+                            if(numBer==duration){
+                                price_array.push(futsal_price_query_array [i3][0]);
+                            }
+                        });
+                    }
+                });
+            }
+        //weekday rate
+        }else{
+            if(badminton_radio_button.checked){
+                combined_array.forEach(function(duration){
+                    for(var i3=0; i3<badminton_price_query_array.length; i3++){
+                        badminton_price_query_array [i3].forEach(function(numBer){
+                            if(numBer==duration){
+                                price_array.push(badminton_price_query_array [i3][0]);
+                            }
+                        });
+                    }
+                });
+            }else if(futsal_radio_button.checked){
+                combined_array.forEach(function(duration){
+                    for(var i3=0; i3<futsal_price_query_array.length; i3++){
+                        futsal_price_query_array [i3].forEach(function(numBer){
+                            if(numBer==duration){
+                                price_array.push(futsal_price_query_array [i3][0]);
+                            }
+                        });
+                    }
+                });
+            }
         }
         
         console.log(price_array);
@@ -121,26 +181,74 @@ function calculateTotalPayment(){
     
     console.log(all_duration); 
     
-    if(badminton_radio_button.checked){
-        all_duration.forEach(function(duration){
-            for(var i6=0; i6<badminton_price_query_array.length; i6++){
-                badminton_price_query_array[i6].forEach(function(numBer){
-                    if(numBer==duration){
-                        all_price_array.push(badminton_price_query_array [i6][0]);
-                    }
-                });
-            }
-        });
-    }else if(futsal_radio_button.checked){
-        all_duration.forEach(function(duration){
-            for(var i6=0; i6<futsal_price_query_array.length; i6++){
-                futsal_price_query_array[i6].forEach(function(numBer){
-                    if(numBer==duration){
-                        all_price_array.push(futsal_price_query_array [i6][0]);
-                    }
-                });
-            }
-        });
+    //weekend rate
+    if(getDayOfToday()=="Saturday"){
+        if(badminton_radio_button.checked){
+            all_duration.forEach(function(duration){
+                for(var i6=0; i6<badminton_saturday_price_query_array.length; i6++){
+                    badminton_saturday_price_query_array[i6].forEach(function(numBer){
+                        if(numBer==duration){
+                            all_price_array.push(badminton_saturday_price_query_array [i6][0]);
+                        }
+                    });
+                }
+            });
+        }else if(futsal_radio_button.checked){
+            all_duration.forEach(function(duration){
+                for(var i6=0; i6<futsal_price_query_array.length; i6++){
+                    futsal_price_query_array[i6].forEach(function(numBer){
+                        if(numBer==duration){
+                            all_price_array.push(futsal_price_query_array [i6][0]);
+                        }
+                    });
+                }
+            });
+        }
+    }else if(getDayOfToday()=="Sunday"){
+        if(badminton_radio_button.checked){
+            all_duration.forEach(function(duration){
+                for(var i6=0; i6<badminton_sunday_price_query_array.length; i6++){
+                    badminton_sunday_price_query_array[i6].forEach(function(numBer){
+                        if(numBer==duration){
+                            all_price_array.push(badminton_sunday_price_query_array [i6][0]);
+                        }
+                    });
+                }
+            });
+        }else if(futsal_radio_button.checked){
+            all_duration.forEach(function(duration){
+                for(var i6=0; i6<futsal_price_query_array.length; i6++){
+                    futsal_price_query_array[i6].forEach(function(numBer){
+                        if(numBer==duration){
+                            all_price_array.push(futsal_price_query_array [i6][0]);
+                        }
+                    });
+                }
+            });
+        }
+    //weekday rate
+    }else{    
+        if(badminton_radio_button.checked){
+            all_duration.forEach(function(duration){
+                for(var i6=0; i6<badminton_price_query_array.length; i6++){
+                    badminton_price_query_array[i6].forEach(function(numBer){
+                        if(numBer==duration){
+                            all_price_array.push(badminton_price_query_array [i6][0]);
+                        }
+                    });
+                }
+            });
+        }else if(futsal_radio_button.checked){
+            all_duration.forEach(function(duration){
+                for(var i6=0; i6<futsal_price_query_array.length; i6++){
+                    futsal_price_query_array[i6].forEach(function(numBer){
+                        if(numBer==duration){
+                            all_price_array.push(futsal_price_query_array [i6][0]);
+                        }
+                    });
+                }
+            });
+        }
     }
     
     console.log(all_price_array);
@@ -148,6 +256,12 @@ function calculateTotalPayment(){
     var totalPayment = all_price_array.reduce((a, b) => a + b, 0);
     showPrice.value= totalPayment;
 
+}
+
+function getDayOfToday(){
+    var d = new Date();
+    var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    return days[d.getDay()];
 }
 
 

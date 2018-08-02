@@ -1,11 +1,11 @@
 <% include partials/header %>
 
-<a href="/card2">Futsal Bookings</a>
-<h1>Badminton Bookings</h1>
+<a href="/card">Badminton Bookings</a>
+<h1>Futsal Bookings</h1>
 
 <div class="card-columns">
     <% bookings.forEach(function(booking){ %>
-      <% if(booking.type=="badminton"){ %>
+      <% if(booking.type=="futsal"){ %>
         <div class="card">
             <div class="card-body">
               <a href="/booking/<%= booking._id %>"><h5 class="card-title"><%= booking.name %>'s Booking</h5></a> 

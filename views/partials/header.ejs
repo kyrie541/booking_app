@@ -20,7 +20,31 @@
       <li class="nav-item">
         <a class="nav-link" href="/booking/new">Book Now</a>
       </li>
+      
+      <% if(!currentUser){ %>
+          <li><a class="nav-link" href="/login">Login</a></li>
+          <li><a class="nav-link" href="/register">Sign Up</a></li>
+      <% }else{ %>
+          <li><a class="nav-link" href="#">Signed In As <%= currentUser.username %></a></li>
+          <li><a class="nav-link" href="/logout">Logout</a></li>
+      <% } %>
+      
     </ul>
+    
+    <!--flash message-->
+    <div class="container">
+        <% if(error && error.length >0){ %>
+            <div class="alert alert-danger" role="alert">
+                <%= error %>
+            </div>   
+        <% } %>
+        <% if(success && success.length >0){ %>
+            <div class="alert alert-success" role="alert">
+                <%= success %>
+            </div>  
+        <% } %>
+    </div> 
+    
     <div class="container">
       <!--alarm sound here-->
       <audio id="myAudio">
@@ -31,3 +55,4 @@
       <!--//Clock-->
       <div id="date"></div>
       <div id="txt"></div>
+      
