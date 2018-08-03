@@ -3,8 +3,11 @@
 <h1>Booking Info</h1>
 <button onclick="addMoreForm()">Book More Court</button>
 <button onclick="deleteForm()">Cancel Book More Court</button>
+<br><br>
 <form action="/booking" method="POST">
-    
+    <label for="type">Booking Date: </label>
+    <input type="text" name="date" id="show_date" onclick="alertBox()">
+    <br>
     <label for="type">Sport Category: </label>
     <input type="radio" name="type" onclick="badmintonOption()" value="badminton" checked id="badminton_radio_button">
     <label for="badminton">Badminton</label>
@@ -142,7 +145,23 @@
     <button>Submit</button>
 </form>
 <br>
-
+<script>
+  var abc = document.getElementById("show_date");
+  
+  function getTodayDate(){
+      var today = new Date();
+      var day= today.getDate();
+      var month= today.getMonth()+1;
+      var year= today.getFullYear();
+      var fullDate = day + "-" + month + "-" + year;
+      return fullDate;
+  }
+  
+  abc.value = getTodayDate(); 
+  function alertBox(){
+    alert("Strictly Follow this format: Day-Month-Year. \nExample: 9-3-1993");
+  }
+</script>
 <script type="text/javascript" src="/javascript/javaForForm.js"></script>
 <script type="text/javascript" src="/javascript/calculator.js"></script>
 <% include partials/footer %>

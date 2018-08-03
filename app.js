@@ -73,7 +73,8 @@ app.post("/booking", isLoggedIn, function(req, res){
     var phNumber = req.body.phNumber;
     var status = req.body.status;
     var price = req.body.price;
-    var newBooking = {price: price, type: type, courtNum: courtNum, date: getTodayDate(), startTime: startTime, endTime: endTime, name: name, phNumber: phNumber, status: status};
+    var date = req.body.date;
+    var newBooking = {price: price, type: type, courtNum: courtNum, date: date, startTime: startTime, endTime: endTime, name: name, phNumber: phNumber, status: status};
     // Create a new booking and save to DB
     Booking.create(newBooking, function(err, newlyCreated){
         if(err){
