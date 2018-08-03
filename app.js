@@ -10,7 +10,10 @@ var LocalStrategy = require("passport-local");
 var flash = require("connect-flash");
 var User = require("./models/user");
 
-mongoose.connect("mongodb://localhost/sport_arena");
+var url = process.env.DATABASEURL || "mongodb://localhost/sport_arena";
+mongoose.connect(url);
+mongoose.Promise = global.Promise;
+
 app.set("view engine", "ejs");  
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
