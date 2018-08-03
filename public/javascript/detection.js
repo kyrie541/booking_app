@@ -27,35 +27,109 @@ function timeCheck(){
     {return true}
 }
 
+var y = document.getElementById("myAudio"); 
+
 setInterval(function(){ 
     if(timeCheck()){
+        y.loop = true;
+        y.play();
         detection();
     }
 }, 1000);
 
-var global_selected_column; 
-var global_previous_column; 
+// function detection(){
+//     var hehe= new Date();
+//     var hours = hehe.getHours();
+//     var minutes = hehe.getMinutes(); 
+//     minutes = checkTime(minutes);
+//     var hours_minutes = hours.toString()+minutes.toString();
+//     var selected_column = document.getElementsByClassName(hours_minutes);
+    
+//     var hehe2 = new Date();
+//     hehe2.setMinutes(hehe2.getMinutes()-30);
+//     var hours2 = hehe2.getHours();
+//     var minutes2 = hehe2.getMinutes();
+//     minutes2 = checkTime(minutes2);
+//     var hours_minutes2 = hours2.toString()+minutes2.toString();
+//     var previous_column = document.getElementsByClassName(hours_minutes2);
+    
+//     var courtNum_array=["P1","P2","P3","P4","P5","P6","P7","P8","B1","B2","B3","B4","B5","B6","B7","B8","R1","R2","R3","R4"];
+//     var on_array=[];
+//     var off_array=[];
+//     var on_off_array=[];
+    
+//     for(var i=0; i<selected_column.length ; i++){
+//         //for on
+//         if(selected_column[i].style.backgroundColor=="chartreuse" || selected_column[i].style.backgroundColor=="powderblue" ){
+//             if(previous_column[i].style.backgroundColor=="#feb694" || previous_column[i].style.backgroundColor=="" ){
+//                 var chosen_court = courtNum_array[i];
+//                 on_array.push(chosen_court);
+//             } 
+//             else{
+//                 //check name
+//                 if(selected_column[i].innerHTML != previous_column[i].innerHTML ){
+//                     var chosen_court3 = courtNum_array[i];
+//                     on_off_array.push(chosen_court3);
+//                 }
+                
+//             }
+//         }
+//         //for off
+//         else if(selected_column[i].style.backgroundColor=="#feb694" || selected_column[i].style.backgroundColor==""){
+//             if(previous_column[i].style.backgroundColor=="chartreuse" || previous_column[i].style.backgroundColor=="powderblue" ){
+//                 var chosen_court2 = courtNum_array[i];
+//                 off_array.push(chosen_court2);
+//             }
+//         }
+//     }
+    
+//     var on_string=on_array.join(", ");
+//     var off_string=off_array.join(", ");
+//     var on_off_string=on_off_array.join(", ");
+    
+//     alert("On: " + on_string+ "\nOff: " + off_string + "\nOn and Off: "+on_off_string);
+// } 
 
-function detection(){
+function detection (){
+    
     var hehe= new Date();
     var hours = hehe.getHours();
     var minutes = hehe.getMinutes(); 
     minutes = checkTime(minutes);
     var hours_minutes = hours.toString()+minutes.toString();
-    var selected_column = document.getElementsByClassName(hours_minutes);
     
-    global_selected_column= document.getElementsByClassName(hours_minutes);
+    //take note: hours_minutes is string type
+    var ori_minute = hours_minutes[hours_minutes.length -2]+hours_minutes[hours_minutes.length -1];
+    var int_ori_minute = parseInt(ori_minute,10);
+    var ori_hour;
+    var previous_column_string;
+    var selected_column_string;
     
-    var hehe2 = new Date();
-    hehe2.setMinutes(hehe2.getMinutes()-30);
-    var hours2 = hehe2.getHours();
-    var minutes2 = hehe2.getMinutes();
-    minutes2 = checkTime(minutes2);
-    var hours_minutes2 = hours2.toString()+minutes2.toString();
-    var previous_column = document.getElementsByClassName(hours_minutes2);
+    if(int_ori_minute<30){      
+        if(hours_minutes[hours_minutes.length -4]==undefined){
+            ori_hour = hours_minutes[hours_minutes.length -3];
+        }else{
+            ori_hour = hours_minutes[hours_minutes.length -4]+hours_minutes[hours_minutes.length -3];
+        }
+        var int_ori_hour = parseInt(ori_hour,10);
+        var new_hour = int_ori_hour-1;
+        previous_column_string = new_hour.toString() + "30";
+        selected_column_string = ori_hour + "00";
+        
+    }else{
+        if(hours_minutes[hours_minutes.length -4]==undefined){
+            ori_hour = hours_minutes[hours_minutes.length -3];
+        }else{
+            ori_hour = hours_minutes[hours_minutes.length -4]+hours_minutes[hours_minutes.length -3];
+        }
+        previous_column_string =ori_hour + "00";
+        selected_column_string = ori_hour + "30";
+    }
     
-    global_previous_column= document.getElementsByClassName(hours_minutes2);
+    var selected_column = document.getElementsByClassName(selected_column_string);
     
+    var previous_column = document.getElementsByClassName(previous_column_string);
+
     var courtNum_array=["P1","P2","P3","P4","P5","P6","P7","P8","B1","B2","B3","B4","B5","B6","B7","B8","R1","R2","R3","R4"];
     var on_array=[];
     var off_array=[];
@@ -74,56 +148,6 @@ function detection(){
                     var chosen_court3 = courtNum_array[i];
                     on_off_array.push(chosen_court3);
                 }
-                
-            }
-        }
-        //for off
-        else if(selected_column[i].style.backgroundColor=="#feb694" || selected_column[i].style.backgroundColor==""){
-            if(previous_column[i].style.backgroundColor=="chartreuse" || previous_column[i].style.backgroundColor=="powderblue" ){
-                var chosen_court2 = courtNum_array[i];
-                off_array.push(chosen_court2);
-            }
-        }
-    }
-    
-    console.log(on_array); 
-    console.log(off_array); 
-    console.log(on_off_array);
-    
-    var on_string=on_array.join(", ");
-    var off_string=off_array.join(", ");
-    var on_off_string=on_off_array.join(", ");
-    
-    console.log(previous_column); 
-    console.log(selected_column);
-    alert("On: " + on_string+ "\nOff: " + off_string + "\nOn and Off: "+on_off_string);
-} 
-
-function detectionAgain (){
-    var selected_column = global_selected_column;
-    
-    var previous_column = global_previous_column;
-
-    
-    var courtNum_array=["P1","P2","P3","P4","P5","P6","P7","P8","B1","B2","B3","B4","B5","B6","B7","B8","R1","R2","R3","R4"];
-    var on_array=[];
-    var off_array=[];
-    var on_off_array=[];
-    
-    for(var i=0; i<selected_column.length ; i++){
-        //for on
-        if(selected_column[i].style.backgroundColor=="chartreuse" || selected_column[i].style.backgroundColor=="powderblue" ){
-            if(previous_column[i].style.backgroundColor=="#feb694" || previous_column[i].style.backgroundColor=="" ){
-                var chosen_court = courtNum_array[i];
-                on_array.push(chosen_court);
-            } 
-            else{
-                //check name
-                if(selected_column[i].innerHTML != previous_column[i].innerHTML ){
-                    var chosen_court3 = courtNum_array[i];
-                    on_off_array.push(chosen_court3);
-                }
-                
             }
         }
         //for off
@@ -139,7 +163,8 @@ function detectionAgain (){
     var off_string=off_array.join(", ");
     var on_off_string=on_off_array.join(", ");
     
-    alert("On: " + on_string+ "\nOff: " + off_string + "\nOn and Off: "+on_off_string);
+    var modal_show = document.getElementsByClassName("modal-body");
+    modal_show[0].innerHTML = "On: " + on_string+ "<br>Off: " + off_string + "<br>On and Off: "+on_off_string;
 }
 
 
@@ -149,3 +174,7 @@ function checkTime(i) {
     } 
     return i;
 }
+
+
+
+
