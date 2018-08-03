@@ -162,7 +162,8 @@ function detection (){
     var on_string=on_array.join(", ");
     var off_string=off_array.join(", ");
     var on_off_string=on_off_array.join(", ");
-    
+
+    document.getElementById("modal_button").click();
     var modal_show = document.getElementsByClassName("modal-body");
     modal_show[0].innerHTML = "On: " + on_string+ "<br>Off: " + off_string + "<br>On and Off: "+on_off_string;
 }
