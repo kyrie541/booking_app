@@ -15,7 +15,7 @@
     <% if(booking.type=="badminton"){ %>
       <tr bgcolor="#f7fdff">
         <td class="numberOfBadminton"></td>
-        <td><a href="/booking/<%= booking._id %>"><%= booking.name %></a></td> 
+        <td><a href="/bookings/<%= booking._id %>"><%= booking.name %></a></td> 
         <td><%= booking.courtNum.split(",")[0] %></td>
         <td><%= booking.startTime.split(",")[0] %></td>
         <td><%= booking.endTime.split(",")[0] %></td>
@@ -56,7 +56,7 @@
     <% if(booking.type=="futsal"){ %>
         <tr bgcolor="#f7fdff">
           <td class="numberOfFutsal"></td>
-          <td><a href="/booking/<%= booking._id %>"><%= booking.name %></a></td> 
+          <td><a href="/bookings/<%= booking._id %>"><%= booking.name %></a></td> 
           <td><%= booking.courtNum.split(",")[0] %></td>
           <td><%= booking.startTime.split(",")[0] %></td>
           <td><%= booking.endTime.split(",")[0] %></td>

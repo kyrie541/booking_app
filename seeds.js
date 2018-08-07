@@ -126,12 +126,20 @@ var data = [
 ];
 
 function getTodayDate(){
-    var today = new Date();
-    var day= today.getDate();
-    var month= today.getMonth()+1;
-    var year= today.getFullYear();
-    var fullDate = day + "-" + month + "-" + year;
-    return fullDate;
+  var today = new Date();
+  var day= today.getDate();
+  var month= today.getMonth()+1;
+  day = checkDate(day);
+  month = checkDate(month);
+  
+  var year= today.getFullYear();
+  var fullDate = day + "-" + month + "-" + year;
+  return fullDate;
+}
+
+function checkDate(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
 }
 
 function seedDB(){

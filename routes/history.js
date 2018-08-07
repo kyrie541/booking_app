@@ -17,11 +17,11 @@ router.get("/", middleware.isLoggedIn, function(req,res){
 //View One day Only History
 router.get("/:date", middleware.isLoggedIn, function(req,res){
     var date = req.params.date;
+    console.log(date); 
     Booking.find({date:date}, function(err, allBooking){
        if(err){
            console.log(err);
        } else {
-
           res.render("historys/show",{bookings:allBooking});
        }
     });

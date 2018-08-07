@@ -50,5 +50,16 @@ exports.deleteBooking =  function(req, res){
     });
 };
 
+exports.getBookingsByDate = function(req,res){
+    var date = req.params.dateId;
+    db.Booking.find({date:date})
+     .then(function(bookings){
+         res.json(bookings);
+     })
+     .catch(function(err){
+         res.send(err);
+     });
+};
+
 
 module.exports = exports;

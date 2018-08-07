@@ -1,4 +1,5 @@
 /*global showPrice*/
+/*global $*/
 
 var court_number_drop_down_list = document.getElementsByClassName("court_number_drop_down_list");
 var end_time_drop_down_list = document.getElementsByClassName("end_time_drop_down_list");
@@ -70,3 +71,7 @@ function deleteForm(){
     showPrice.value= "";
     counter--;
 }
+
+
+
+

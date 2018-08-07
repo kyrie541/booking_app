@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
-// seedDB();
+seedDB();
 app.use(flash());
 app.use(require("express-session")({
     secret:"pikachu",

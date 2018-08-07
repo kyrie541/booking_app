@@ -40,8 +40,12 @@ function startTime() {
     s = checkTime(s);
     document.getElementById('txt').innerHTML =
     "Current Time: " + h + ":" + m + ":" + s;
+    
     var day= today.getDate();
     var month= today.getMonth()+1;
+    day = checkTime(day);
+    month = checkTime(month);
+    
     var year= today.getFullYear();
     document.getElementById('date').innerHTML =
     "Date: " + day + "-" + month + "-" + year;
