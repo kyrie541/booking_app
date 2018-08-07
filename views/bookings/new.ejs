@@ -1,10 +1,10 @@
-<% include partials/header %>
+<% include ../partials/header %>
 
 <h1>Booking Info</h1>
 <button onclick="addMoreForm()">Book More Court</button>
 <button onclick="deleteForm()">Cancel Book More Court</button>
 <br><br>
-<form action="/booking" method="POST">
+<form action="/bookings" method="POST">
     <label for="type">Booking Date: </label>
     <input type="text" name="date" id="show_date" onclick="alertBox()">
     <br>
@@ -140,7 +140,7 @@
     <div id="addOn3">_</div>
     <label for="price">Total Payment: </label>
     <input type="text" name="price" placeholder="Total Booking Fees" id="showPrice" readonly>
-    <span onclick="calculateBookingFees()">Calculate</span>
+    <span class="btn btn-primary"  onclick="calculateBookingFees()">Calculate</span>
     <br>
     <button>Submit</button>
 </form>
@@ -164,4 +164,4 @@
 </script>
 <script type="text/javascript" src="/javascript/javaForForm.js"></script>
 <script type="text/javascript" src="/javascript/calculator.js"></script>
-<% include partials/footer %>
+<% include ../partials/footer %>

@@ -1,6 +1,6 @@
-<% include partials/header %>
+<% include ../partials/header %>
 
-<a href="/card">Click me to view Badminton Bookings</a>
+<a href="/cards/badmintoncard">Click me to view Badminton Bookings</a>
 <h1>Futsal Bookings</h1>
 
 <div class="card-columns">
@@ -8,7 +8,7 @@
       <% if(booking.type=="futsal"){ %>
         <div class="card">
             <div class="card-body">
-              <a href="/booking/<%= booking._id %>"><h5 class="card-title"><%= booking.name %>'s Booking</h5></a> 
+              <a href="/bookings/<%= booking._id %>"><h5 class="card-title"><%= booking.name %>'s Booking</h5></a> 
               <p class="card-text">Contact Number: <%= booking.phNumber %></p>
               <p class="card-text">Total Court: <%= booking.courtNum.split(",").length %></p>
               
@@ -22,8 +22,8 @@
                 <p class="card-text" style="background-color:powderblue;"><small class="text-muted">Status: Advance Payment</small></p>
               <% } %>
               
-              <a href="/booking/<%= booking._id %>/edit" class="card-link">Edit</a>
-              <form id="delete_form" action="/booking/<%= booking._id %>?_method=DELETE" method="POST">
+              <a href="/bookings/<%= booking._id %>/edit" class="card-link">Edit</a>
+              <form id="delete_form" action="/bookings/<%= booking._id %>?_method=DELETE" method="POST">
                    <button>Delete</button>
               </form>
             </div>
@@ -33,4 +33,4 @@
     <% }); %>
 </div>
 
-<% include partials/footer %>
+<% include ../partials/footer %>

@@ -9,7 +9,8 @@ var bookingSchema = new mongoose.Schema({
    phNumber: {type: String, required: true},
    price: {type: Number, required: true},
    status: {type: Number, required: true},
-   courtNum: {type: String, required: true}
+   courtNum: {type: String, required: true},
+   created_date: {type: Date, default: Date.now}
 });
 
 module.exports = mongoose.model("Booking", bookingSchema);

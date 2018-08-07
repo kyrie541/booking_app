@@ -1,10 +1,10 @@
-<% include partials/header %> 
+<% include ../partials/header %> 
 
 <h3>Choose the date</h3>
 <ul id="list_of_date">
 </ul>
 
-<% include partials/footer %> 
+<% include ../partials/footer %> 
 
 <script>
     var repeatArray= [];
@@ -22,7 +22,7 @@
         var a = document.createElement('a');
         var linkText = document.createTextNode(date);
         a.appendChild(linkText);
-        a.href = "/history/"+date;
+        a.href = "/historys/"+date;
         var y = document.createElement("LI");
         y.appendChild(a);
         list_of_date.appendChild(y);

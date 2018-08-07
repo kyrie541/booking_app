@@ -1,9 +1,9 @@
-<% include partials/header %>
+<% include ../partials/header %>
 
 <h1>Edit <%= booking.name %> Booking</h1>
 <button onclick="addMoreForm()">Book More Court</button>
 <button onclick="deleteForm()">Cancel Book More Court</button>
-<form action="/booking/<%= booking._id %>?_method=PUT" method="POST">
+<form action="/bookings/<%= booking._id %>?_method=PUT" method="POST">
     
     <label for="type">Sport Category: </label>
     <input type="radio" name="booking[type]" onclick="badmintonOption()" value="badminton" checked id="badminton_radio_button">
@@ -149,7 +149,7 @@
 </form>
 <br>
 
-<a href="/booking/<%= booking._id %>" class="card-link">Go Back</a>
+<a href="/bookings/<%= booking._id %>" class="card-link">Go Back</a>
 
 <script type="text/javascript" src="/javascript/javaForEdit.js"></script>
 <script type="text/javascript" src="/javascript/calculator.js"></script>
@@ -262,4 +262,4 @@
 
   
 </script>
-<% include partials/footer %>
+<% include ../partials/footer %>
