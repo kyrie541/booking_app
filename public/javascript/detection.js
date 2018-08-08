@@ -138,7 +138,7 @@ function detection (){
     for(var i=0; i<selected_column.length ; i++){
         //for on
         if(selected_column[i].style.backgroundColor=="chartreuse" || selected_column[i].style.backgroundColor=="powderblue" ){
-            if(previous_column[i].style.backgroundColor=="#feb694" || previous_column[i].style.backgroundColor=="" ){
+            if(previous_column[i].style.backgroundColor=="#feb694" || previous_column[i].style.backgroundColor=="white" ){
                 var chosen_court = courtNum_array[i];
                 on_array.push(chosen_court);
             } 
@@ -151,7 +151,7 @@ function detection (){
             }
         }
         //for off
-        else if(selected_column[i].style.backgroundColor=="#feb694" || selected_column[i].style.backgroundColor==""){
+        else if(selected_column[i].style.backgroundColor=="#feb694" || selected_column[i].style.backgroundColor=="white"){
             if(previous_column[i].style.backgroundColor=="chartreuse" || previous_column[i].style.backgroundColor=="powderblue" ){
                 var chosen_court2 = courtNum_array[i];
                 off_array.push(chosen_court2);

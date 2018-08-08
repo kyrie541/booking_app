@@ -62,7 +62,7 @@ function calculateBookingFees() {
         console.log(combined_array);
         
         //weekend rate
-        if(getDayOfToday()=="Saturday"){
+        if(getDayAccordingToUserInput()=="Saturday"){
             if(badminton_radio_button.checked){
                 combined_array.forEach(function(duration){
                     for(var i3=0; i3<badminton_saturday_price_query_array.length; i3++){
@@ -84,7 +84,7 @@ function calculateBookingFees() {
                     }
                 });
             }
-        }else if(getDayOfToday()=="Sunday"){
+        }else if(getDayAccordingToUserInput()=="Sunday"){
             if(badminton_radio_button.checked){
                 combined_array.forEach(function(duration){
                     for(var i3=0; i3<badminton_sunday_price_query_array.length; i3++){
@@ -143,7 +143,6 @@ function calculateBookingFees() {
 }
 
 function calculateTotalPayment(){   
-    
     var all_time_array=[];
     var all_time_one_point_array=[[],[],[],[],[]];
     var all_time_combined_array=[[],[],[],[],[]];
@@ -182,7 +181,7 @@ function calculateTotalPayment(){
     console.log(all_duration); 
     
     //weekend rate
-    if(getDayOfToday()=="Saturday"){
+    if(getDayAccordingToUserInput()=="Saturday"){
         if(badminton_radio_button.checked){
             all_duration.forEach(function(duration){
                 for(var i6=0; i6<badminton_saturday_price_query_array.length; i6++){
@@ -204,7 +203,7 @@ function calculateTotalPayment(){
                 }
             });
         }
-    }else if(getDayOfToday()=="Sunday"){
+    }else if(getDayAccordingToUserInput()=="Sunday"){
         if(badminton_radio_button.checked){
             all_duration.forEach(function(duration){
                 for(var i6=0; i6<badminton_sunday_price_query_array.length; i6++){
@@ -258,12 +257,23 @@ function calculateTotalPayment(){
 
 }
 
-function getDayOfToday(){
-    var d = new Date();
+function getDayAccordingToUserInput(){
+    var chosenDate = document.getElementById("show_date").value;
+    var year = chosenDate.slice(6, 10);
+    var month = chosenDate.slice(3, 5);
+    var day = chosenDate.slice(0, 2);
+    var month2 = parseInt(month ,10)-1;
+    
+    var d = new Date(year, month2, day);
     var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     return days[d.getDay()];
 }
 
+
+//format of setting new date
+// var d = new Date(2018, 04, 02);
+
+// chosenDate value = "08-08-2018"
 
 
 
