@@ -1,9 +1,17 @@
 <% include ../partials/header %>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <h1>Edit <%= booking.name %> Booking</h1>
 <button onclick="addMoreForm()">Book More Court</button>
 <button onclick="deleteForm()">Cancel Book More Court</button>
 <form action="/bookings/<%= booking._id %>?_method=PUT" method="POST">
+    <label for="type">Booking Date: </label>
+    <input type="text" name="date" id="show_date" readonly value="<%= booking.date %>">
+    <br>
     
     <label for="type">Sport Category: </label>
     <input type="radio" name="booking[type]" onclick="badmintonOption()" value="badminton" checked id="badminton_radio_button">
@@ -261,5 +269,14 @@
   }
 
   
+</script>
+
+<script>
+  
+  $("#show_date").datepicker({
+      minDate: 0,
+      dateFormat: "dd-mm-yy"
+  });
+
 </script>
 <% include ../partials/footer %>
