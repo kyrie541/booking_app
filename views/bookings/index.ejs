@@ -8,20 +8,37 @@
 
 <style>
 .white {color:white;}
+.right {    
+    position: absolute;
+    right: 1px;
+    top: 1px;
+  
+}
+    
 </style>
 
 <!--<button onclick="detection()">Which Court to switch on or off?</button>-->
 
 <% include ./modal %> 
+<% if(currentUser){ %>
+<% if (currentUser.location == "SAS"){ %>
+  <h2>Sports Arena Sentosa</h2>
+<% }else if (currentUser.location == "SABS"){ %>
+  <h2>Sports Arena Bukit Serdang</h2>
+<% } %>
+<% } %>
 
-<p>Select a Date</p>
+<hr>
+<label for="show_date">Booking Date: </label>
 <input type="text" id="show_date" readonly>
-<button onclick="request()">Check</button>
-
+<button onclick="request()" class="btn btn-info">Check</button>
+<hr>
 <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel" data-interval=false>
       <!-- Carousel Buttons Next/Prev -->
-    <a data-slide="prev" href="#carouselExampleFade" class="left carousel-control">Previous</a>
-    <a data-slide="next" href="#carouselExampleFade" class="right carousel-control">Next</a>
+    <div>
+      <a data-slide="prev" href="#carouselExampleFade" class="left carousel-control btn btn-warning">Previous</a>
+      <a data-slide="next" href="#carouselExampleFade" class="right carousel-control btn btn-warning">Next</a>
+    </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
 		<% include ./table/table1 %> 
@@ -68,5 +85,6 @@
 <script type="text/javascript" src="/javascript/scanning.js"></script>
 <script type="text/javascript" src="/javascript/detection.js"></script>
 <script type="text/javascript" src="/javascript/query.js"></script>
+<script type="text/javascript" src="/javascript/apicall.js"></script>
 
 <% include ../partials/footer %> 

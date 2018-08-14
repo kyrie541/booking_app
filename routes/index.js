@@ -16,7 +16,7 @@ router.get("/register", function(req,res){
 
 //handling user sign up
 router.post("/register", function(req,res){
-    User.register(new User({username: req.body.username}), req.body.password, function(err,user){
+    User.register(new User({username: req.body.username, location: req.body.location}), req.body.password, function(err,user){
         if(err){
             console.log(err);
             req.flash("error", err.message);

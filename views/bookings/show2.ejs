@@ -1,5 +1,3 @@
-<% include ../partials/header %>
-
 <div class="card">
     <div class="card-body">
       <h2 class="card-title"><%= booking.name %>'s Booking</h2>
@@ -30,9 +28,9 @@
         <p class="card-text" style="background-color:powderblue;"><small class="text-muted">Status: Advance Payment</small></p>
       <% } %>
       
-      <a href="/bookings/<%= booking._id %>/edit" class="card-link btn btn-warning">Edit</a>
+      <a href="/bookings/<%= booking._id %>/edit" class="card-link">Edit</a>
       <form id="delete_form" action="/bookings/<%= booking._id %>?_method=DELETE" method="POST">
-           <button class="btn btn-danger">Delete</button>
+           <button>Delete</button>
       </form>
     </div>
 </div>
@@ -40,4 +38,6 @@
 <a href="/bookings">Back to Table View</a>
 <a href="/cards/badmintoncard">Back to Card View</a>
 
-<% include ../partials/footer %>
+<script>
+    
+</script>

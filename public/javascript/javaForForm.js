@@ -44,9 +44,10 @@ function endTimeChangeChecking(){
         
         if (indexNum_of_start_time_value >= indexNum_of_user_chosen_value){
           alert("Your can't choose ending time which is before starting time!");
-          start_time_drop_down_list[i].value="8am";
+          end_time_drop_down_list[i].value="3am";
         }
     }
+    showPrice.value= "";
 }
 
 function addMoreForm(){

@@ -46,6 +46,7 @@ function endTimeChangeChecking(){
           start_time_drop_down_list[i].value="8am";
         }
     }
+    document.getElementById("showPrice").value="";
 }
 
 function addMoreForm(){

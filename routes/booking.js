@@ -88,7 +88,7 @@ router.delete("/:id", middleware.isLoggedIn, function(req, res){
       if(err){
           res.redirect("/bookings");
       } else {
-          res.redirect("/card");
+          res.redirect("/bookings");
       }
    });
 });
