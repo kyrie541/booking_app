@@ -2,37 +2,111 @@
 /*global end_time_drop_down_list*/
 /*global badminton_radio_button*/
 /*global futsal_radio_button*/
+/*global $ */
+/*global currentUserLocation*/
+
+//Pricing control
+var offPeak_futsal;
+var normal_futsal;
+var peak_futsal;
+var superPeak_futsal;
+
+var offPeak_badminton;
+var normal_badminton;
+var peak_badminton;
+var superPeak_badminton;
+var weekend_rate_badminton;
+
+var badminton_saturday_price_query_array;
+var badminton_sunday_price_query_array;
+var badminton_price_query_array;
+var futsal_price_query_array;
+
+console.log(currentUserLocation);
+//API call for pricing
+$(document).ready(function(){
+    $.getJSON("/api/pricings/location/"+currentUserLocation)
+    .then(setPrice);
+});
+
+function setPrice(price){
+    offPeak_futsal = price[0].offPeak_futsal;
+    normal_futsal = price[0].normal_futsal;
+    peak_futsal = price[0].peak_futsal;
+    superPeak_futsal = price[0].superPeak_futsal;
+    offPeak_badminton = price[0].offPeak_badminton;
+    normal_badminton = price[0].normal_badminton;
+    peak_badminton = price[0].peak_badminton;
+    superPeak_badminton = price[0].superPeak_badminton;
+    weekend_rate_badminton= price[0].weekend_rate_badminton;
+}
+
+setTimeout(function(){
+    badminton_saturday_price_query_array = [[weekend_rate_badminton, "8am-8.30am"],[weekend_rate_badminton, "8.30am-9am"],[weekend_rate_badminton, "9am-9.30am"],[weekend_rate_badminton, "9.30am-10am"],[weekend_rate_badminton, "10am-10.30am"],[weekend_rate_badminton, "10.30am-11am"],[weekend_rate_badminton, "11am-11.30am"],
+    [weekend_rate_badminton, "11.30am-12pm"],[weekend_rate_badminton, "12pm-12.30pm"],[weekend_rate_badminton,"12.30pm-1pm"],[weekend_rate_badminton,"1pm-1.30pm"],[weekend_rate_badminton,"1.30pm-2pm"],[weekend_rate_badminton, "2pm-2.30pm"],[weekend_rate_badminton,"2.30pm-3pm"],[weekend_rate_badminton,"3pm-3.30pm"],
+    [weekend_rate_badminton, "3.30pm-4pm"],[weekend_rate_badminton, "4pm-4.30pm"],[weekend_rate_badminton,"4.30pm-5pm"],[weekend_rate_badminton,"5pm-5.30pm"],[weekend_rate_badminton,"5.30pm-6pm"],[weekend_rate_badminton,"6pm-6.30pm"],[weekend_rate_badminton,"6.30pm-7pm"],[weekend_rate_badminton,"7pm-7.30pm"],
+    [weekend_rate_badminton,"7.30pm-8pm"],[weekend_rate_badminton,"8pm-8.30pm"],[weekend_rate_badminton,"8.30pm-9pm"],[weekend_rate_badminton,"9pm-9.30pm"],[weekend_rate_badminton,"9.30pm-10pm"],[weekend_rate_badminton,"10pm-10.30pm"],[weekend_rate_badminton,"10.30pm-11pm"],[weekend_rate_badminton,"11pm-11.30pm"]
+    ,[weekend_rate_badminton,"11.30pm-12am"],[weekend_rate_badminton,"12am-12.30am"],[weekend_rate_badminton,"12.30am-1am"],[weekend_rate_badminton,"1am-1.30am"],[weekend_rate_badminton,"1.30am-2am"],[weekend_rate_badminton,"2am-2.30am"],[weekend_rate_badminton,"2.30am-3am"]];
+    
+    badminton_sunday_price_query_array = [[weekend_rate_badminton, "8am-8.30am"],[weekend_rate_badminton, "8.30am-9am"],[weekend_rate_badminton, "9am-9.30am"],[weekend_rate_badminton, "9.30am-10am"],[weekend_rate_badminton, "10am-10.30am"],[weekend_rate_badminton, "10.30am-11am"],[weekend_rate_badminton, "11am-11.30am"],
+    [weekend_rate_badminton, "11.30am-12pm"],[weekend_rate_badminton, "12pm-12.30pm"],[weekend_rate_badminton,"12.30pm-1pm"],[weekend_rate_badminton,"1pm-1.30pm"],[weekend_rate_badminton,"1.30pm-2pm"],[weekend_rate_badminton, "2pm-2.30pm"],[weekend_rate_badminton,"2.30pm-3pm"],[weekend_rate_badminton,"3pm-3.30pm"],
+    [weekend_rate_badminton, "3.30pm-4pm"],[weekend_rate_badminton, "4pm-4.30pm"],[weekend_rate_badminton,"4.30pm-5pm"],[weekend_rate_badminton,"5pm-5.30pm"],[weekend_rate_badminton,"5.30pm-6pm"],[weekend_rate_badminton,"6pm-6.30pm"],[weekend_rate_badminton,"6.30pm-7pm"],[normal_badminton,"7pm-7.30pm"],
+    [normal_badminton,"7.30pm-8pm"],[normal_badminton,"8pm-8.30pm"],[normal_badminton,"8.30pm-9pm"],[normal_badminton,"9pm-9.30pm"],[normal_badminton,"9.30pm-10pm"],[normal_badminton,"10pm-10.30pm"],[normal_badminton,"10.30pm-11pm"],[normal_badminton,"11pm-11.30pm"]
+    ,[normal_badminton,"11.30pm-12am"],[normal_badminton,"12am-12.30am"],[normal_badminton,"12.30am-1am"],[normal_badminton,"1am-1.30am"],[normal_badminton,"1.30am-2am"],[normal_badminton,"2am-2.30am"],[normal_badminton,"2.30am-3am"]];
+    
+    badminton_price_query_array = [[offPeak_badminton, "8am-8.30am"],[offPeak_badminton, "8.30am-9am"],[offPeak_badminton, "9am-9.30am"],[offPeak_badminton, "9.30am-10am"],[normal_badminton, "10am-10.30am"],[normal_badminton, "10.30am-11am"],[normal_badminton, "11am-11.30am"],
+    [normal_badminton, "11.30am-12pm"],[offPeak_badminton, "12pm-12.30pm"],[offPeak_badminton,"12.30pm-1pm"],[offPeak_badminton,"1pm-1.30pm"],[offPeak_badminton,"1.30pm-2pm"],[normal_badminton, "2pm-2.30pm"],[normal_badminton,"2.30pm-3pm"],[normal_badminton,"3pm-3.30pm"],
+    [normal_badminton, "3.30pm-4pm"],[normal_badminton, "4pm-4.30pm"],[normal_badminton,"4.30pm-5pm"],[normal_badminton,"5pm-5.30pm"],[normal_badminton,"5.30pm-6pm"],[peak_badminton,"6pm-6.30pm"],[peak_badminton,"6.30pm-7pm"],[peak_badminton,"7pm-7.30pm"],
+    [peak_badminton,"7.30pm-8pm"],[peak_badminton,"8pm-8.30pm"],[superPeak_badminton,"8.30pm-9pm"],[superPeak_badminton,"9pm-9.30pm"],[superPeak_badminton,"9.30pm-10pm"],[superPeak_badminton,"10pm-10.30pm"],[superPeak_badminton,"10.30pm-11pm"],[peak_badminton,"11pm-11.30pm"]
+    ,[peak_badminton,"11.30pm-12am"],[peak_badminton,"12am-12.30am"],[peak_badminton,"12.30am-1am"],[normal_badminton,"1am-1.30am"],[normal_badminton,"1.30am-2am"],[normal_badminton,"2am-2.30am"],[normal_badminton,"2.30am-3am"]];
+    
+    futsal_price_query_array =[[offPeak_futsal, "8am-8.30am"],[offPeak_futsal, "8.30am-9am"],[offPeak_futsal, "9am-9.30am"],[offPeak_futsal, "9.30am-10am"],[normal_futsal, "10am-10.30am"],[normal_futsal, "10.30am-11am"],[normal_futsal, "11am-11.30am"],
+    [normal_futsal, "11.30am-12pm"],[offPeak_futsal, "12pm-12.30pm"],[offPeak_futsal,"12.30pm-1pm"],[offPeak_futsal,"1pm-1.30pm"],[offPeak_futsal,"1.30pm-2pm"],[normal_futsal, "2pm-2.30pm"],[normal_futsal,"2.30pm-3pm"],[normal_futsal,"3pm-3.30pm"],
+    [normal_futsal, "3.30pm-4pm"],[normal_futsal, "4pm-4.30pm"],[normal_futsal,"4.30pm-5pm"],[normal_futsal,"5pm-5.30pm"],[normal_futsal,"5.30pm-6pm"],[peak_futsal,"6pm-6.30pm"],[peak_futsal,"6.30pm-7pm"],[peak_futsal,"7pm-7.30pm"],
+    [peak_futsal,"7.30pm-8pm"],[peak_futsal,"8pm-8.30pm"],[peak_futsal,"8.30pm-9pm"],[superPeak_futsal,"9pm-9.30pm"],[superPeak_futsal,"9.30pm-10pm"],[superPeak_futsal,"10pm-10.30pm"],[superPeak_futsal,"10.30pm-11pm"],[superPeak_futsal,"11pm-11.30pm"]
+    ,[superPeak_futsal,"11.30pm-12am"],[superPeak_futsal,"12am-12.30am"],[superPeak_futsal,"12.30am-1am"], [peak_futsal, "1am-1.30am"],[peak_futsal, "1.30am-2am"],[peak_futsal, "2am-2.30am"],[peak_futsal, "2.30am-3am"]];   
+}, 2000);
+
+//Pricing Control Here
+// var offPeak_futsal = 15;
+// var normal_futsal = 25;
+// var peak_futsal = 40;
+// var superPeak_futsal = 50;
+
+// var offPeak_badminton = 5;
+// var normal_badminton = 6.5;
+// var peak_badminton = 10.5;
+// var superPeak_badminton = 11.5;
+// var weekend_rate_badminton= 9;
+
+// var badminton_saturday_price_query_array = [[weekend_rate_badminton, "8am-8.30am"],[weekend_rate_badminton, "8.30am-9am"],[weekend_rate_badminton, "9am-9.30am"],[weekend_rate_badminton, "9.30am-10am"],[weekend_rate_badminton, "10am-10.30am"],[weekend_rate_badminton, "10.30am-11am"],[weekend_rate_badminton, "11am-11.30am"],
+// [weekend_rate_badminton, "11.30am-12pm"],[weekend_rate_badminton, "12pm-12.30pm"],[weekend_rate_badminton,"12.30pm-1pm"],[weekend_rate_badminton,"1pm-1.30pm"],[weekend_rate_badminton,"1.30pm-2pm"],[weekend_rate_badminton, "2pm-2.30pm"],[weekend_rate_badminton,"2.30pm-3pm"],[weekend_rate_badminton,"3pm-3.30pm"],
+// [weekend_rate_badminton, "3.30pm-4pm"],[weekend_rate_badminton, "4pm-4.30pm"],[weekend_rate_badminton,"4.30pm-5pm"],[weekend_rate_badminton,"5pm-5.30pm"],[weekend_rate_badminton,"5.30pm-6pm"],[weekend_rate_badminton,"6pm-6.30pm"],[weekend_rate_badminton,"6.30pm-7pm"],[weekend_rate_badminton,"7pm-7.30pm"],
+// [weekend_rate_badminton,"7.30pm-8pm"],[weekend_rate_badminton,"8pm-8.30pm"],[weekend_rate_badminton,"8.30pm-9pm"],[weekend_rate_badminton,"9pm-9.30pm"],[weekend_rate_badminton,"9.30pm-10pm"],[weekend_rate_badminton,"10pm-10.30pm"],[weekend_rate_badminton,"10.30pm-11pm"],[weekend_rate_badminton,"11pm-11.30pm"]
+// ,[weekend_rate_badminton,"11.30pm-12am"],[weekend_rate_badminton,"12am-12.30am"],[weekend_rate_badminton,"12.30am-1am"],[weekend_rate_badminton,"1am-1.30am"],[weekend_rate_badminton,"1.30am-2am"],[weekend_rate_badminton,"2am-2.30am"],[weekend_rate_badminton,"2.30am-3am"]];
+
+// var badminton_sunday_price_query_array = [[weekend_rate_badminton, "8am-8.30am"],[weekend_rate_badminton, "8.30am-9am"],[weekend_rate_badminton, "9am-9.30am"],[weekend_rate_badminton, "9.30am-10am"],[weekend_rate_badminton, "10am-10.30am"],[weekend_rate_badminton, "10.30am-11am"],[weekend_rate_badminton, "11am-11.30am"],
+// [weekend_rate_badminton, "11.30am-12pm"],[weekend_rate_badminton, "12pm-12.30pm"],[weekend_rate_badminton,"12.30pm-1pm"],[weekend_rate_badminton,"1pm-1.30pm"],[weekend_rate_badminton,"1.30pm-2pm"],[weekend_rate_badminton, "2pm-2.30pm"],[weekend_rate_badminton,"2.30pm-3pm"],[weekend_rate_badminton,"3pm-3.30pm"],
+// [weekend_rate_badminton, "3.30pm-4pm"],[weekend_rate_badminton, "4pm-4.30pm"],[weekend_rate_badminton,"4.30pm-5pm"],[weekend_rate_badminton,"5pm-5.30pm"],[weekend_rate_badminton,"5.30pm-6pm"],[weekend_rate_badminton,"6pm-6.30pm"],[weekend_rate_badminton,"6.30pm-7pm"],[normal_badminton,"7pm-7.30pm"],
+// [normal_badminton,"7.30pm-8pm"],[normal_badminton,"8pm-8.30pm"],[normal_badminton,"8.30pm-9pm"],[normal_badminton,"9pm-9.30pm"],[normal_badminton,"9.30pm-10pm"],[normal_badminton,"10pm-10.30pm"],[normal_badminton,"10.30pm-11pm"],[normal_badminton,"11pm-11.30pm"]
+// ,[normal_badminton,"11.30pm-12am"],[normal_badminton,"12am-12.30am"],[normal_badminton,"12.30am-1am"],[normal_badminton,"1am-1.30am"],[normal_badminton,"1.30am-2am"],[normal_badminton,"2am-2.30am"],[normal_badminton,"2.30am-3am"]];
+
+// var badminton_price_query_array = [[offPeak_badminton, "8am-8.30am"],[offPeak_badminton, "8.30am-9am"],[offPeak_badminton, "9am-9.30am"],[offPeak_badminton, "9.30am-10am"],[normal_badminton, "10am-10.30am"],[normal_badminton, "10.30am-11am"],[normal_badminton, "11am-11.30am"],
+// [normal_badminton, "11.30am-12pm"],[offPeak_badminton, "12pm-12.30pm"],[offPeak_badminton,"12.30pm-1pm"],[offPeak_badminton,"1pm-1.30pm"],[offPeak_badminton,"1.30pm-2pm"],[normal_badminton, "2pm-2.30pm"],[normal_badminton,"2.30pm-3pm"],[normal_badminton,"3pm-3.30pm"],
+// [normal_badminton, "3.30pm-4pm"],[normal_badminton, "4pm-4.30pm"],[normal_badminton,"4.30pm-5pm"],[normal_badminton,"5pm-5.30pm"],[normal_badminton,"5.30pm-6pm"],[peak_badminton,"6pm-6.30pm"],[peak_badminton,"6.30pm-7pm"],[peak_badminton,"7pm-7.30pm"],
+// [peak_badminton,"7.30pm-8pm"],[peak_badminton,"8pm-8.30pm"],[superPeak_badminton,"8.30pm-9pm"],[superPeak_badminton,"9pm-9.30pm"],[superPeak_badminton,"9.30pm-10pm"],[superPeak_badminton,"10pm-10.30pm"],[superPeak_badminton,"10.30pm-11pm"],[peak_badminton,"11pm-11.30pm"]
+// ,[peak_badminton,"11.30pm-12am"],[peak_badminton,"12am-12.30am"],[peak_badminton,"12.30am-1am"],[normal_badminton,"1am-1.30am"],[normal_badminton,"1.30am-2am"],[normal_badminton,"2am-2.30am"],[normal_badminton,"2.30am-3am"]];
+
+// var futsal_price_query_array =[[offPeak_futsal, "8am-8.30am"],[offPeak_futsal, "8.30am-9am"],[offPeak_futsal, "9am-9.30am"],[offPeak_futsal, "9.30am-10am"],[normal_futsal, "10am-10.30am"],[normal_futsal, "10.30am-11am"],[normal_futsal, "11am-11.30am"],
+// [normal_futsal, "11.30am-12pm"],[offPeak_futsal, "12pm-12.30pm"],[offPeak_futsal,"12.30pm-1pm"],[offPeak_futsal,"1pm-1.30pm"],[offPeak_futsal,"1.30pm-2pm"],[normal_futsal, "2pm-2.30pm"],[normal_futsal,"2.30pm-3pm"],[normal_futsal,"3pm-3.30pm"],
+// [normal_futsal, "3.30pm-4pm"],[normal_futsal, "4pm-4.30pm"],[normal_futsal,"4.30pm-5pm"],[normal_futsal,"5pm-5.30pm"],[normal_futsal,"5.30pm-6pm"],[peak_futsal,"6pm-6.30pm"],[peak_futsal,"6.30pm-7pm"],[peak_futsal,"7pm-7.30pm"],
+// [peak_futsal,"7.30pm-8pm"],[peak_futsal,"8pm-8.30pm"],[peak_futsal,"8.30pm-9pm"],[superPeak_futsal,"9pm-9.30pm"],[superPeak_futsal,"9.30pm-10pm"],[superPeak_futsal,"10pm-10.30pm"],[superPeak_futsal,"10.30pm-11pm"],[superPeak_futsal,"11pm-11.30pm"]
+// ,[superPeak_futsal,"11.30pm-12am"],[superPeak_futsal,"12am-12.30am"],[superPeak_futsal,"12.30am-1am"], [peak_futsal, "1am-1.30am"],[peak_futsal, "1.30am-2am"],[peak_futsal, "2am-2.30am"],[peak_futsal, "2.30am-3am"]];
+
+/////////////////
+
 
 var all_timing = ["8am", "8.30am","9am","9.30am", "10am", "10.30am", "11am", "11.30am", "12pm", "12.30pm", "1pm", "1.30pm", "2pm", "2.30pm", "3pm", "3.30pm", "4pm", "4.30pm", "5pm", "5.30pm", "6pm", "6.30pm", "7pm", "7.30pm", "8pm", "8.30pm", "9pm", "9.30pm", "10pm", "10.30pm", "11pm", "11.30pm", "12am", "12.30am", "1am", "1.30am", "2am", "2.30am", "3am"];
-
-var offPeak = 15;
-var normal = 25;
-var peak = 40;
-var superPeak = 50;
-
-var badminton_saturday_price_query_array = [[9, "8am-8.30am"],[9, "8.30am-9am"],[9, "9am-9.30am"],[9, "9.30am-10am"],[9, "10am-10.30am"],[9, "10.30am-11am"],[9, "11am-11.30am"],
-[9, "11.30am-12pm"],[9, "12pm-12.30pm"],[9,"12.30pm-1pm"],[9,"1pm-1.30pm"],[9,"1.30pm-2pm"],[9, "2pm-2.30pm"],[9,"2.30pm-3pm"],[9,"3pm-3.30pm"],
-[9, "3.30pm-4pm"],[9, "4pm-4.30pm"],[9,"4.30pm-5pm"],[9,"5pm-5.30pm"],[9,"5.30pm-6pm"],[9,"6pm-6.30pm"],[9,"6.30pm-7pm"],[9,"7pm-7.30pm"],
-[9,"7.30pm-8pm"],[9,"8pm-8.30pm"],[9,"8.30pm-9pm"],[9,"9pm-9.30pm"],[9,"9.30pm-10pm"],[9,"10pm-10.30pm"],[9,"10.30pm-11pm"],[9,"11pm-11.30pm"]
-,[9,"11.30pm-12am"],[9,"12am-12.30am"],[9,"12.30am-1am"],[9,"1am-1.30am"],[9,"1.30am-2am"],[9,"2am-2.30am"],[9,"2.30am-3am"]];
-
-var badminton_sunday_price_query_array = [[9, "8am-8.30am"],[9, "8.30am-9am"],[9, "9am-9.30am"],[9, "9.30am-10am"],[9, "10am-10.30am"],[9, "10.30am-11am"],[9, "11am-11.30am"],
-[9, "11.30am-12pm"],[9, "12pm-12.30pm"],[9,"12.30pm-1pm"],[9,"1pm-1.30pm"],[9,"1.30pm-2pm"],[9, "2pm-2.30pm"],[9,"2.30pm-3pm"],[9,"3pm-3.30pm"],
-[9, "3.30pm-4pm"],[9, "4pm-4.30pm"],[9,"4.30pm-5pm"],[9,"5pm-5.30pm"],[9,"5.30pm-6pm"],[9,"6pm-6.30pm"],[9,"6.30pm-7pm"],[6.5,"7pm-7.30pm"],
-[6.5,"7.30pm-8pm"],[6.5,"8pm-8.30pm"],[6.5,"8.30pm-9pm"],[6.5,"9pm-9.30pm"],[6.5,"9.30pm-10pm"],[6.5,"10pm-10.30pm"],[6.5,"10.30pm-11pm"],[6.5,"11pm-11.30pm"]
-,[6.5,"11.30pm-12am"],[6.5,"12am-12.30am"],[6.5,"12.30am-1am"],[6.5,"1am-1.30am"],[6.5,"1.30am-2am"],[6.5,"2am-2.30am"],[6.5,"2.30am-3am"]];
-
-var badminton_price_query_array = [[5, "8am-8.30am"],[5, "8.30am-9am"],[5, "9am-9.30am"],[5, "9.30am-10am"],[6.5, "10am-10.30am"],[6.5, "10.30am-11am"],[6.5, "11am-11.30am"],
-[6.5, "11.30am-12pm"],[5, "12pm-12.30pm"],[5,"12.30pm-1pm"],[5,"1pm-1.30pm"],[5,"1.30pm-2pm"],[6.5, "2pm-2.30pm"],[6.5,"2.30pm-3pm"],[6.5,"3pm-3.30pm"],
-[6.5, "3.30pm-4pm"],[6.5, "4pm-4.30pm"],[6.5,"4.30pm-5pm"],[6.5,"5pm-5.30pm"],[6.5,"5.30pm-6pm"],[10.5,"6pm-6.30pm"],[10.5,"6.30pm-7pm"],[10.5,"7pm-7.30pm"],
-[10.5,"7.30pm-8pm"],[10.5,"8pm-8.30pm"],[11.5,"8.30pm-9pm"],[11.5,"9pm-9.30pm"],[11.5,"9.30pm-10pm"],[11.5,"10pm-10.30pm"],[11.5,"10.30pm-11pm"],[10.5,"11pm-11.30pm"]
-,[10.5,"11.30pm-12am"],[10.5,"12am-12.30am"],[10.5,"12.30am-1am"],[6.5,"1am-1.30am"],[6.5,"1.30am-2am"],[6.5,"2am-2.30am"],[6.5,"2.30am-3am"]];
-
-var futsal_price_query_array =[[offPeak, "8am-8.30am"],[offPeak, "8.30am-9am"],[offPeak, "9am-9.30am"],[offPeak, "9.30am-10am"],[normal, "10am-10.30am"],[normal, "10.30am-11am"],[normal, "11am-11.30am"],
-[normal, "11.30am-12pm"],[offPeak, "12pm-12.30pm"],[offPeak,"12.30pm-1pm"],[offPeak,"1pm-1.30pm"],[offPeak,"1.30pm-2pm"],[normal, "2pm-2.30pm"],[normal,"2.30pm-3pm"],[normal,"3pm-3.30pm"],
-[normal, "3.30pm-4pm"],[normal, "4pm-4.30pm"],[normal,"4.30pm-5pm"],[normal,"5pm-5.30pm"],[normal,"5.30pm-6pm"],[peak,"6pm-6.30pm"],[peak,"6.30pm-7pm"],[peak,"7pm-7.30pm"],
-[peak,"7.30pm-8pm"],[peak,"8pm-8.30pm"],[peak,"8.30pm-9pm"],[superPeak,"9pm-9.30pm"],[superPeak,"9.30pm-10pm"],[superPeak,"10pm-10.30pm"],[superPeak,"10.30pm-11pm"],[superPeak,"11pm-11.30pm"]
-,[superPeak,"11.30pm-12am"],[superPeak,"12am-12.30am"],[superPeak,"12.30am-1am"], [peak, "1am-1.30am"],[peak, "1.30am-2am"],[peak, "2am-2.30am"],[peak, "2.30am-3am"]];
 
 var showPrice = document.getElementById("showPrice");
 

@@ -3,6 +3,7 @@ var Booking = require("./models/booking");
 
 var data = [
     {
+        location:"SABS",
         type:"badminton",
         date: getTodayDate(),
         startTime: "8am,4pm,8pm",
@@ -14,6 +15,7 @@ var data = [
         courtNum: "P1,P5,P6"
     },
     {
+        location:"SABS",
         type:"badminton",
         date: getTodayDate(),
         startTime: "9am,10pm",
@@ -25,6 +27,7 @@ var data = [
         courtNum: "P2,B6"
     },
     {
+        location:"SABS",
         type:"badminton",
         date: getTodayDate(),
         startTime: "10am,9.30pm",
@@ -36,6 +39,7 @@ var data = [
         courtNum: "P3,P6"
     },
     {
+        location:"SABS",
         type:"badminton",
         date: getTodayDate(),
         startTime: "12pm",
@@ -47,6 +51,7 @@ var data = [
         courtNum: "P4"
     },
     {
+        location:"SABS",
         type:"badminton",
         date: getTodayDate(),
         startTime: "3pm",
@@ -58,6 +63,7 @@ var data = [
         courtNum: "B8"
     },
     {
+        location:"SABS",
         type:"badminton",
         date: getTodayDate(),
         startTime: "3pm,1.30pm",
@@ -69,6 +75,7 @@ var data = [
         courtNum: "P1,P1"
     },
     {
+        location:"SABS",
         type:"badminton",
         date: getTodayDate(),
         startTime: "11pm,6pm",
@@ -80,6 +87,7 @@ var data = [
         courtNum: "P1,B1"
     },
     {
+        location:"SABS",
         type:"badminton",
         date: getTodayDate(),
         startTime: "10am,6pm",
@@ -91,6 +99,7 @@ var data = [
         courtNum: "P1,P6"
     },
     {
+        location:"SAMC",
         type:"futsal",
         date: getTodayDate(),
         startTime: "9pm,4pm",
@@ -102,6 +111,7 @@ var data = [
         courtNum: "R1,R4"
     },    
     {
+        location:"SAMC",
         type:"futsal",
         date: getTodayDate(),
         startTime: "5pm",
@@ -113,6 +123,7 @@ var data = [
         courtNum: "R2"
     },
     {
+        location:"SAMC",
         type:"futsal",
         date: getTodayDate(),
         startTime: "6pm,5pm",

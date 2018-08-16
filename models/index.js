@@ -6,3 +6,4 @@ mongoose.connect(url);
 mongoose.Promise= Promise;
 
 module.exports.Booking = require("./booking");
+module.exports.Pricing = require("./pricing");

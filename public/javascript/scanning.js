@@ -93,6 +93,8 @@ function changeNewForm(haha){
                     td4[i4].style.backgroundColor="white";
                 }
                 if(td4[i4].style.backgroundColor=="white"){
+                    td4[i4].onmouseover = function() {mouseOver(this)};
+                    td4[i4].onmouseout = function() {mouseOut(this)};
                     td4[i4].onclick = function() {changeNewForm(this)};
                 }
                 

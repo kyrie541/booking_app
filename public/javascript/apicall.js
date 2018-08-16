@@ -1,6 +1,7 @@
 /* global $ */
 /* global showBookings */
 /* global getTodayDate */
+/* global currentUserLocation */
 
 function postRequest(){
     //   booking date
@@ -56,8 +57,11 @@ function postRequest(){
     
     //   payment
     var price = document.getElementById("showPrice").value;
-    
+    var location = currentUserLocation;
+    console.log(currentUserLocation);
+
     $.post('/api/bookings',{
+       location: location,
        type: type,
        date: date, 
        startTime: startTime,

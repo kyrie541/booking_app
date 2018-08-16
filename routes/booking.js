@@ -23,6 +23,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 router.post("/", middleware.isLoggedIn, function(req, res){
 
     // get data from form and add to database
+    var location = req.user.location;
     var type = req.body.type;
     var courtNum = req.body.courtNum;
     var startTime = req.body.startTime;
@@ -32,7 +33,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     var status = req.body.status;
     var price = req.body.price;
     var date = req.body.date;
-    var newBooking = {price: price, type: type, courtNum: courtNum, date: date, startTime: startTime, endTime: endTime, name: name, phNumber: phNumber, status: status};
+    var newBooking = {price: price, type: type, courtNum: courtNum, date: date, startTime: startTime, endTime: endTime, name: name, phNumber: phNumber, status: status, location: location};
     // Create a new booking and save to DB
     Booking.create(newBooking, function(err, newlyCreated){
         if(err){
