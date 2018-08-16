@@ -1,43 +1,24 @@
 <div class="card">
     <div class="card-body">
-      <h2 class="card-title"><%= booking.name %>'s Booking</h2>
-      <p class="card-text">Contact Number: <%= booking.phNumber %></p>
-      <p class="card-text">Total Court: <%= booking.courtNum.split(",").length %></p>
+      <h2 class="card-title">'s Booking</h2>
+      <p class="card-text">Contact Number: </p>
+      <p class="card-text">Total Court:</p>
       
       <table>
           <tr>
             <th>Court Number</th>
             <th>Booking Time</th>
           </tr>
-          
-          <% for(var i=0; i<booking.courtNum.split(",").length; i++){ %>
-          <tr>
-            <td><%= booking.courtNum.split(",")[i] %></td>
-            <td><%= booking.startTime.split(",")[i] %> to <%= booking.endTime.split(",")[i] %></td>
-          </tr>
-          <% } %>
+          <tbody id="tbody">
+          </tbody>
+
       </table>
       <br>
-      <p class="card-text">Total Payment: RM <%= booking.price %></p>
-      
-      <% if(booking.status==1){ %>
-        <p class="card-text" style="background-color:chartreuse;"><small class="text-muted">Status: Paid</small></p>
-      <% }else if (booking.status==2) {  %>
-        <p class="card-text" style="background-color:#feb694;"><small class="text-muted">Status: Not Paid Yet</small></p>
-      <% }else if (booking.status==3) { %>
-        <p class="card-text" style="background-color:powderblue;"><small class="text-muted">Status: Advance Payment</small></p>
-      <% } %>
-      
-      <a href="/bookings/<%= booking._id %>/edit" class="card-link">Edit</a>
-      <form id="delete_form" action="/bookings/<%= booking._id %>?_method=DELETE" method="POST">
-           <button>Delete</button>
-      </form>
+      <p class="card-text">Total Payment: RM</p>
+  
+       <div id="status_show_box"></div> 
+    <br>
+    <a class="card-link btn btn-warning">Edit</a>
+    <button class="card-link btn btn-danger" onclick="deleteRequest()">Delete</button>
     </div>
 </div>
-
-<a href="/bookings">Back to Table View</a>
-<a href="/cards/badmintoncard">Back to Card View</a>
-
-<script>
-    
-</script>

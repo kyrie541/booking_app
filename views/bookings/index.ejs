@@ -14,9 +14,15 @@
     top: 1px;
   
 }
-    
+#bookNowButton{
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1;
+  visibility: hidden;
+}
 </style>
-
+<button id="bookNowButton" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter2">Book Now!</button>
 <!--<button onclick="detection()">Which Court to switch on or off?</button>-->
 
 <% include ./modal %> 
@@ -33,7 +39,8 @@
 <input type="text" id="show_date" readonly>
 <button onclick="request()" class="btn btn-info">Check</button>
 <hr>
-<div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel" data-interval=false>
+
+<div id="carouselExampleFade" class="carousel slide" data-ride="carousel" data-interval=false>
       <!-- Carousel Buttons Next/Prev -->
     <div>
       <a data-slide="prev" href="#carouselExampleFade" class="left carousel-control btn btn-warning">Previous</a>
@@ -52,6 +59,8 @@
   </div>
 </div>
 
+
+<hr>
 <a href="/cards/badmintoncard">Card View</a><br>
 
 <!--calendar code here-->
@@ -86,5 +95,6 @@
 <script type="text/javascript" src="/javascript/detection.js"></script>
 <script type="text/javascript" src="/javascript/query.js"></script>
 <script type="text/javascript" src="/javascript/apicall.js"></script>
+<script type="text/javascript" src="/javascript/functionality.js"></script>
 
 <% include ../partials/footer %> 

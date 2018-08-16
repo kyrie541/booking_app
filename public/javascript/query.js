@@ -12,10 +12,4 @@ function request(){
     .then(showBookings);
 }
 
-// show all
-function showBookingsByDate(bookings){
-    bookings.forEach(function(booking){
-        console.log(booking.courtNum);
-    });
-}
 

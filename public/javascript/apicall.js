@@ -81,6 +81,7 @@ function refreshTable(){
     document.getElementById("phNumber_of_customer").value="";
     document.getElementsByClassName("end_time_drop_down_list")[0].value="3am";
     document.getElementById("close_form").click();
+    document.getElementById("close_form2").click();
     
     
     $.getJSON("/api/bookings/date/"+getTodayDate())
@@ -92,11 +93,67 @@ function show_request(haha){
     var all_class = haha.className;
     var n = all_class.lastIndexOf('_');
     var id_number = all_class.substring(n + 1);
-    console.log(id_number);
-    document.getElementById("solo_show_box").innerHTML= id_number;
-    
-    
-//     var str = "foo/bar/test.html";
-// var n = str.lastIndexOf('/');
-// var result = str.substring(n + 1);
+    document.getElementById("solo_show_box").innerHTML = id_number;
+    $.getJSON("/api/bookings/"+id_number)
+    .then(showBooking);
 }
+
+function showBooking(booking){
+    
+    
+    document.getElementsByClassName("card-title")[0].innerHTML=booking.name+"'s Booking";
+    document.getElementsByClassName("card-text")[0].innerHTML= "Contact Number: "+booking.phNumber;
+    document.getElementsByClassName("card-text")[1].innerHTML= "Total Court: "+booking.courtNum.split(",").length;
+    document.getElementsByClassName("card-text")[2].innerHTML= "Total Payment: RM "+booking.price;
+    var status_show_box = document.getElementById("status_show_box");
+    if(booking.status==1){
+        status_show_box.innerHTML = '<p class="card-text" style="background-color:chartreuse;"><small class="text-muted">Status: Paid</small></p>';
+    }else if(booking.status==2){
+        status_show_box.innerHTML = '<p class="card-text" style="background-color:#feb694;"><small class="text-muted">Status: Not Paid Yet</small></p>';
+    }else if(booking.status==3){
+        status_show_box.innerHTML = '<p class="card-text" style="background-color:powderblue;"><small class="text-muted">Status: Advance Payment</small></p>';
+    }
+    
+    var tbody = document.getElementById("tbody");
+    // for (var i2=0; i2<tbody.childNodes.length; i2++){
+    //     tbody.removeChild(tbody.childNodes[0]);
+    // }
+    while (tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
+    }
+    
+    for(var i=0; i<booking.courtNum.split(",").length; i++){
+        var tr = document.createElement("tr");
+        var td1 = document.createElement("td");
+        var td2 = document.createElement("td");
+        var textnode1 = document.createTextNode(booking.courtNum.split(",")[i]);
+        
+        var start_end_time_text = booking.startTime.split(",")[i]+" to "+booking.endTime.split(",")[i];
+        var textnode2 = document.createTextNode(start_end_time_text);
+        td1.appendChild(textnode1);
+        td2.appendChild(textnode2);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tbody.appendChild(tr);
+        
+    }
+
+    document.getElementsByClassName("card-link")[0].setAttribute("href", "/bookings/"+ booking._id +"/edit");
+
+}
+
+function deleteRequest(){
+    var id_number = document.getElementById("solo_show_box").innerHTML;
+    var deleteUrl = '/api/bookings/' + id_number;
+    $.ajax({
+        method: 'DELETE',
+        url: deleteUrl
+    })
+    .then(refreshTable)
+    .catch(function(err){
+        console.log(err);
+    });
+
+}
+
+
