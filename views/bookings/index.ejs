@@ -7,7 +7,12 @@
 
 
 <style>
-.white {color:white;}
+.white {
+  color:white; 
+  height:100px; 
+  padding:0px;
+  margin:0px;
+}
 .right {    
     position: absolute;
     right: 1px;
@@ -22,7 +27,7 @@
   visibility: hidden;
 }
 </style>
-<button id="bookNowButton" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter2">Book Now!</button>
+<button id="bookNowButton" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#exampleModalCenter2">Book 30 minutes</button>
 <!--<button onclick="detection()">Which Court to switch on or off?</button>-->
 
 <% include ./modal %> 

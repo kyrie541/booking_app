@@ -1,6 +1,8 @@
 /* global $ */
 /* global badmintonOption */
 /* global futsalOption  */
+/* global counter */
+/* global deleteForm */
 
 $(document).ready(function(){
     $.getJSON("/api/bookings/date/"+getTodayDate())
@@ -29,6 +31,8 @@ function hoverOverEffect(){
 
             xb[ijkl].onclick = function() {changeNewForm(this)};
 
+        }else{
+            xb[ijkl].onclick = function() {};
         }
     }
 }
@@ -36,6 +40,8 @@ function hoverOverEffect(){
 
 
 function changeNewForm(haha){
+    var startEndTimeArray=[];
+    
     if(haha.style.backgroundColor == "rgb(112, 128, 144)"){
         haha.style.backgroundColor ="white";
         haha.onmouseover = function() {mouseOver(this)};
@@ -57,6 +63,8 @@ function changeNewForm(haha){
         }
     }else{
         haha.style.backgroundColor = "#708090";
+        document.getElementById("name_of_customer").value= "";
+        document.getElementById("phNumber_of_customer").value= "";
         var parentOfRow_innerHTML=haha.parentElement.childNodes[1].innerHTML;
         var td2 = document.getElementsByClassName("white");
         var colorArray=[];
@@ -69,8 +77,17 @@ function changeNewForm(haha){
             }
         }
         if (colorArray.length==2){
+            var td5 = document.getElementsByClassName("white");
+            for(var i5=0; i5<td5.length; i5++){
+                if(td5[i5].style.backgroundColor=="rgb(112, 128, 144)"){
+                    startEndTimeArray.push(td5[i5].innerHTML);
+                }
+                
+            }            
+            
             document.getElementById("bookNowButton").click();
             var td4 = document.getElementsByClassName("white");
+            document.getElementById("bookNowButton").style.visibility = "hidden";
             for(var i4=0; i4<td4.length; i4++){
                 if(td4[i4].style.backgroundColor=="rgb(112, 128, 144)"){
                     td4[i4].style.backgroundColor="white";
@@ -82,16 +99,51 @@ function changeNewForm(haha){
             }
         }
     }
+    
+    //new form controller
+    if(startEndTimeArray!=0){
+        var allChosenTiming = startEndTimeArray[0].split("-");
+        var g= startEndTimeArray[1].split("-");
+        g.forEach(function(haha){
+            allChosenTiming.push(haha);
+        });
+    }
+    
+    //clear add more form
+    while (counter > 0) {
+        deleteForm(); 
+    }
+    
+    //control create and update button
+    document.getElementById("updateButton").style.visibility = "hidden";
+    document.getElementById("createButton").style.visibility = "visible";
+    
     //control date
     var show_date = document.getElementById("show_date");
     var show_date2 = document.getElementById("show_date2");
     show_date2.value=show_date.value ;
     
-    //control start time
-    var start_time_value = haha.innerHTML;
-    var text = start_time_value.substring(0, start_time_value.lastIndexOf('-'));
-    var start_time_dropDownList = document.getElementsByClassName("start_time_drop_down_list");
-    start_time_dropDownList[0].value=text;
+    if(allChosenTiming != undefined){
+        //control start time
+        var start_time_dropDownList = document.getElementsByClassName("start_time_drop_down_list");
+        start_time_dropDownList[0].value=allChosenTiming[0];
+        
+        //control end time
+        var end_time_dropDownList = document.getElementsByClassName("end_time_drop_down_list");
+        end_time_dropDownList[0].value=allChosenTiming[allChosenTiming.length-1];
+    }else{
+        var td6 = document.getElementsByClassName("white");
+        for(var i6=0; i6<td6.length; i6++){
+            if(td6[i6].style.backgroundColor=="rgb(112, 128, 144)"){
+                var startEndTime2=td6[i6].innerHTML; 
+            }
+        }
+        if(startEndTime2 != undefined){
+            document.getElementsByClassName("start_time_drop_down_list")[0].value=startEndTime2.split("-")[0];
+            document.getElementsByClassName("end_time_drop_down_list")[0].value=startEndTime2.split("-")[1];
+        }
+    }
+    
     
     //control sport category
     
@@ -270,7 +322,7 @@ var database_R1_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("R1")){
-        database_R1_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_R1_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -323,7 +375,7 @@ for(var i8=0; i8<database_R1_array.length; i8++){
     for(var i9=1; i9<database_R1_array[i8].length; i9++){
         for(var i10=1; i10<R1_row_of_first_table.children.length; i10++){
             if(database_R1_array[i8][i9]==R1_row_of_first_table.children[i10].innerHTML){
-                R1_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R1_array[i8][0].id+"' onclick='show_request(this)'>" + database_R1_array[i8][0].name + "</button><br>"+database_R1_array[i8][0].contactNum;
+                R1_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R1_array[i8][0].id+"' onclick='show_request(this)'>" + database_R1_array[i8][0].name + "</button><br>"+database_R1_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_R1_array[i8][0].contactNum.substring(8, 16); 
                 R1_row_of_first_table.children[i10].style.color = "black";
                 if(database_R1_array[i8][0].status==1){
                      R1_row_of_first_table.children[i10].style.background="chartreuse";
@@ -342,7 +394,7 @@ for(var i8=0; i8<database_R1_array.length; i8++){
     for(var i9=1; i9<database_R1_array[i8].length; i9++){
         for(var i10=1; i10<R1_row_of_second_table.children.length; i10++){
             if(database_R1_array[i8][i9]==R1_row_of_second_table.children[i10].innerHTML){
-                R1_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R1_array[i8][0].id+"' onclick='show_request(this)'>" + database_R1_array[i8][0].name + "</button><br>"+database_R1_array[i8][0].contactNum;
+                R1_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R1_array[i8][0].id+"' onclick='show_request(this)'>" + database_R1_array[i8][0].name + "</button><br>"+database_R1_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_R1_array[i8][0].contactNum.substring(8, 16);
                 R1_row_of_second_table.children[i10].style.color = "black";
                     if(database_R1_array[i8][0].status==1){
                          R1_row_of_second_table.children[i10].style.background="chartreuse";
@@ -361,7 +413,7 @@ for(var i8=0; i8<database_R1_array.length; i8++){
     for(var i9=1; i9<database_R1_array[i8].length; i9++){
         for(var i10=1; i10<R1_row_of_third_table.children.length; i10++){
             if(database_R1_array[i8][i9]==R1_row_of_third_table.children[i10].innerHTML){
-                R1_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R1_array[i8][0].id+"' onclick='show_request(this)'>" + database_R1_array[i8][0].name + "</button><br>"+database_R1_array[i8][0].contactNum;
+                R1_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R1_array[i8][0].id+"' onclick='show_request(this)'>" + database_R1_array[i8][0].name + "</button><br>"+database_R1_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_R1_array[i8][0].contactNum.substring(8, 16);
                 R1_row_of_third_table.children[i10].style.color = "black";    
                     if(database_R1_array[i8][0].status==1){
                          R1_row_of_third_table.children[i10].style.background="chartreuse";
@@ -386,7 +438,7 @@ var database_R2_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("R2")){
-        database_R2_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_R2_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -439,7 +491,7 @@ for(var i8=0; i8<database_R2_array.length; i8++){
     for(var i9=1; i9<database_R2_array[i8].length; i9++){
         for(var i10=1; i10<R2_row_of_first_table.children.length; i10++){
             if(database_R2_array[i8][i9]==R2_row_of_first_table.children[i10].innerHTML){
-                R2_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R2_array[i8][0].id+"' onclick='show_request(this)'>" + database_R2_array[i8][0].name + "</button><br>"+database_R2_array[i8][0].contactNum;
+                R2_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R2_array[i8][0].id+"' onclick='show_request(this)'>" + database_R2_array[i8][0].name + "</button><br>"+database_R2_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_R2_array[i8][0].contactNum.substring(8, 16);
                 R2_row_of_first_table.children[i10].style.color = "black";
                 if(database_R2_array[i8][0].status==1){
                      R2_row_of_first_table.children[i10].style.background="chartreuse";
@@ -458,7 +510,7 @@ for(var i8=0; i8<database_R2_array.length; i8++){
     for(var i9=1; i9<database_R2_array[i8].length; i9++){
         for(var i10=1; i10<R2_row_of_second_table.children.length; i10++){
             if(database_R2_array[i8][i9]==R2_row_of_second_table.children[i10].innerHTML){
-                R2_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R2_array[i8][0].id+"' onclick='show_request(this)'>" + database_R2_array[i8][0].name + "</button><br>"+database_R2_array[i8][0].contactNum;
+                R2_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R2_array[i8][0].id+"' onclick='show_request(this)'>" + database_R2_array[i8][0].name + "</button><br>"+database_R2_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_R2_array[i8][0].contactNum.substring(8, 16);
                 R2_row_of_second_table.children[i10].style.color = "black";
                     if(database_R2_array[i8][0].status==1){
                          R2_row_of_second_table.children[i10].style.background="chartreuse";
@@ -477,7 +529,7 @@ for(var i8=0; i8<database_R2_array.length; i8++){
     for(var i9=1; i9<database_R2_array[i8].length; i9++){
         for(var i10=1; i10<R2_row_of_third_table.children.length; i10++){
             if(database_R2_array[i8][i9]==R2_row_of_third_table.children[i10].innerHTML){
-                R2_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R2_array[i8][0].id+"' onclick='show_request(this)'>" + database_R2_array[i8][0].name + "</button><br>"+database_R2_array[i8][0].contactNum;
+                R2_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R2_array[i8][0].id+"' onclick='show_request(this)'>" + database_R2_array[i8][0].name + "</button><br>"+database_R2_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_R2_array[i8][0].contactNum.substring(8, 16);
                 R2_row_of_third_table.children[i10].style.color = "black";    
                     if(database_R2_array[i8][0].status==1){
                          R2_row_of_third_table.children[i10].style.background="chartreuse";
@@ -502,7 +554,7 @@ var database_R3_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("R3")){
-        database_R3_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_R3_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -555,7 +607,7 @@ for(var i8=0; i8<database_R3_array.length; i8++){
     for(var i9=1; i9<database_R3_array[i8].length; i9++){
         for(var i10=1; i10<R3_row_of_first_table.children.length; i10++){
             if(database_R3_array[i8][i9]==R3_row_of_first_table.children[i10].innerHTML){
-                R3_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R3_array[i8][0].id+"' onclick='show_request(this)'>" + database_R3_array[i8][0].name + "</button><br>"+database_R3_array[i8][0].contactNum;
+                R3_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R3_array[i8][0].id+"' onclick='show_request(this)'>" + database_R3_array[i8][0].name + "</button><br>"+database_R3_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_R3_array[i8][0].contactNum.substring(8, 16);
                 R3_row_of_first_table.children[i10].style.color = "black";
                 if(database_R3_array[i8][0].status==1){
                      R3_row_of_first_table.children[i10].style.background="chartreuse";
@@ -574,7 +626,7 @@ for(var i8=0; i8<database_R3_array.length; i8++){
     for(var i9=1; i9<database_R3_array[i8].length; i9++){
         for(var i10=1; i10<R3_row_of_second_table.children.length; i10++){
             if(database_R3_array[i8][i9]==R3_row_of_second_table.children[i10].innerHTML){
-                R3_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R3_array[i8][0].id+"' onclick='show_request(this)'>" + database_R3_array[i8][0].name + "</button><br>"+database_R3_array[i8][0].contactNum;
+                R3_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R3_array[i8][0].id+"' onclick='show_request(this)'>" + database_R3_array[i8][0].name + "</button><br>"+database_R3_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_R3_array[i8][0].contactNum.substring(8, 16);
                 R3_row_of_second_table.children[i10].style.color = "black";
                     if(database_R3_array[i8][0].status==1){
                          R3_row_of_second_table.children[i10].style.background="chartreuse";
@@ -593,7 +645,7 @@ for(var i8=0; i8<database_R3_array.length; i8++){
     for(var i9=1; i9<database_R3_array[i8].length; i9++){
         for(var i10=1; i10<R3_row_of_third_table.children.length; i10++){
             if(database_R3_array[i8][i9]==R3_row_of_third_table.children[i10].innerHTML){
-                R3_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R3_array[i8][0].id+"' onclick='show_request(this)'>" + database_R3_array[i8][0].name + "</button><br>"+database_R3_array[i8][0].contactNum;
+                R3_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R3_array[i8][0].id+"' onclick='show_request(this)'>" + database_R3_array[i8][0].name + "</button><br>"+database_R3_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_R3_array[i8][0].contactNum.substring(8, 16);
                 R3_row_of_third_table.children[i10].style.color = "black";    
                     if(database_R3_array[i8][0].status==1){
                          R3_row_of_third_table.children[i10].style.background="chartreuse";
@@ -618,7 +670,7 @@ var database_R4_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("R4")){
-        database_R4_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_R4_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -671,7 +723,7 @@ for(var i8=0; i8<database_R4_array.length; i8++){
     for(var i9=1; i9<database_R4_array[i8].length; i9++){
         for(var i10=1; i10<R4_row_of_first_table.children.length; i10++){
             if(database_R4_array[i8][i9]==R4_row_of_first_table.children[i10].innerHTML){
-                R4_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R4_array[i8][0].id+"' onclick='show_request(this)'>" + database_R4_array[i8][0].name + "</button><br>"+database_R4_array[i8][0].contactNum;
+                R4_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R4_array[i8][0].id+"' onclick='show_request(this)'>" + database_R4_array[i8][0].name + "</button><br>"+database_R4_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_R4_array[i8][0].contactNum.substring(8, 16);
                 R4_row_of_first_table.children[i10].style.color = "black";
                 if(database_R4_array[i8][0].status==1){
                      R4_row_of_first_table.children[i10].style.background="chartreuse";
@@ -690,7 +742,7 @@ for(var i8=0; i8<database_R4_array.length; i8++){
     for(var i9=1; i9<database_R4_array[i8].length; i9++){
         for(var i10=1; i10<R4_row_of_second_table.children.length; i10++){
             if(database_R4_array[i8][i9]==R4_row_of_second_table.children[i10].innerHTML){
-                R4_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R4_array[i8][0].id+"' onclick='show_request(this)'>" + database_R4_array[i8][0].name + "</button><br>"+database_R4_array[i8][0].contactNum;
+                R4_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R4_array[i8][0].id+"' onclick='show_request(this)'>" + database_R4_array[i8][0].name + "</button><br>"+database_R4_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_R4_array[i8][0].contactNum.substring(8, 16);
                 R4_row_of_second_table.children[i10].style.color = "black";
                     if(database_R4_array[i8][0].status==1){
                          R4_row_of_second_table.children[i10].style.background="chartreuse";
@@ -709,7 +761,7 @@ for(var i8=0; i8<database_R4_array.length; i8++){
     for(var i9=1; i9<database_R4_array[i8].length; i9++){
         for(var i10=1; i10<R4_row_of_third_table.children.length; i10++){
             if(database_R4_array[i8][i9]==R4_row_of_third_table.children[i10].innerHTML){
-                R4_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R4_array[i8][0].id+"' onclick='show_request(this)'>" + database_R4_array[i8][0].name + "</button><br>"+database_R4_array[i8][0].contactNum;
+                R4_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_R4_array[i8][0].id+"' onclick='show_request(this)'>" + database_R4_array[i8][0].name + "</button><br>"+database_R4_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_R4_array[i8][0].contactNum.substring(8, 16);
                 R4_row_of_third_table.children[i10].style.color = "black";    
                     if(database_R4_array[i8][0].status==1){
                          R4_row_of_third_table.children[i10].style.background="chartreuse";
@@ -734,7 +786,7 @@ var database_P1_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("P1")){
-        database_P1_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_P1_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -787,7 +839,7 @@ for(var i8=0; i8<database_P1_array.length; i8++){
     for(var i9=1; i9<database_P1_array[i8].length; i9++){
         for(var i10=1; i10<P1_row_of_first_table.children.length; i10++){
             if(database_P1_array[i8][i9]==P1_row_of_first_table.children[i10].innerHTML){
-                P1_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P1_array[i8][0].id+"' onclick='show_request(this)'>" + database_P1_array[i8][0].name + "</button><br>"+database_P1_array[i8][0].contactNum;
+                P1_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P1_array[i8][0].id+"' onclick='show_request(this)'>" + database_P1_array[i8][0].name + "</button><br>"+database_P1_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P1_array[i8][0].contactNum.substring(8, 16);
                 P1_row_of_first_table.children[i10].style.color = "black";
                 if(database_P1_array[i8][0].status==1){
                      P1_row_of_first_table.children[i10].style.background="chartreuse";
@@ -806,7 +858,7 @@ for(var i8=0; i8<database_P1_array.length; i8++){
     for(var i9=1; i9<database_P1_array[i8].length; i9++){
         for(var i10=1; i10<P1_row_of_second_table.children.length; i10++){
             if(database_P1_array[i8][i9]==P1_row_of_second_table.children[i10].innerHTML){
-                P1_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P1_array[i8][0].id+"' onclick='show_request(this)'>" + database_P1_array[i8][0].name + "</button><br>"+database_P1_array[i8][0].contactNum;
+                P1_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P1_array[i8][0].id+"' onclick='show_request(this)'>" + database_P1_array[i8][0].name + "</button><br>"+database_P1_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P1_array[i8][0].contactNum.substring(8, 16);
                 P1_row_of_second_table.children[i10].style.color = "black";
                     if(database_P1_array[i8][0].status==1){
                          P1_row_of_second_table.children[i10].style.background="chartreuse";
@@ -825,7 +877,7 @@ for(var i8=0; i8<database_P1_array.length; i8++){
     for(var i9=1; i9<database_P1_array[i8].length; i9++){
         for(var i10=1; i10<P1_row_of_third_table.children.length; i10++){
             if(database_P1_array[i8][i9]==P1_row_of_third_table.children[i10].innerHTML){
-                P1_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P1_array[i8][0].id+"' onclick='show_request(this)'>" + database_P1_array[i8][0].name + "</button><br>"+database_P1_array[i8][0].contactNum;
+                P1_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P1_array[i8][0].id+"' onclick='show_request(this)'>" + database_P1_array[i8][0].name + "</button><br>"+database_P1_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P1_array[i8][0].contactNum.substring(8, 16);
                 P1_row_of_third_table.children[i10].style.color = "black";    
                     if(database_P1_array[i8][0].status==1){
                          P1_row_of_third_table.children[i10].style.background="chartreuse";
@@ -850,7 +902,7 @@ var database_P2_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("P2")){
-        database_P2_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_P2_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -903,7 +955,7 @@ for(var i8=0; i8<database_P2_array.length; i8++){
     for(var i9=1; i9<database_P2_array[i8].length; i9++){
         for(var i10=1; i10<P2_row_of_first_table.children.length; i10++){
             if(database_P2_array[i8][i9]==P2_row_of_first_table.children[i10].innerHTML){
-                P2_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P2_array[i8][0].id+"' onclick='show_request(this)'>" + database_P2_array[i8][0].name + "</button><br>"+database_P2_array[i8][0].contactNum;
+                P2_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P2_array[i8][0].id+"' onclick='show_request(this)'>" + database_P2_array[i8][0].name + "</button><br>"+database_P2_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P2_array[i8][0].contactNum.substring(8, 16);
                 P2_row_of_first_table.children[i10].style.color = "black";
                 if(database_P2_array[i8][0].status==1){
                      P2_row_of_first_table.children[i10].style.background="chartreuse";
@@ -922,7 +974,7 @@ for(var i8=0; i8<database_P2_array.length; i8++){
     for(var i9=1; i9<database_P2_array[i8].length; i9++){
         for(var i10=1; i10<P2_row_of_second_table.children.length; i10++){
             if(database_P2_array[i8][i9]==P2_row_of_second_table.children[i10].innerHTML){
-                P2_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P2_array[i8][0].id+"' onclick='show_request(this)'>" + database_P2_array[i8][0].name + "</button><br>"+database_P2_array[i8][0].contactNum;
+                P2_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P2_array[i8][0].id+"' onclick='show_request(this)'>" + database_P2_array[i8][0].name + "</button><br>"+database_P2_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P2_array[i8][0].contactNum.substring(8, 16);
                 P2_row_of_second_table.children[i10].style.color = "black";
                     if(database_P2_array[i8][0].status==1){
                          P2_row_of_second_table.children[i10].style.background="chartreuse";
@@ -941,7 +993,7 @@ for(var i8=0; i8<database_P2_array.length; i8++){
     for(var i9=1; i9<database_P2_array[i8].length; i9++){
         for(var i10=1; i10<P2_row_of_third_table.children.length; i10++){
             if(database_P2_array[i8][i9]==P2_row_of_third_table.children[i10].innerHTML){
-                P2_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P2_array[i8][0].id+"' onclick='show_request(this)'>" + database_P2_array[i8][0].name + "</button><br>"+database_P2_array[i8][0].contactNum;
+                P2_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P2_array[i8][0].id+"' onclick='show_request(this)'>" + database_P2_array[i8][0].name + "</button><br>"+database_P2_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P2_array[i8][0].contactNum.substring(8, 16);
                 P2_row_of_third_table.children[i10].style.color = "black";    
                     if(database_P2_array[i8][0].status==1){
                          P2_row_of_third_table.children[i10].style.background="chartreuse";
@@ -966,7 +1018,7 @@ var database_P3_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("P3")){
-        database_P3_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_P3_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -1019,7 +1071,7 @@ for(var i8=0; i8<database_P3_array.length; i8++){
     for(var i9=1; i9<database_P3_array[i8].length; i9++){
         for(var i10=1; i10<P3_row_of_first_table.children.length; i10++){
             if(database_P3_array[i8][i9]==P3_row_of_first_table.children[i10].innerHTML){
-                P3_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P3_array[i8][0].id+"' onclick='show_request(this)'>" + database_P3_array[i8][0].name + "</button><br>"+database_P3_array[i8][0].contactNum;
+                P3_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P3_array[i8][0].id+"' onclick='show_request(this)'>" + database_P3_array[i8][0].name + "</button><br>"+database_P3_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P3_array[i8][0].contactNum.substring(8, 16);
                 P3_row_of_first_table.children[i10].style.color = "black";
                 if(database_P3_array[i8][0].status==1){
                      P3_row_of_first_table.children[i10].style.background="chartreuse";
@@ -1038,7 +1090,7 @@ for(var i8=0; i8<database_P3_array.length; i8++){
     for(var i9=1; i9<database_P3_array[i8].length; i9++){
         for(var i10=1; i10<P3_row_of_second_table.children.length; i10++){
             if(database_P3_array[i8][i9]==P3_row_of_second_table.children[i10].innerHTML){
-                P3_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P3_array[i8][0].id+"' onclick='show_request(this)'>" + database_P3_array[i8][0].name + "</button><br>"+database_P3_array[i8][0].contactNum;
+                P3_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P3_array[i8][0].id+"' onclick='show_request(this)'>" + database_P3_array[i8][0].name + "</button><br>"+database_P3_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P3_array[i8][0].contactNum.substring(8, 16);
                 P3_row_of_second_table.children[i10].style.color = "black";
                     if(database_P3_array[i8][0].status==1){
                          P3_row_of_second_table.children[i10].style.background="chartreuse";
@@ -1057,7 +1109,7 @@ for(var i8=0; i8<database_P3_array.length; i8++){
     for(var i9=1; i9<database_P3_array[i8].length; i9++){
         for(var i10=1; i10<P3_row_of_third_table.children.length; i10++){
             if(database_P3_array[i8][i9]==P3_row_of_third_table.children[i10].innerHTML){
-                P3_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P3_array[i8][0].id+"' onclick='show_request(this)'>" + database_P3_array[i8][0].name + "</button><br>"+database_P3_array[i8][0].contactNum;
+                P3_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P3_array[i8][0].id+"' onclick='show_request(this)'>" + database_P3_array[i8][0].name + "</button><br>"+database_P3_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P3_array[i8][0].contactNum.substring(8, 16);
                 P3_row_of_third_table.children[i10].style.color = "black";    
                     if(database_P3_array[i8][0].status==1){
                          P3_row_of_third_table.children[i10].style.background="chartreuse";
@@ -1082,7 +1134,7 @@ var database_P4_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("P4")){
-        database_P4_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_P4_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -1135,7 +1187,7 @@ for(var i8=0; i8<database_P4_array.length; i8++){
     for(var i9=1; i9<database_P4_array[i8].length; i9++){
         for(var i10=1; i10<P4_row_of_first_table.children.length; i10++){
             if(database_P4_array[i8][i9]==P4_row_of_first_table.children[i10].innerHTML){
-                P4_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P4_array[i8][0].id+"' onclick='show_request(this)'>" + database_P4_array[i8][0].name + "</button><br>"+database_P4_array[i8][0].contactNum;
+                P4_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P4_array[i8][0].id+"' onclick='show_request(this)'>" + database_P4_array[i8][0].name + "</button><br>"+database_P4_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P4_array[i8][0].contactNum.substring(8, 16);
                 P4_row_of_first_table.children[i10].style.color = "black";
                 if(database_P4_array[i8][0].status==1){
                      P4_row_of_first_table.children[i10].style.background="chartreuse";
@@ -1154,7 +1206,7 @@ for(var i8=0; i8<database_P4_array.length; i8++){
     for(var i9=1; i9<database_P4_array[i8].length; i9++){
         for(var i10=1; i10<P4_row_of_second_table.children.length; i10++){
             if(database_P4_array[i8][i9]==P4_row_of_second_table.children[i10].innerHTML){
-                P4_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P4_array[i8][0].id+"' onclick='show_request(this)'>" + database_P4_array[i8][0].name + "</button><br>"+database_P4_array[i8][0].contactNum;
+                P4_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P4_array[i8][0].id+"' onclick='show_request(this)'>" + database_P4_array[i8][0].name + "</button><br>"+database_P4_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P4_array[i8][0].contactNum.substring(8, 16);
                 P4_row_of_second_table.children[i10].style.color = "black";
                     if(database_P4_array[i8][0].status==1){
                          P4_row_of_second_table.children[i10].style.background="chartreuse";
@@ -1173,7 +1225,7 @@ for(var i8=0; i8<database_P4_array.length; i8++){
     for(var i9=1; i9<database_P4_array[i8].length; i9++){
         for(var i10=1; i10<P4_row_of_third_table.children.length; i10++){
             if(database_P4_array[i8][i9]==P4_row_of_third_table.children[i10].innerHTML){
-                P4_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P4_array[i8][0].id+"' onclick='show_request(this)'>" + database_P4_array[i8][0].name + "</button><br>"+database_P4_array[i8][0].contactNum;
+                P4_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P4_array[i8][0].id+"' onclick='show_request(this)'>" + database_P4_array[i8][0].name + "</button><br>"+database_P4_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P4_array[i8][0].contactNum.substring(8, 16);
                 P4_row_of_third_table.children[i10].style.color = "black";    
                     if(database_P4_array[i8][0].status==1){
                          P4_row_of_third_table.children[i10].style.background="chartreuse";
@@ -1198,7 +1250,7 @@ var database_P5_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("P5")){
-        database_P5_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_P5_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -1251,7 +1303,7 @@ for(var i8=0; i8<database_P5_array.length; i8++){
     for(var i9=1; i9<database_P5_array[i8].length; i9++){
         for(var i10=1; i10<P5_row_of_first_table.children.length; i10++){
             if(database_P5_array[i8][i9]==P5_row_of_first_table.children[i10].innerHTML){
-                P5_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P5_array[i8][0].id+"' onclick='show_request(this)'>" + database_P5_array[i8][0].name + "</button><br>"+database_P5_array[i8][0].contactNum;
+                P5_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P5_array[i8][0].id+"' onclick='show_request(this)'>" + database_P5_array[i8][0].name + "</button><br>"+database_P5_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P5_array[i8][0].contactNum.substring(8, 16);
                 P5_row_of_first_table.children[i10].style.color = "black";
                 if(database_P5_array[i8][0].status==1){
                      P5_row_of_first_table.children[i10].style.background="chartreuse";
@@ -1270,7 +1322,7 @@ for(var i8=0; i8<database_P5_array.length; i8++){
     for(var i9=1; i9<database_P5_array[i8].length; i9++){
         for(var i10=1; i10<P5_row_of_second_table.children.length; i10++){
             if(database_P5_array[i8][i9]==P5_row_of_second_table.children[i10].innerHTML){
-                P5_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P5_array[i8][0].id+"' onclick='show_request(this)'>" + database_P5_array[i8][0].name + "</button><br>"+database_P5_array[i8][0].contactNum;
+                P5_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P5_array[i8][0].id+"' onclick='show_request(this)'>" + database_P5_array[i8][0].name + "</button><br>"+database_P5_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P5_array[i8][0].contactNum.substring(8, 16);
                 P5_row_of_second_table.children[i10].style.color = "black";  
                     if(database_P5_array[i8][0].status==1){
                          P5_row_of_second_table.children[i10].style.background="chartreuse";
@@ -1289,7 +1341,7 @@ for(var i8=0; i8<database_P5_array.length; i8++){
     for(var i9=1; i9<database_P5_array[i8].length; i9++){
         for(var i10=1; i10<P5_row_of_third_table.children.length; i10++){
             if(database_P5_array[i8][i9]==P5_row_of_third_table.children[i10].innerHTML){
-                P5_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P5_array[i8][0].id+"' onclick='show_request(this)'>" + database_P5_array[i8][0].name + "</button><br>"+database_P5_array[i8][0].contactNum;
+                P5_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P5_array[i8][0].id+"' onclick='show_request(this)'>" + database_P5_array[i8][0].name + "</button><br>"+database_P5_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P5_array[i8][0].contactNum.substring(8, 16);
                 P5_row_of_third_table.children[i10].style.color = "black";    
                     if(database_P5_array[i8][0].status==1){
                          P5_row_of_third_table.children[i10].style.background="chartreuse";
@@ -1314,7 +1366,7 @@ var database_P6_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("P6")){
-        database_P6_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_P6_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -1367,7 +1419,7 @@ for(var i8=0; i8<database_P6_array.length; i8++){
     for(var i9=1; i9<database_P6_array[i8].length; i9++){
         for(var i10=1; i10<P6_row_of_first_table.children.length; i10++){
             if(database_P6_array[i8][i9]==P6_row_of_first_table.children[i10].innerHTML){
-                P6_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P6_array[i8][0].id+"' onclick='show_request(this)'>" + database_P6_array[i8][0].name + "</button><br>"+database_P6_array[i8][0].contactNum;
+                P6_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P6_array[i8][0].id+"' onclick='show_request(this)'>" + database_P6_array[i8][0].name + "</button><br>"+database_P6_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P6_array[i8][0].contactNum.substring(8, 16);
                 P6_row_of_first_table.children[i10].style.color = "black";
                 if(database_P6_array[i8][0].status==1){
                      P6_row_of_first_table.children[i10].style.background="chartreuse";
@@ -1386,7 +1438,7 @@ for(var i8=0; i8<database_P6_array.length; i8++){
     for(var i9=1; i9<database_P6_array[i8].length; i9++){
         for(var i10=1; i10<P6_row_of_second_table.children.length; i10++){
             if(database_P6_array[i8][i9]==P6_row_of_second_table.children[i10].innerHTML){
-                P6_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P6_array[i8][0].id+"' onclick='show_request(this)'>" + database_P6_array[i8][0].name + "</button><br>"+database_P6_array[i8][0].contactNum;
+                P6_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P6_array[i8][0].id+"' onclick='show_request(this)'>" + database_P6_array[i8][0].name + "</button><br>"+database_P6_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P6_array[i8][0].contactNum.substring(8, 16);
                 P6_row_of_second_table.children[i10].style.color = "black";
                     if(database_P6_array[i8][0].status==1){
                          P6_row_of_second_table.children[i10].style.background="chartreuse";
@@ -1405,7 +1457,7 @@ for(var i8=0; i8<database_P6_array.length; i8++){
     for(var i9=1; i9<database_P6_array[i8].length; i9++){
         for(var i10=1; i10<P6_row_of_third_table.children.length; i10++){
             if(database_P6_array[i8][i9]==P6_row_of_third_table.children[i10].innerHTML){
-                P6_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P6_array[i8][0].id+"' onclick='show_request(this)'>" + database_P6_array[i8][0].name + "</button><br>"+database_P6_array[i8][0].contactNum;
+                P6_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P6_array[i8][0].id+"' onclick='show_request(this)'>" + database_P6_array[i8][0].name + "</button><br>"+database_P6_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P6_array[i8][0].contactNum.substring(8, 16);
                 P6_row_of_third_table.children[i10].style.color = "black";    
                     if(database_P6_array[i8][0].status==1){
                          P6_row_of_third_table.children[i10].style.background="chartreuse";
@@ -1430,7 +1482,7 @@ var database_P7_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("P7")){
-        database_P7_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_P7_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -1483,7 +1535,7 @@ for(var i8=0; i8<database_P7_array.length; i8++){
     for(var i9=1; i9<database_P7_array[i8].length; i9++){
         for(var i10=1; i10<P7_row_of_first_table.children.length; i10++){
             if(database_P7_array[i8][i9]==P7_row_of_first_table.children[i10].innerHTML){
-                P7_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P7_array[i8][0].id+"' onclick='show_request(this)'>" + database_P7_array[i8][0].name + "</button><br>"+database_P7_array[i8][0].contactNum;
+                P7_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P7_array[i8][0].id+"' onclick='show_request(this)'>" + database_P7_array[i8][0].name + "</button><br>"+database_P7_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P7_array[i8][0].contactNum.substring(8, 16);
                 P7_row_of_first_table.children[i10].style.color = "black";
                 if(database_P7_array[i8][0].status==1){
                      P7_row_of_first_table.children[i10].style.background="chartreuse";
@@ -1502,7 +1554,7 @@ for(var i8=0; i8<database_P7_array.length; i8++){
     for(var i9=1; i9<database_P7_array[i8].length; i9++){
         for(var i10=1; i10<P7_row_of_second_table.children.length; i10++){
             if(database_P7_array[i8][i9]==P7_row_of_second_table.children[i10].innerHTML){
-                P7_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P7_array[i8][0].id+"' onclick='show_request(this)'>" + database_P7_array[i8][0].name + "</button><br>"+database_P7_array[i8][0].contactNum;
+                P7_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P7_array[i8][0].id+"' onclick='show_request(this)'>" + database_P7_array[i8][0].name + "</button><br>"+database_P7_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P7_array[i8][0].contactNum.substring(8, 16);
                 P7_row_of_second_table.children[i10].style.color = "black";
                     if(database_P7_array[i8][0].status==1){
                          P7_row_of_second_table.children[i10].style.background="chartreuse";
@@ -1521,7 +1573,7 @@ for(var i8=0; i8<database_P7_array.length; i8++){
     for(var i9=1; i9<database_P7_array[i8].length; i9++){
         for(var i10=1; i10<P7_row_of_third_table.children.length; i10++){
             if(database_P7_array[i8][i9]==P7_row_of_third_table.children[i10].innerHTML){
-                P7_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P7_array[i8][0].id+"' onclick='show_request(this)'>" + database_P7_array[i8][0].name + "</button><br>"+database_P7_array[i8][0].contactNum;
+                P7_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P7_array[i8][0].id+"' onclick='show_request(this)'>" + database_P7_array[i8][0].name + "</button><br>"+database_P7_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P7_array[i8][0].contactNum.substring(8, 16);
                 P7_row_of_third_table.children[i10].style.color = "black";    
                     if(database_P7_array[i8][0].status==1){
                          P7_row_of_third_table.children[i10].style.background="chartreuse";
@@ -1546,7 +1598,7 @@ var database_P8_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("P8")){
-        database_P8_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_P8_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -1599,7 +1651,7 @@ for(var i8=0; i8<database_P8_array.length; i8++){
     for(var i9=1; i9<database_P8_array[i8].length; i9++){
         for(var i10=1; i10<P8_row_of_first_table.children.length; i10++){
             if(database_P8_array[i8][i9]==P8_row_of_first_table.children[i10].innerHTML){
-                P8_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P8_array[i8][0].id+"' onclick='show_request(this)'>" + database_P8_array[i8][0].name + "</button><br>"+database_P8_array[i8][0].contactNum;
+                P8_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P8_array[i8][0].id+"' onclick='show_request(this)'>" + database_P8_array[i8][0].name + "</button><br>"+database_P8_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P8_array[i8][0].contactNum.substring(8, 16);
                 P8_row_of_first_table.children[i10].style.color = "black";
                 if(database_P8_array[i8][0].status==1){
                      P8_row_of_first_table.children[i10].style.background="chartreuse";
@@ -1618,7 +1670,7 @@ for(var i8=0; i8<database_P8_array.length; i8++){
     for(var i9=1; i9<database_P8_array[i8].length; i9++){
         for(var i10=1; i10<P8_row_of_second_table.children.length; i10++){
             if(database_P8_array[i8][i9]==P8_row_of_second_table.children[i10].innerHTML){
-                P8_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P8_array[i8][0].id+"' onclick='show_request(this)'>" + database_P8_array[i8][0].name + "</button><br>"+database_P8_array[i8][0].contactNum;
+                P8_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P8_array[i8][0].id+"' onclick='show_request(this)'>" + database_P8_array[i8][0].name + "</button><br>"+database_P8_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P8_array[i8][0].contactNum.substring(8, 16);
                 P8_row_of_second_table.children[i10].style.color = "black";
                     if(database_P8_array[i8][0].status==1){
                          P8_row_of_second_table.children[i10].style.background="chartreuse";
@@ -1637,7 +1689,7 @@ for(var i8=0; i8<database_P8_array.length; i8++){
     for(var i9=1; i9<database_P8_array[i8].length; i9++){
         for(var i10=1; i10<P8_row_of_third_table.children.length; i10++){
             if(database_P8_array[i8][i9]==P8_row_of_third_table.children[i10].innerHTML){
-                P8_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P8_array[i8][0].id+"' onclick='show_request(this)'>" + database_P8_array[i8][0].name + "</button><br>"+database_P8_array[i8][0].contactNum;
+                P8_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_P8_array[i8][0].id+"' onclick='show_request(this)'>" + database_P8_array[i8][0].name + "</button><br>"+database_P8_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_P8_array[i8][0].contactNum.substring(8, 16);
                 P8_row_of_third_table.children[i10].style.color = "black";   
                     if(database_P8_array[i8][0].status==1){
                          P8_row_of_third_table.children[i10].style.background="chartreuse";
@@ -1663,7 +1715,7 @@ var database_B1_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("B1")){
-        database_B1_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_B1_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -1718,7 +1770,7 @@ for(var i8=0; i8<database_B1_array.length; i8++){
     for(var i9=1; i9<database_B1_array[i8].length; i9++){
         for(var i10=1; i10<B1_row_of_first_table.children.length; i10++){
             if(database_B1_array[i8][i9]==B1_row_of_first_table.children[i10].innerHTML){
-                B1_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B1_array[i8][0].id+"' onclick='show_request(this)'>" + database_B1_array[i8][0].name + "</button><br>"+database_B1_array[i8][0].contactNum;
+                B1_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B1_array[i8][0].id+"' onclick='show_request(this)'>" + database_B1_array[i8][0].name + "</button><br>"+database_B1_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B1_array[i8][0].contactNum.substring(8, 16);
                 B1_row_of_first_table.children[i10].style.color = "black";
                 if(database_B1_array[i8][0].status==1){
                      B1_row_of_first_table.children[i10].style.background="chartreuse";
@@ -1738,7 +1790,7 @@ for(var i8=0; i8<database_B1_array.length; i8++){
     for(var i9=1; i9<database_B1_array[i8].length; i9++){
         for(var i10=1; i10<B1_row_of_second_table.children.length; i10++){
             if(database_B1_array[i8][i9]==B1_row_of_second_table.children[i10].innerHTML){
-                B1_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B1_array[i8][0].id+"' onclick='show_request(this)'>" + database_B1_array[i8][0].name + "</button><br>"+database_B1_array[i8][0].contactNum;
+                B1_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B1_array[i8][0].id+"' onclick='show_request(this)'>" + database_B1_array[i8][0].name + "</button><br>"+database_B1_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B1_array[i8][0].contactNum.substring(8, 16);
                 B1_row_of_second_table.children[i10].style.color = "black";
                     if(database_B1_array[i8][0].status==1){
                          B1_row_of_second_table.children[i10].style.background="chartreuse";
@@ -1758,7 +1810,7 @@ for(var i8=0; i8<database_B1_array.length; i8++){
     for(var i9=1; i9<database_B1_array[i8].length; i9++){
         for(var i10=1; i10<B1_row_of_third_table.children.length; i10++){
             if(database_B1_array[i8][i9]==B1_row_of_third_table.children[i10].innerHTML){
-                B1_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B1_array[i8][0].id+"' onclick='show_request(this)'>" + database_B1_array[i8][0].name + "</button><br>"+database_B1_array[i8][0].contactNum;
+                B1_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B1_array[i8][0].id+"' onclick='show_request(this)'>" + database_B1_array[i8][0].name + "</button><br>"+database_B1_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B1_array[i8][0].contactNum.substring(8, 16);
                 B1_row_of_third_table.children[i10].style.color = "black";    
                     if(database_B1_array[i8][0].status==1){
                          B1_row_of_third_table.children[i10].style.background="chartreuse";
@@ -1784,7 +1836,7 @@ var database_B2_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("B2")){
-        database_B2_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_B2_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -1839,7 +1891,7 @@ for(var i8=0; i8<database_B2_array.length; i8++){
     for(var i9=1; i9<database_B2_array[i8].length; i9++){
         for(var i10=1; i10<B2_row_of_first_table.children.length; i10++){
             if(database_B2_array[i8][i9]==B2_row_of_first_table.children[i10].innerHTML){
-                B2_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B2_array[i8][0].id+"' onclick='show_request(this)'>" + database_B2_array[i8][0].name + "</button><br>"+database_B2_array[i8][0].contactNum;
+                B2_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B2_array[i8][0].id+"' onclick='show_request(this)'>" + database_B2_array[i8][0].name + "</button><br>"+database_B2_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B2_array[i8][0].contactNum.substring(8, 16);
                 B2_row_of_first_table.children[i10].style.color = "black";
                 if(database_B2_array[i8][0].status==1){
                      B2_row_of_first_table.children[i10].style.background="chartreuse";
@@ -1859,7 +1911,7 @@ for(var i8=0; i8<database_B2_array.length; i8++){
     for(var i9=1; i9<database_B2_array[i8].length; i9++){
         for(var i10=1; i10<B2_row_of_second_table.children.length; i10++){
             if(database_B2_array[i8][i9]==B2_row_of_second_table.children[i10].innerHTML){
-                B2_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B2_array[i8][0].id+"' onclick='show_request(this)'>" + database_B2_array[i8][0].name + "</button><br>"+database_B2_array[i8][0].contactNum;
+                B2_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B2_array[i8][0].id+"' onclick='show_request(this)'>" + database_B2_array[i8][0].name + "</button><br>"+database_B2_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B2_array[i8][0].contactNum.substring(8, 16);
                 B2_row_of_second_table.children[i10].style.color = "black";
                     if(database_B2_array[i8][0].status==1){
                          B2_row_of_second_table.children[i10].style.background="chartreuse";
@@ -1879,7 +1931,7 @@ for(var i8=0; i8<database_B2_array.length; i8++){
     for(var i9=1; i9<database_B2_array[i8].length; i9++){
         for(var i10=1; i10<B2_row_of_third_table.children.length; i10++){
             if(database_B2_array[i8][i9]==B2_row_of_third_table.children[i10].innerHTML){
-                B2_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B2_array[i8][0].id+"' onclick='show_request(this)'>" + database_B2_array[i8][0].name + "</button><br>"+database_B2_array[i8][0].contactNum;
+                B2_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B2_array[i8][0].id+"' onclick='show_request(this)'>" + database_B2_array[i8][0].name + "</button><br>"+database_B2_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B2_array[i8][0].contactNum.substring(8, 16);
                 B2_row_of_third_table.children[i10].style.color = "black";    
                     if(database_B2_array[i8][0].status==1){
                          B2_row_of_third_table.children[i10].style.background="chartreuse";
@@ -1905,7 +1957,7 @@ var database_B3_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("B3")){
-        database_B3_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_B3_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -1960,7 +2012,7 @@ for(var i8=0; i8<database_B3_array.length; i8++){
     for(var i9=1; i9<database_B3_array[i8].length; i9++){
         for(var i10=1; i10<B3_row_of_first_table.children.length; i10++){
             if(database_B3_array[i8][i9]==B3_row_of_first_table.children[i10].innerHTML){
-                B3_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B3_array[i8][0].id+"' onclick='show_request(this)'>" + database_B3_array[i8][0].name + "</button><br>"+database_B3_array[i8][0].contactNum;
+                B3_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B3_array[i8][0].id+"' onclick='show_request(this)'>" + database_B3_array[i8][0].name + "</button><br>"+database_B3_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B3_array[i8][0].contactNum.substring(8, 16);
                 B3_row_of_first_table.children[i10].style.color = "black";
                 if(database_B3_array[i8][0].status==1){
                      B3_row_of_first_table.children[i10].style.background="chartreuse";
@@ -1980,7 +2032,7 @@ for(var i8=0; i8<database_B3_array.length; i8++){
     for(var i9=1; i9<database_B3_array[i8].length; i9++){
         for(var i10=1; i10<B3_row_of_second_table.children.length; i10++){
             if(database_B3_array[i8][i9]==B3_row_of_second_table.children[i10].innerHTML){
-                B3_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B3_array[i8][0].id+"' onclick='show_request(this)'>" + database_B3_array[i8][0].name + "</button><br>"+database_B3_array[i8][0].contactNum;
+                B3_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B3_array[i8][0].id+"' onclick='show_request(this)'>" + database_B3_array[i8][0].name + "</button><br>"+database_B3_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B3_array[i8][0].contactNum.substring(8, 16);
                 B3_row_of_second_table.children[i10].style.color = "black";
                     if(database_B3_array[i8][0].status==1){
                          B3_row_of_second_table.children[i10].style.background="chartreuse";
@@ -2000,7 +2052,7 @@ for(var i8=0; i8<database_B3_array.length; i8++){
     for(var i9=1; i9<database_B3_array[i8].length; i9++){
         for(var i10=1; i10<B3_row_of_third_table.children.length; i10++){
             if(database_B3_array[i8][i9]==B3_row_of_third_table.children[i10].innerHTML){
-                B3_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B3_array[i8][0].id+"' onclick='show_request(this)'>" + database_B3_array[i8][0].name + "</button><br>"+database_B3_array[i8][0].contactNum;
+                B3_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B3_array[i8][0].id+"' onclick='show_request(this)'>" + database_B3_array[i8][0].name + "</button><br>"+database_B3_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B3_array[i8][0].contactNum.substring(8, 16);
                 B3_row_of_third_table.children[i10].style.color = "black";    
                     if(database_B3_array[i8][0].status==1){
                          B3_row_of_third_table.children[i10].style.background="chartreuse";
@@ -2026,7 +2078,7 @@ var database_B4_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("B4")){
-        database_B4_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_B4_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -2081,7 +2133,7 @@ for(var i8=0; i8<database_B4_array.length; i8++){
     for(var i9=1; i9<database_B4_array[i8].length; i9++){
         for(var i10=1; i10<B4_row_of_first_table.children.length; i10++){
             if(database_B4_array[i8][i9]==B4_row_of_first_table.children[i10].innerHTML){
-                B4_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B4_array[i8][0].id+"' onclick='show_request(this)'>" + database_B4_array[i8][0].name + "</button><br>"+database_B4_array[i8][0].contactNum;
+                B4_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B4_array[i8][0].id+"' onclick='show_request(this)'>" + database_B4_array[i8][0].name + "</button><br>"+database_B4_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B4_array[i8][0].contactNum.substring(8, 16);
                 B4_row_of_first_table.children[i10].style.color = "black";
                 if(database_B4_array[i8][0].status==1){
                      B4_row_of_first_table.children[i10].style.background="chartreuse";
@@ -2101,7 +2153,7 @@ for(var i8=0; i8<database_B4_array.length; i8++){
     for(var i9=1; i9<database_B4_array[i8].length; i9++){
         for(var i10=1; i10<B4_row_of_second_table.children.length; i10++){
             if(database_B4_array[i8][i9]==B4_row_of_second_table.children[i10].innerHTML){
-                B4_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B4_array[i8][0].id+"' onclick='show_request(this)'>" + database_B4_array[i8][0].name + "</button><br>"+database_B4_array[i8][0].contactNum;
+                B4_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B4_array[i8][0].id+"' onclick='show_request(this)'>" + database_B4_array[i8][0].name + "</button><br>"+database_B4_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B4_array[i8][0].contactNum.substring(8, 16);
                 B4_row_of_second_table.children[i10].style.color = "black";
                     if(database_B4_array[i8][0].status==1){
                          B4_row_of_second_table.children[i10].style.background="chartreuse";
@@ -2121,7 +2173,7 @@ for(var i8=0; i8<database_B4_array.length; i8++){
     for(var i9=1; i9<database_B4_array[i8].length; i9++){
         for(var i10=1; i10<B4_row_of_third_table.children.length; i10++){
             if(database_B4_array[i8][i9]==B4_row_of_third_table.children[i10].innerHTML){
-                B4_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B4_array[i8][0].id+"' onclick='show_request(this)'>" + database_B4_array[i8][0].name + "</button><br>"+database_B4_array[i8][0].contactNum;
+                B4_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B4_array[i8][0].id+"' onclick='show_request(this)'>" + database_B4_array[i8][0].name + "</button><br>"+database_B4_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B4_array[i8][0].contactNum.substring(8, 16);
                 B4_row_of_third_table.children[i10].style.color = "black";   
                     if(database_B4_array[i8][0].status==1){
                          B4_row_of_third_table.children[i10].style.background="chartreuse";
@@ -2147,7 +2199,7 @@ var database_B5_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("B5")){
-        database_B5_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_B5_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -2202,7 +2254,7 @@ for(var i8=0; i8<database_B5_array.length; i8++){
     for(var i9=1; i9<database_B5_array[i8].length; i9++){
         for(var i10=1; i10<B5_row_of_first_table.children.length; i10++){
             if(database_B5_array[i8][i9]==B5_row_of_first_table.children[i10].innerHTML){
-                B5_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B5_array[i8][0].id+"' onclick='show_request(this)'>" + database_B5_array[i8][0].name + "</button><br>"+database_B5_array[i8][0].contactNum;
+                B5_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B5_array[i8][0].id+"' onclick='show_request(this)'>" + database_B5_array[i8][0].name + "</button><br>"+database_B5_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B5_array[i8][0].contactNum.substring(8, 16);
                 B5_row_of_first_table.children[i10].style.color = "black";
                 if(database_B5_array[i8][0].status==1){
                      B5_row_of_first_table.children[i10].style.background="chartreuse";
@@ -2222,7 +2274,7 @@ for(var i8=0; i8<database_B5_array.length; i8++){
     for(var i9=1; i9<database_B5_array[i8].length; i9++){
         for(var i10=1; i10<B5_row_of_second_table.children.length; i10++){
             if(database_B5_array[i8][i9]==B5_row_of_second_table.children[i10].innerHTML){
-                B5_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B5_array[i8][0].id+"' onclick='show_request(this)'>" + database_B5_array[i8][0].name + "</button><br>"+database_B5_array[i8][0].contactNum;
+                B5_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B5_array[i8][0].id+"' onclick='show_request(this)'>" + database_B5_array[i8][0].name + "</button><br>"+database_B5_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B5_array[i8][0].contactNum.substring(8, 16);
                 B5_row_of_second_table.children[i10].style.color = "black";
                     if(database_B5_array[i8][0].status==1){
                          B5_row_of_second_table.children[i10].style.background="chartreuse";
@@ -2242,7 +2294,7 @@ for(var i8=0; i8<database_B5_array.length; i8++){
     for(var i9=1; i9<database_B5_array[i8].length; i9++){
         for(var i10=1; i10<B5_row_of_third_table.children.length; i10++){
             if(database_B5_array[i8][i9]==B5_row_of_third_table.children[i10].innerHTML){
-                B5_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B5_array[i8][0].id+"' onclick='show_request(this)'>" + database_B5_array[i8][0].name + "</button><br>"+database_B5_array[i8][0].contactNum;
+                B5_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B5_array[i8][0].id+"' onclick='show_request(this)'>" + database_B5_array[i8][0].name + "</button><br>"+database_B5_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B5_array[i8][0].contactNum.substring(8, 16);
                 B5_row_of_third_table.children[i10].style.color = "black";   
                     if(database_B5_array[i8][0].status==1){
                          B5_row_of_third_table.children[i10].style.background="chartreuse";
@@ -2268,7 +2320,7 @@ var database_B6_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("B6")){
-        database_B6_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_B6_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -2323,7 +2375,7 @@ for(var i8=0; i8<database_B6_array.length; i8++){
     for(var i9=1; i9<database_B6_array[i8].length; i9++){
         for(var i10=1; i10<B6_row_of_first_table.children.length; i10++){
             if(database_B6_array[i8][i9]==B6_row_of_first_table.children[i10].innerHTML){
-                B6_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B6_array[i8][0].id+"' onclick='show_request(this)'>" + database_B6_array[i8][0].name + "</button><br>"+database_B6_array[i8][0].contactNum;
+                B6_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B6_array[i8][0].id+"' onclick='show_request(this)'>" + database_B6_array[i8][0].name + "</button><br>"+database_B6_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B6_array[i8][0].contactNum.substring(8, 16);
                 B6_row_of_first_table.children[i10].style.color = "black";
                 if(database_B6_array[i8][0].status==1){
                      B6_row_of_first_table.children[i10].style.background="chartreuse";
@@ -2343,7 +2395,7 @@ for(var i8=0; i8<database_B6_array.length; i8++){
     for(var i9=1; i9<database_B6_array[i8].length; i9++){
         for(var i10=1; i10<B6_row_of_second_table.children.length; i10++){
             if(database_B6_array[i8][i9]==B6_row_of_second_table.children[i10].innerHTML){
-                B6_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B6_array[i8][0].id+"' onclick='show_request(this)'>" + database_B6_array[i8][0].name + "</button><br>"+database_B6_array[i8][0].contactNum;
+                B6_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B6_array[i8][0].id+"' onclick='show_request(this)'>" + database_B6_array[i8][0].name + "</button><br>"+database_B6_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B6_array[i8][0].contactNum.substring(8, 16);
                 B6_row_of_second_table.children[i10].style.color = "black";
                     if(database_B6_array[i8][0].status==1){
                          B6_row_of_second_table.children[i10].style.background="chartreuse";
@@ -2363,7 +2415,7 @@ for(var i8=0; i8<database_B6_array.length; i8++){
     for(var i9=1; i9<database_B6_array[i8].length; i9++){
         for(var i10=1; i10<B6_row_of_third_table.children.length; i10++){
             if(database_B6_array[i8][i9]==B6_row_of_third_table.children[i10].innerHTML){
-                B6_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B6_array[i8][0].id+"' onclick='show_request(this)'>" + database_B6_array[i8][0].name + "</button><br>"+database_B6_array[i8][0].contactNum;
+                B6_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B6_array[i8][0].id+"' onclick='show_request(this)'>" + database_B6_array[i8][0].name + "</button><br>"+database_B6_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B6_array[i8][0].contactNum.substring(8, 16);
                 B6_row_of_third_table.children[i10].style.color = "black";   
                     if(database_B6_array[i8][0].status==1){
                          B6_row_of_third_table.children[i10].style.background="chartreuse";
@@ -2389,7 +2441,7 @@ var database_B7_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("B7")){
-        database_B7_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_B7_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -2444,7 +2496,7 @@ for(var i8=0; i8<database_B7_array.length; i8++){
     for(var i9=1; i9<database_B7_array[i8].length; i9++){
         for(var i10=1; i10<B7_row_of_first_table.children.length; i10++){
             if(database_B7_array[i8][i9]==B7_row_of_first_table.children[i10].innerHTML){
-                B7_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B7_array[i8][0].id+"' onclick='show_request(this)'>" + database_B7_array[i8][0].name + "</button><br>"+database_B7_array[i8][0].contactNum;
+                B7_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B7_array[i8][0].id+"' onclick='show_request(this)'>" + database_B7_array[i8][0].name + "</button><br>"+database_B7_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B7_array[i8][0].contactNum.substring(8, 16);
                 B7_row_of_first_table.children[i10].style.color = "black";
                 if(database_B7_array[i8][0].status==1){
                      B7_row_of_first_table.children[i10].style.background="chartreuse";
@@ -2464,7 +2516,7 @@ for(var i8=0; i8<database_B7_array.length; i8++){
     for(var i9=1; i9<database_B7_array[i8].length; i9++){
         for(var i10=1; i10<B7_row_of_second_table.children.length; i10++){
             if(database_B7_array[i8][i9]==B7_row_of_second_table.children[i10].innerHTML){
-                B7_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B7_array[i8][0].id+"' onclick='show_request(this)'>" + database_B7_array[i8][0].name + "</button><br>"+database_B7_array[i8][0].contactNum;
+                B7_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B7_array[i8][0].id+"' onclick='show_request(this)'>" + database_B7_array[i8][0].name + "</button><br>"+database_B7_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B7_array[i8][0].contactNum.substring(8, 16);
                 B7_row_of_second_table.children[i10].style.color = "black";
                     if(database_B7_array[i8][0].status==1){
                          B7_row_of_second_table.children[i10].style.background="chartreuse";
@@ -2484,7 +2536,7 @@ for(var i8=0; i8<database_B7_array.length; i8++){
     for(var i9=1; i9<database_B7_array[i8].length; i9++){
         for(var i10=1; i10<B7_row_of_third_table.children.length; i10++){
             if(database_B7_array[i8][i9]==B7_row_of_third_table.children[i10].innerHTML){
-                B7_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B7_array[i8][0].id+"' onclick='show_request(this)'>" + database_B7_array[i8][0].name + "</button><br>"+database_B7_array[i8][0].contactNum;
+                B7_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B7_array[i8][0].id+"' onclick='show_request(this)'>" + database_B7_array[i8][0].name + "</button><br>"+database_B7_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B7_array[i8][0].contactNum.substring(8, 16);
                 B7_row_of_third_table.children[i10].style.color = "black";    
                     if(database_B7_array[i8][0].status==1){
                          B7_row_of_third_table.children[i10].style.background="chartreuse";
@@ -2510,7 +2562,7 @@ var database_B8_array = [];
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
     if(courtNumString.split(",").includes("B8")){
-        database_B8_array.push([{name: booking.name .substring(0, 8),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
+        database_B8_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
 
@@ -2565,7 +2617,7 @@ for(var i8=0; i8<database_B8_array.length; i8++){
     for(var i9=1; i9<database_B8_array[i8].length; i9++){
         for(var i10=1; i10<B8_row_of_first_table.children.length; i10++){
             if(database_B8_array[i8][i9]==B8_row_of_first_table.children[i10].innerHTML){
-                B8_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B8_array[i8][0].id+"' onclick='show_request(this)'>" + database_B8_array[i8][0].name + "</button><br>"+database_B8_array[i8][0].contactNum;
+                B8_row_of_first_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B8_array[i8][0].id+"' onclick='show_request(this)'>" + database_B8_array[i8][0].name + "</button><br>"+database_B8_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B8_array[i8][0].contactNum.substring(8, 16);
                 B8_row_of_first_table.children[i10].style.color = "black";
                 if(database_B8_array[i8][0].status==1){
                      B8_row_of_first_table.children[i10].style.background="chartreuse";
@@ -2585,7 +2637,7 @@ for(var i8=0; i8<database_B8_array.length; i8++){
     for(var i9=1; i9<database_B8_array[i8].length; i9++){
         for(var i10=1; i10<B8_row_of_second_table.children.length; i10++){
             if(database_B8_array[i8][i9]==B8_row_of_second_table.children[i10].innerHTML){
-                B8_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B8_array[i8][0].id+"' onclick='show_request(this)'>" + database_B8_array[i8][0].name + "</button><br>"+database_B8_array[i8][0].contactNum;
+                B8_row_of_second_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B8_array[i8][0].id+"' onclick='show_request(this)'>" + database_B8_array[i8][0].name + "</button><br>"+database_B8_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B8_array[i8][0].contactNum.substring(8, 16);
                 B8_row_of_second_table.children[i10].style.color = "black";
                     if(database_B8_array[i8][0].status==1){
                          B8_row_of_second_table.children[i10].style.background="chartreuse";
@@ -2605,7 +2657,7 @@ for(var i8=0; i8<database_B8_array.length; i8++){
     for(var i9=1; i9<database_B8_array[i8].length; i9++){
         for(var i10=1; i10<B8_row_of_third_table.children.length; i10++){
             if(database_B8_array[i8][i9]==B8_row_of_third_table.children[i10].innerHTML){
-                B8_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B8_array[i8][0].id+"' onclick='show_request(this)'>" + database_B8_array[i8][0].name + "</button><br>"+database_B8_array[i8][0].contactNum;
+                B8_row_of_third_table.children[i10].innerHTML="<button data-toggle='modal' data-target='#exampleModalCenter3' class='btn-link _"+database_B8_array[i8][0].id+"' onclick='show_request(this)'>" + database_B8_array[i8][0].name + "</button><br>"+database_B8_array[i8][0].contactNum.substring(0, 8)+"<br>"+ database_B8_array[i8][0].contactNum.substring(8, 16);
                 B8_row_of_third_table.children[i10].style.color = "black";    
                     if(database_B8_array[i8][0].status==1){
                          B8_row_of_third_table.children[i10].style.background="chartreuse";
