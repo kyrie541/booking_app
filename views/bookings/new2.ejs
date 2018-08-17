@@ -36,7 +36,7 @@
       <option value="B6">B6</option>
       <option value="B7">B7</option>
       <option value="B8">B8</option>
-    </select>
+    </select><span class="solo_show_price"> Price : RM </span>
     <br>
     <label for="startTime">Start Time: </label>
     <select name="startTime" class="start_time_drop_down_list" onchange="endTimeChangeChecking()">
@@ -131,14 +131,15 @@
     <br>
     <label for="status">Does customer pay the Booking Fees?: </label>
     <br>
-    <input type="radio" name="status" value="1" checked class="payment_radio_button">
+    <input type="radio" name="status" value="1" checked class="payment_radio_button" onclick="activate_deposit()">
     <label for="1">Paid</label>
     <br>
-    <input type="radio" name="status" value="2" class="payment_radio_button">
+    <input type="radio" name="status" value="2" class="payment_radio_button" onclick="activate_deposit()">
     <label for="2">Not Paid Yet</label>
     <br>
-    <input type="radio" name="status" value="3" class="payment_radio_button">
-    <label for="3">Advance Payment</label>
+    <input type="radio" name="status" value="3" class="payment_radio_button" onclick="activate_deposit()">
+    <label for="3">Deposit</label>
+    <input type="text" name="deposit" placeholder="RM" id="deposit_input_box" disabled>
     <br>
     <div id="addOn0">_</div>
     <div id="addOn1">_</div>

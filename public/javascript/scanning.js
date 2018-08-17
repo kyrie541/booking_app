@@ -3,6 +3,7 @@
 /* global futsalOption  */
 /* global counter */
 /* global deleteForm */
+/* global activate_deposit */
 
 $(document).ready(function(){
     $.getJSON("/api/bookings/date/"+getTodayDate())
@@ -77,6 +78,7 @@ function changeNewForm(haha){
             }
         }
         if (colorArray.length==2){
+            activate_deposit();
             var td5 = document.getElementsByClassName("white");
             for(var i5=0; i5<td5.length; i5++){
                 if(td5[i5].style.backgroundColor=="rgb(112, 128, 144)"){
@@ -165,7 +167,7 @@ function changeNewForm(haha){
 }
 
 function mouseOver(haha){
-    haha.style.backgroundColor = "#D3D3D3";
+    haha.style.backgroundColor = "#696969";
     
 }
 

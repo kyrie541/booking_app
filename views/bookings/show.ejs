@@ -27,7 +27,7 @@
       <% }else if (booking.status==2) {  %>
         <p class="card-text" style="background-color:#feb694;"><small class="text-muted">Status: Not Paid Yet</small></p>
       <% }else if (booking.status==3) { %>
-        <p class="card-text" style="background-color:powderblue;"><small class="text-muted">Status: Advance Payment</small></p>
+        <p class="card-text" style="background-color:powderblue;"><small class="text-muted">Status: Deposit</small></p>
       <% } %>
       
       <a href="/bookings/<%= booking._id %>/edit" class="card-link btn btn-warning">Edit</a>

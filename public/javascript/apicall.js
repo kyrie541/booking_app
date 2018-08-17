@@ -57,6 +57,10 @@ function postRequest(){
     
     //   payment
     var price = document.getElementById("showPrice").value;
+    
+    //deposit
+    var deposit = document.getElementById("deposit_input_box").value;
+    
     var location = currentUserLocation;
     console.log(currentUserLocation);
 
@@ -70,7 +74,8 @@ function postRequest(){
        phNumber: phNumber, 
        price: price,
        status: status,
-       courtNum: courtNum 
+       courtNum: courtNum,
+       deposit: deposit
     })
     .then(refreshTable)
     .catch(function(err){
@@ -109,12 +114,17 @@ function showBooking(booking){
     document.getElementsByClassName("card-text")[2].innerHTML= "Total Court: "+booking.courtNum.split(",").length;
     document.getElementsByClassName("card-text")[3].innerHTML= "Total Payment: RM "+booking.price;
     var status_show_box = document.getElementById("status_show_box");
+    var deposit_solo_show_box = document.getElementById("deposit_solo_show_box");
     if(booking.status==1){
         status_show_box.innerHTML = '<p class="card-text" style="background-color:chartreuse;"><small class="text-muted">Status: Paid</small></p>';
+        deposit_solo_show_box.innerHTML="";
     }else if(booking.status==2){
         status_show_box.innerHTML = '<p class="card-text" style="background-color:#feb694;"><small class="text-muted">Status: Not Paid Yet</small></p>';
+        deposit_solo_show_box.innerHTML=""; 
     }else if(booking.status==3){
-        status_show_box.innerHTML = '<p class="card-text" style="background-color:powderblue;"><small class="text-muted">Status: Advance Payment</small></p>';
+        status_show_box.innerHTML = '<p class="card-text" style="background-color:powderblue;"><small class="text-muted">Status: Deposit</small></p>';
+        deposit_solo_show_box.innerHTML="Deposit : RM "+booking.deposit; 
+        
     }
     
     var tbody = document.getElementById("tbody");
@@ -215,6 +225,8 @@ function putRequest(){
         status=3 ;
     }
     
+    var deposit = document.getElementById("deposit_input_box").value;
+    
     
     //   payment
     var price = document.getElementById("showPrice").value;
@@ -230,7 +242,8 @@ function putRequest(){
            phNumber: phNumber, 
            price: price,
            status: status,
-           courtNum: courtNum 
+           courtNum: courtNum,
+           deposit: deposit
         }       
     })
     .then(refreshTable);

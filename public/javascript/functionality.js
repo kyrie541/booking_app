@@ -5,6 +5,7 @@
 /* global showPrice $ */
 /* global counter */
 /* global deleteForm */
+/* global calculateBookingFees */
 
 $(document).keypress(function(event){
     var x = document.getElementsByClassName("carousel-control");
@@ -15,9 +16,19 @@ $(document).keypress(function(event){
     }
 });
 
+function activate_deposit(){
+  var payment_radio_button = document.getElementsByClassName("payment_radio_button");
+  var deposit_input_box= document.getElementById("deposit_input_box");
+  if(payment_radio_button[2].checked){
+    deposit_input_box.disabled = false;
+  }else{
+    deposit_input_box.disabled = true;
+    deposit_input_box.value="";
+  }
+}
+
 
 function editFormRequest(){
-    
     document.getElementById("close_form2").click();
     document.getElementById("updateButton").style.visibility = "visible";
     document.getElementById("createButton").style.visibility = "hidden";
@@ -56,8 +67,11 @@ function editFormRequest(){
       }else if( booking.status ==2){
         status_checkBox[1].checked = true;
       }else if( booking.status ==3){
+        var deposit_input_box= document.getElementById("deposit_input_box");
         status_checkBox[2].checked = true;
+        deposit_input_box.value=  booking.deposit ;
       }
+      activate_deposit();
       
     //check how many booking then add form
     
@@ -115,37 +129,43 @@ function editFormRequest(){
       var end_time_drop_down_list = document.getElementsByClassName("end_time_drop_down_list");
       var start_time_drop_down_list = document.getElementsByClassName("start_time_drop_down_list");
       
-      if(first_booking_array[0]!=""){
+
+      if(first_booking_array[0]!=undefined){
         court_number_drop_down_list[0].value=first_booking_array[0];
         start_time_drop_down_list[0].value=first_booking_array[1];
         end_time_drop_down_list[0].value=first_booking_array[2];
       }
       
-      if(second_booking_array[0]!=""){
+     
+      if(second_booking_array[0]!=undefined){
         court_number_drop_down_list[1].value=second_booking_array[0];
         start_time_drop_down_list[1].value=second_booking_array[1];
         end_time_drop_down_list[1].value=second_booking_array[2];
       }
       
-      if(third_booking_array[0]!=""){
+    
+      if(third_booking_array[0]!=undefined){
         court_number_drop_down_list[2].value=third_booking_array[0];
         start_time_drop_down_list[2].value=third_booking_array[1];
         end_time_drop_down_list[2].value=third_booking_array[2];
       }
       
-      if(forth_booking_array[0]!=""){
+
+      if(forth_booking_array[0]!=undefined){
         court_number_drop_down_list[3].value=forth_booking_array[0];
         start_time_drop_down_list[3].value=forth_booking_array[1];
         end_time_drop_down_list[3].value=forth_booking_array[2];
       }
       
-      if(fifth_booking_array[0]!=""){
+      
+      if(fifth_booking_array[0]!=undefined){
         court_number_drop_down_list[4].value=fifth_booking_array[0];
         start_time_drop_down_list[4].value=fifth_booking_array[1];
         end_time_drop_down_list[4].value=fifth_booking_array[2];
       }
+      calculateBookingFees();
     }
-
+    
     
 }
 

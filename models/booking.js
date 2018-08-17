@@ -11,6 +11,7 @@ var bookingSchema = new mongoose.Schema({
    price: {type: Number, required: true},
    status: {type: Number, required: true},
    courtNum: {type: String, required: true},
+   deposit: {type: Number},
    created_date: {type: Date, default: Date.now}
 });
 

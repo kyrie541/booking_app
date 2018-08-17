@@ -1,3 +1,6 @@
+/* global changeSpy */
+
+
 var currentTime= document.getElementById('txt').innerHTML;  //take note: this will return nothing since alarm_code.js havent run yet, so the text will be empty
 var carousel_class = document.getElementsByClassName("carousel-item") ;
 
@@ -7,9 +10,37 @@ var h = haha.getHours();
 if(h>=14){
     carousel_class[0].className="carousel-item";
     carousel_class[1].className="carousel-item active";
+    changeSpy();
 }else if(h>=20){
     carousel_class[0].className="carousel-item";
     carousel_class[2].className="carousel-item active";
+    changeSpy();
+}else{
+    changeSpy();
+}
+
+function changeSpy(){
+    setTimeout(function(){
+      var spy1 = document.getElementById("navbar-example3");
+      var spy2 = document.getElementById("navbar-example4");
+      var spy3 = document.getElementById("navbar-example5");
+      var carousel_item = document.getElementsByClassName("carousel-item");
+      
+      if(carousel_item[0].className.length > 15){
+        spy1.style.visibility = "visible";
+        spy2.style.visibility = "hidden";
+        spy3.style.visibility = "hidden";
+      }else if(carousel_item[1].className.length > 15){
+        spy1.style.visibility = "hidden";
+        spy2.style.visibility = "visible";
+        spy3.style.visibility = "hidden";
+      }else if(carousel_item[2].className.length > 15){
+        spy1.style.visibility = "hidden";
+        spy2.style.visibility = "hidden";
+        spy3.style.visibility = "visible";
+      }
+        
+    }, 1000);
 }
 
 

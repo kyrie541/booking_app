@@ -22,7 +22,6 @@ var badminton_sunday_price_query_array;
 var badminton_price_query_array;
 var futsal_price_query_array;
 
-console.log(currentUserLocation);
 //API call for pricing
 $(document).ready(function(){
     $.getJSON("/api/pricings/location/"+currentUserLocation)
@@ -210,6 +209,11 @@ function calculateBookingFees() {
         var sum = price_array.reduce((a, b) => a + b, 0);
         showPrice.value= sum;
         
+        deduct_deposit(sum);
+        
+        var solo_show_price = document.getElementsByClassName("solo_show_price");
+        solo_show_price[0].innerHTML = " Price : RM "+sum;
+        
     }else{
         calculateTotalPayment();
     }
@@ -244,7 +248,15 @@ function calculateTotalPayment(){
         }
     }
     
-    console.log(all_time_combined_array);
+    //get the length of each court timing
+    var length_of_each_array=[];
+    console.log(all_time_combined_array); 
+    for (var x=0; x<all_time_combined_array.length; x++){
+        if(all_time_combined_array[x].length!=0){
+            length_of_each_array.push(all_time_combined_array[x].length);
+        }
+    }
+    console.log(length_of_each_array);
     
     all_time_combined_array.forEach(function(durationArray){
         durationArray.forEach(function(duration){
@@ -326,10 +338,40 @@ function calculateTotalPayment(){
     
     console.log(all_price_array);
     
+    //solo payment code here
+    var copy_of_all_price_array = all_price_array.slice();
+    var solo_show_price = document.getElementsByClassName("solo_show_price");
+    for(var x2=0 ; x2< length_of_each_array.length; x2++){
+        var array_to_add = [];
+        for(var x3=0 ; x3< length_of_each_array[x2]; x3++){
+            array_to_add.push(copy_of_all_price_array[x3]);
+        }
+        console.log(array_to_add);
+        var soloPayment = array_to_add.reduce((a, b) => a + b, 0);
+        solo_show_price[x2].innerHTML=" Price : RM "+soloPayment;
+        
+        copy_of_all_price_array.splice(0, length_of_each_array[x2]);
+        console.log(copy_of_all_price_array);
+    }
+    
+    
+    
     var totalPayment = all_price_array.reduce((a, b) => a + b, 0);
+    
     showPrice.value= totalPayment;
-
+    
+    //if got deposit
+    deduct_deposit(totalPayment);
 }
+
+function deduct_deposit(haha){
+    var deposit_input_box= document.getElementById("deposit_input_box");
+    var payment_radio_button = document.getElementsByClassName("payment_radio_button");
+    if(payment_radio_button[2].checked){
+        var after_deduct_deposit = haha - deposit_input_box.value;
+        showPrice.value= after_deduct_deposit;
+    }    
+} 
 
 function getDayAccordingToUserInput(){
     var chosenDate = document.getElementById("show_date").value;

@@ -33,7 +33,8 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     var status = req.body.status;
     var price = req.body.price;
     var date = req.body.date;
-    var newBooking = {price: price, type: type, courtNum: courtNum, date: date, startTime: startTime, endTime: endTime, name: name, phNumber: phNumber, status: status, location: location};
+    var deposit = req.body.deposit;
+    var newBooking = {price: price, type: type, courtNum: courtNum, date: date, startTime: startTime, endTime: endTime, name: name, phNumber: phNumber, status: status, location: location, deposit: deposit};
     // Create a new booking and save to DB
     Booking.create(newBooking, function(err, newlyCreated){
         if(err){
