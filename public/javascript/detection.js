@@ -20,6 +20,7 @@ if(h>=14){
 }
 
 function changeSpy(){
+    stopCarousel();
     setTimeout(function(){
       var spy1 = document.getElementById("navbar-example3");
       var spy2 = document.getElementById("navbar-example4");
@@ -30,6 +31,7 @@ function changeSpy(){
         spy1.style.visibility = "visible";
         spy2.style.visibility = "hidden";
         spy3.style.visibility = "hidden";
+        
       }else if(carousel_item[1].className.length > 15){
         spy1.style.visibility = "hidden";
         spy2.style.visibility = "visible";
@@ -40,6 +42,28 @@ function changeSpy(){
         spy3.style.visibility = "visible";
       }
         
+    }, 1000);
+}
+
+function stopCarousel(){
+    var carousel_item = document.getElementsByClassName("carousel-item");
+    var left_right_button = document.getElementsByClassName("carousel-control");
+    
+    if( carousel_item[0].className=="carousel-item carousel-item-prev carousel-item-right" || carousel_item[0].className=="carousel-item active"){
+        console.log("lock left");
+        left_right_button[0].disabled = true;
+        left_right_button[1].disabled = false;
+    }else if(carousel_item[2].className=="carousel-item carousel-item-next carousel-item-left" || carousel_item[2].className=="carousel-item active"){
+        console.log("lock right");
+        left_right_button[0].disabled = false;
+        left_right_button[1].disabled = true;
+    }
+    setTimeout(function(){
+        if(carousel_item[1].className=="carousel-item active"){
+            console.log("unlock");
+            left_right_button[0].disabled = false;
+            left_right_button[1].disabled = false;
+        }
     }, 1000);
 }
 

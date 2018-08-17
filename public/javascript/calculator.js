@@ -374,7 +374,7 @@ function deduct_deposit(haha){
 } 
 
 function getDayAccordingToUserInput(){
-    var chosenDate = document.getElementById("show_date").value;
+    var chosenDate = document.getElementById("show_date2").value;
     var year = chosenDate.slice(6, 10);
     var month = chosenDate.slice(3, 5);
     var day = chosenDate.slice(0, 2);

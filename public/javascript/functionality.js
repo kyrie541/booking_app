@@ -16,6 +16,7 @@ $(document).keypress(function(event){
     }
 });
 
+//open deposit input field
 function activate_deposit(){
   var payment_radio_button = document.getElementsByClassName("payment_radio_button");
   var deposit_input_box= document.getElementById("deposit_input_box");

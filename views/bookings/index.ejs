@@ -1,4 +1,8 @@
+
 <% include ../partials/header %> 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
@@ -15,12 +19,6 @@
   padding:0px;
   margin:0px;
 }
-.right {    
-    position: absolute;
-    right: 1px;
-    top: 1px;
-  
-}
 #bookNowButton{
   position: fixed;
   bottom: 20px;
@@ -31,19 +29,33 @@
 #navbar-example3{
 	position: fixed;
 	left:20px;
-	z-index: 1;
-
+  width:110px;
 }
 #navbar-example4{
 	position: fixed;
 	left:20px;
-	z-index: 1;
+	width:110px;
 }
 #navbar-example5{
 	position: fixed;
 	left:20px;
-	z-index: 1;
+	width:110px;
 }
+.right {    
+  position: fixed;
+  height:10%;
+  width:100px;
+  top: 50%;
+  right: 10px;
+}
+.left{
+  position: fixed;
+  height:10%;
+  width:100px;
+  top: 50%;
+  left: 10px;
+}
+
 </style>
 <button id="bookNowButton" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#exampleModalCenter2">Book 30 minutes</button>
 <!--<button onclick="detection()">Which Court to switch on or off?</button>-->
@@ -68,8 +80,8 @@
 <div id="carouselExampleFade" class="carousel slide" data-ride="carousel" data-interval=false>
       <!-- Carousel Buttons Next/Prev -->
     <div>
-      <a data-slide="prev" href="#carouselExampleFade" class="left carousel-control btn btn-warning" onclick="changeSpy()">Previous</a>
-      <a data-slide="next" href="#carouselExampleFade" class="right carousel-control btn btn-warning" onclick="changeSpy()">Next</a>
+      <button data-slide="prev" href="#carouselExampleFade" class="left carousel-control" onclick="changeSpy()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+      <button data-slide="next" href="#carouselExampleFade" class="right carousel-control" onclick="changeSpy()"><span class="glyphicon glyphicon-chevron-right"></span></button>
     </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
