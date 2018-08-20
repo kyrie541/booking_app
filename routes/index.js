@@ -10,24 +10,24 @@ router.get("/",function(req,res){
 
 //Auth Routes
 //show sign up form
-router.get("/register", function(req,res){
-    res.render("register");
-});
+// router.get("/register", function(req,res){
+//     res.render("register");
+// });
 
 //handling user sign up
-router.post("/register", function(req,res){
-    User.register(new User({username: req.body.username, location: req.body.location}), req.body.password, function(err,user){
-        if(err){
-            console.log(err);
-            req.flash("error", err.message);
-            return res.render('register');
-        }
-        passport.authenticate("local")(req, res, function(){
-            req.flash("success","Welcome to Booking System "+user.username);
-            res.redirect("/bookings");
-        });
-    });
-});
+// router.post("/register", function(req,res){
+//     User.register(new User({username: req.body.username, location: req.body.location}), req.body.password, function(err,user){
+//         if(err){
+//             console.log(err);
+//             req.flash("error", err.message);
+//             return res.render('register');
+//         }
+//         passport.authenticate("local")(req, res, function(){
+//             req.flash("success","Welcome to Booking System "+user.username);
+//             res.redirect("/bookings");
+//         });
+//     });
+// });
 
 //LOGiN ROUTEs
 //render login form

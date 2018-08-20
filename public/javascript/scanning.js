@@ -329,6 +329,8 @@ var database_R1_array = [];
         database_R1_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
+ 
+
 
 for (var i2=0; i2<database_R1_array.length; i2++){
     for(var i3=0; i3<database_R1_array[i2][1][0].split(",").length; i3++){
@@ -339,6 +341,7 @@ for (var i2=0; i2<database_R1_array.length; i2++){
     }
     database_R1_array[i2].splice(1,1);
 }
+;
 
 for(var i4=0; i4<database_R1_array.length ;i4++){
     for(var i5=1; i5<database_R1_array[i4].length; i5++ ){
@@ -357,6 +360,7 @@ for(var i4=0; i4<database_R1_array.length ;i4++){
     }
 }
 
+
 for(var i7=0 ; i7<database_R1_array.length ;i7++){
     if(Array.isArray(database_R1_array[i7][5])){
         database_R1_array[i7].splice(1, 5);
@@ -374,6 +378,7 @@ for(var i7=0 ; i7<database_R1_array.length ;i7++){
         database_R1_array[i7].splice(1, 1);
     }
 }
+
 
 for(var i8=0; i8<database_R1_array.length; i8++){
     for(var i9=1; i9<database_R1_array[i8].length; i9++){
@@ -394,6 +399,7 @@ for(var i8=0; i8<database_R1_array.length; i8++){
     }
 }
 
+
 for(var i8=0; i8<database_R1_array.length; i8++){
     for(var i9=1; i9<database_R1_array[i8].length; i9++){
         for(var i10=1; i10<R1_row_of_second_table.children.length; i10++){
@@ -412,6 +418,7 @@ for(var i8=0; i8<database_R1_array.length; i8++){
         }
     }
 }
+
 
 for(var i8=0; i8<database_R1_array.length; i8++){
     for(var i9=1; i9<database_R1_array[i8].length; i9++){
@@ -1709,19 +1716,21 @@ for(var i8=0; i8<database_P8_array.length; i8++){
 }
 
 //B1
-var B1_row_of_first_table= badminton_table[0].children[0].children[9];
+var B1_row_of_first_table= badminton_table[0].children[0].children[9];    //change table
 var B1_row_of_second_table= badminton_table[1].children[0].children[9];
 var B1_row_of_third_table= badminton_table[2].children[0].children[9];
 
-var database_B1_array = []; 
+var database_B1_array = [];   //change array's court name 
 
 //get the necessary data from database and convert to array
  bookings.forEach(function(booking){ 
     var courtNumString =  booking.courtNum ;
-    if(courtNumString.split(",").includes("B1")){
+    if(courtNumString.split(",").includes("B1")){   //change court name
         database_B1_array.push([{name: booking.name .substring(0, 7),contactNum: booking.phNumber ,status: booking.status ,id: booking._id },[ booking.courtNum ,  booking.startTime , booking.endTime ]]);
     }
  }); 
+ 
+ console.log(database_B1_array); 
 
 for (var i2=0; i2<database_B1_array.length; i2++){
     for(var i3=0; i3<database_B1_array[i2][1][0].split(",").length; i3++){
@@ -1732,6 +1741,8 @@ for (var i2=0; i2<database_B1_array.length; i2++){
     }
     database_B1_array[i2].splice(1,1);
 }
+console.log(database_B1_array); 
+
 //convert to combined array
 for(var i4=0; i4<database_B1_array.length ;i4++){
     for(var i5=1; i5<database_B1_array[i4].length; i5++ ){
@@ -1749,6 +1760,7 @@ for(var i4=0; i4<database_B1_array.length ;i4++){
             }
     }
 }
+console.log(database_B1_array); 
 
 //clear the redundant array
 for(var i7=0 ; i7<database_B1_array.length ;i7++){
@@ -1768,6 +1780,7 @@ for(var i7=0 ; i7<database_B1_array.length ;i7++){
         database_B1_array[i7].splice(1, 1);
     }
 }
+console.log(database_B1_array); 
 
 //first table for loop
 for(var i8=0; i8<database_B1_array.length; i8++){

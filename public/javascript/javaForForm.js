@@ -54,6 +54,7 @@ function addMoreForm(){
     var addOn= document.getElementById("addOn"+counter.toString());
     var numberOfCourt = "<hr><h3>" + (counter+2).toString()+ " Courts</h3>";
     showPrice.value= "";
+    console.log(addOn);
     if(badminton_radio_button.checked){
       addOn.innerHTML= numberOfCourt + badminton_court_drop_down_list_full_HTML_text+ start_time_drop_down_list_full_HTML_text+end_time_drop_down_list_full_HTML_text;
     }else if (futsal_radio_button.checked){

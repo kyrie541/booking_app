@@ -128,9 +128,6 @@ function showBooking(booking){
     }
     
     var tbody = document.getElementById("tbody");
-    // for (var i2=0; i2<tbody.childNodes.length; i2++){
-    //     tbody.removeChild(tbody.childNodes[0]);
-    // }
     while (tbody.firstChild) {
         tbody.removeChild(tbody.firstChild);
     }

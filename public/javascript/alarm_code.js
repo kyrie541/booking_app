@@ -56,3 +56,20 @@ function checkTime(i) {
     if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
     return i;
 }
+
+
+var alarm_source = document.getElementsByTagName("source")[0];
+function closeAlarm(){
+    alarm_source.removeAttribute("src");
+    console.log("OFF alarm please");
+    
+}
+
+function openAlarm(){
+    alarm_source.setAttribute("src", "/audio/alarm.mp3");
+    console.log("ON alarm please");
+}
+
+
+
+

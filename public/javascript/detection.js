@@ -1,19 +1,19 @@
-/* global changeSpy */
-
-
 var currentTime= document.getElementById('txt').innerHTML;  //take note: this will return nothing since alarm_code.js havent run yet, so the text will be empty
 var carousel_class = document.getElementsByClassName("carousel-item") ;
 
 var haha= new Date();
 var h = haha.getHours();
 
-if(h>=14){
+if(h>=20){
+    carousel_class[0].className="carousel-item";
+    carousel_class[1].className="carousel-item";
+    carousel_class[2].className="carousel-item active";
+    changeSpy();    
+
+}else if(h>=14){
     carousel_class[0].className="carousel-item";
     carousel_class[1].className="carousel-item active";
-    changeSpy();
-}else if(h>=20){
-    carousel_class[0].className="carousel-item";
-    carousel_class[2].className="carousel-item active";
+    carousel_class[2].className="carousel-item";
     changeSpy();
 }else{
     changeSpy();

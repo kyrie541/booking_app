@@ -9,19 +9,42 @@
 
 $(document).keypress(function(event){
     var x = document.getElementsByClassName("carousel-control");
-    if(event.which==91){
-        x[0].click();
-    }else if(event.which==93){
-        x[1].click();
+    var y = document.getElementsByClassName("nav-link");
+    var z = document.getElementsByTagName("body")[0];
+    if(z.className!="modal-open" && event.which==91){
+      x[0].click();
+    }else if(z.className!="modal-open" && event.which==93){
+      x[1].click();
     }
+    //if user click p (direct to purple zone) 
+    if(z.className!="modal-open" && event.which==112){
+      y[6].click();
+      y[9].click();
+      y[12].click();
+    //if user click b (direct to blue zone)
+    }else if(z.className!="modal-open" && event.which==98){
+      y[7].click();
+      y[10].click();
+      y[13].click();
+    //if user click f (direct to futsal zone) 
+    }else if(z.className!="modal-open" && event.which==102){
+      y[8].click();
+      y[11].click();
+      y[14].click();
+    }  
+    
+    
 });
 
 //open deposit input field
 function activate_deposit(){
   var payment_radio_button = document.getElementsByClassName("payment_radio_button");
   var deposit_input_box= document.getElementById("deposit_input_box");
+  //if deposit radio button checked
   if(payment_radio_button[2].checked){
     deposit_input_box.disabled = false;
+    document.getElementById("showPrice").value="";
+  //if other 2 button checked
   }else{
     deposit_input_box.disabled = true;
     deposit_input_box.value="";
